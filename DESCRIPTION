@@ -1,12 +1,13 @@
 Package: DeadwaterPaper
-Title: What the Package Does (One Line, Title Case)
+Title: Deadwater Slough Pikeminnow Assessment
 Version: 0.0.0.9000
 Authors@R:
-    person(given = "First",
-           family = "Last",
+    person(given = "Mike",
+           family = "Ackerman",
            role = c("aut", "cre"),
-           email = "first.last@example.com")
-Description: What the package does (one paragraph).
+           email = "mike.ackerman@merck.com",
+           comment = c(ORCID = "0000-0003-3299-8971"))
+Description: Contains data, code, and associated materials for manuscript assessing predator abundance in the Deadwater Slough and potential impacts to local Chinook salmon
 License: MIT + file LICENSE
 ByteCompile: true
 Encoding: UTF-8
