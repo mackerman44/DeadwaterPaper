@@ -24,7 +24,7 @@ output:
 bibliography: references.bib
 csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the bib-style
 abstract: |
-  Text of abstract
+  Although well documented through the Columbia and Snake River hydropower system, little is known about movement and survival of Salmon River juvenile Chinook salmon through their migratory corridors above the hydropower system. With increases in water temperatures, predator abundance, and predator distribution, this knowledge is evermore necessary to characterize limiting factors and recovery potential of this imperiled species. To further understanding of predation impacts on juvenile Chinook Salmon in the Salmon River, specifically, the anthropogenically altered Deadwater Reach, we estimated the population of predatory species, calculated the bioenergetic requirement of predator species to maintain size, and estimated the number of juveniles predated upon within said reach. We then used previously established smolt-to-adult return ratios to understand the impact that predation within the Deadwater Reach has on adult returns to the Lemhi River of Idaho, with broader implications for anadromous populations outside of the Lemhi River specifically. 
 keywords: |
   keyword 1; keyword 2; keyword 3
 highlights: |
@@ -57,13 +57,54 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Here is a citation [@Marwick2017]
+* Lemhi River supports ESA listed Chinook salmon, steelhead and bull trout, making it a prime candidate for protection/recovery.
+    * ESA listed species helps motivate the research, why it is important to study not only the Lemhi fish, but also the corridor that impacts all fish upstream of the Deadwater Reach.
+    * Heavy anthropogenic influence, but little to no hatchery influence or supplementation.
+* Little is known about the movements and survival of juveniles as they exit the Lemhi River.
+    * Why is this? No PIT tag infrastructure, remote hard to access areas, large river system.
+* A lot is known about movement and survival through the hydropower system, however little is known about survival through sections of the salmon river (Axel et al Sockeye Study, Copeland et al NRR DRR).
+    * Discuss the two life histories NRR vs DRR?
+*	A previous study showed that the lowest transitional probabilities of Red Fish Lake Sockeye occurred in the Dead Water reach.
+    * Information about the dead water reach. Where is it? What is it? Any publications that mention it?
+* Paragraph on pike minnow and small mouth bass? populations in the Columbia and Salmon River and implications of predation. 
+    * Are there any studies that have assess predation, movement, populations of predatory fish (piscivorous) within the Columbia, Snake, or Salmon River?
+* Any other background information to help motivate the study that I might be missing?
+* Paragraph on what we did to address the knowledge gap.
+    * Pike minnow population estimate. Bioenergetics model. Utilized previously established SARs to answer the questions about how this anthropogenically altered reach is impacting the recovery of adults back to the Lemhi and overall on the system.
 
-# Background
+Here is a citation [@Marwick2017]
 
 # Methods
 
+* Briefly touch on radio telemetry methods and cite the RT publication if it is out at this point? (might not be) or that goes in intro and discussion.
+* Hook and line sampling mark recapture to estimate predator population in November 2019, April 2020, September/October 2020 (these dates may be wrong).
+    * Provide calculations for total pop abundance estimate with uncertainty.
+* Conducted gastric lavage sampling at multiple occasions to try and estimate the percent of the diet that is juvenile chinook salmon. 
+    * Wet weight after dividing by prey type 
+    *	Are there any reference in the literature about this? Or any other studies? 
+*	Water Temperature measurements.
+    *	Hobo tidbit placed at site. 
+    *	Calculated daily average water temperature for 365 days of the year.
+*	Developed a bioenergetics model for the average sized Pike Minnow observed to maintain body weight through the 365 days modelled. 
+    *	Incorporated daily temperature time step.
+    * Calculated total biomass consumed to maintain weight for an individual fish across 365 days.
+    *	Multiplied by the total population estimates. (this may vary with time, but not sure yet).
+*	Adult estimates.
+    *	Calculated total mass consumed based on above. Multiplied fraction of diet that is chinook by the total mass consumed. 
+    *	Then we have to divide by average mass of a fish from the Lemhi screw trap? Smolt, pre-smolt, average?
+*	Used SARs (published or ours?) to then estimate the number of adults that may return if predation is reduced. 
+    *	Do we want to say predation is reduced to 0, or maybe a range of reduction?
+*	Anything else?
+
+
 # Results
+*	Total population estimates of Pike Minnow. Chart or table, but likely a chart.
+*	Gastric lavage sampling results. What percent of the diet is chinook salmon from each sampling event. Pie chart? Mike loves pie charts.
+*	Water temperature plot for the 365 average.
+*	Bioenergetics results. Total mass consumed over a 365 day period. Plot of daily consumption with day of year on x and mass on y.
+*	SAR results. Maybe a plot of multiple scenarios depending on gastric lavage results? And pop estimates if they vary in time.
+*	Anything else?
+
 
 <!-- Here's some example analysis code: -->
 
@@ -85,8 +126,21 @@ x <- round(pi, 2)
 Here is an example of inline code `r x` in the middle of a sentence. 
 
 # Discussion
+*	Here we will need to discuss for each result above: 
+    *	How do our results compare to other sources within the literature?
+    *	What are the broader implications of each result?
+*	Management implications and how these results, analysis, modelling framework could be applied elsewhere?
 
-# Conclusion
+
+## Conclusion
+*	What are the most important results?
+    *	Adult returns
+    *	Pop estimate of pike minnow
+    *	Total predation on juveniles
+*	We have also presented a novel modeling framework for estimating predation on native, critically endangered anadromous species which can be applied to other areas of interest. John day? Others?
+*	Also, this is an anthropogenically created dead water area, which could be a candidate for restoration (removing the impoundment). Is there anything in the literature that discusses habitat preferences for pike minnow? If we speed up velocities and add some cover potentially pike minnow predation success will be lowered. Will these fish just move elsewhere? 
+*	The end. 
+
 
 # Acknowledgements
 
