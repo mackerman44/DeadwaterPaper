@@ -7,21 +7,26 @@
 
 This repository contains the data and code for our paper:
 
-> Authors, (YYYY). *Title of your paper goes here*. Name of journal/book
+> See, Kevin E., Nick Porter, Richard A. Carmichael, and Michael W.
+> Ackerman (2021). *Assessment of Northern Pikeminnow Abundance in
+> Deadwater Slough and Potential Impacts to Local Chinook Salmon*. TBD
 > <https://doi.org/xxx/xxx>
 
 Our pre-print is online here:
 
-> Authors, (YYYY). *Title of your paper goes here*. Name of
-> journal/book, Accessed 01 Feb 2021. Online at
-> <https://doi.org/xxx/xxx>
+> See, Kevin E., Nick Porter, Richard A. Carmichael, and Michael W.
+> Ackerman (2021). *Assessment of Northern Pikeminnow Abundance in
+> Deadwater Slough and Potential Impacts to Local Chinook Salmon*. TBD,
+> Accessed 01 Feb 2021. Online at <https://doi.org/xxx/xxx>
 
 ### How to cite
 
 Please cite this compendium as:
 
-> Authors, (2021). *Compendium of R code and data for Title of your
-> paper goes here*. Accessed 01 Feb 2021. Online at
+> See, Kevin E., Nick Porter, Richard A. Carmichael, and Michael W.
+> Ackerman, (2021). *Compendium of R code and data for Assessment of
+> Northern Pikeminnow Abundance in Deadwater Slough and Potential
+> Impacts to Local Chinook Salmon*. Accessed 01 Feb 2021. Online at
 > <https://doi.org/xxx/xxx>
 
 ## Contents
