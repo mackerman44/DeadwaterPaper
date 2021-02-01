@@ -1,0 +1,4 @@
+Model,Scenario,Date Range,Initial.weight.g,Final.weight.g,Total.consumption.g,Possible.smolts.consumed,Pikeminnow.est,Overall.possible.consumption
+1,temp empirical,Sept 1 - Nov 17,847,847,160,13.27,8918,118341.86
+2,temp four year avg,Sept 1 - Nov 17,847,847,160.63,13.32,8918,118787.76
+3,temp coldest,Sept 1 - Nov 17,847,847,125.8,10.43,8918,93014.74
