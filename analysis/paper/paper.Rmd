@@ -148,6 +148,10 @@ The goal was to document predation upon juvenile Chinook salmon (or other target
 * How was gastric lavage performed?
 * Intent was to quantify predation on juvenile Chinook salmon
   - or incidentally, juvenile steelhead or sockeye salmon
+  
+<!-- below pulled from technical report -->
+
+We collected stomach contents from most captured individuals using gastric lavage (Foster 1977) and examined contents for the presence or absence of juvenile Chinook salmon and other incidentals (e.g., steelhead, sockeye salmon) juveniles and the proportion of stomach contents containing targets versus non-targets (e.g., macroinvertebrates). Stomach contents were stored in whirl-paks, preserved with 99% isopropyl alcohol, and analyzed one week later in a controlled environment. Each sample was uniquely identified to match up with the appropriate fish record, contents were identified down to its unique composition, total weight of all content was measured in grams, and total weight of fish content, if found, was measured in grams. Throughout the sampling period a proportion of the captured individuals were sacrificed after gastric lavage to validate that the gastric lavage was successful at flushing all or most of the stomach contents from the northern pikeminnow.
 
 
 ## Bioenergetics (Objective 3)
@@ -201,6 +205,8 @@ Re-hash out our assumptions? What assumptions were most likely violated e.g., th
 
 
 ## Gastric Lavage
+
+Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or other fishes) in a very small number of stomach contents. However, we don't necessarily believe that to mean that pikeminnow in Deadwater Slough rarely consume juvenile Chinook salmon. Are there other cases where gastric lavage failed to document predation? How soon after consumption do you need to take a sample? So instead, we made some assumptions about the proportion of a pikeminnows diet consisting of Chinook salmon.
 
 
 ## Bioenergetics
