@@ -67,71 +67,167 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-* Lemhi River supports ESA listed Chinook salmon, steelhead and bull trout, making it a prime candidate for protection/recovery.
-    * ESA listed species helps motivate the research, why it is important to study not only the Lemhi fish, but also the corridor that impacts all fish upstream of the Deadwater Reach.
-    * Heavy anthropogenic influence, but little to no hatchery influence or supplementation.
-* Little is known about the movements and survival of juveniles as they exit the Lemhi River.
-    * Why is this? No PIT tag infrastructure, remote hard to access areas, large river system.
-* A lot is known about movement and survival through the hydropower system, however little is known about survival through sections of the salmon river (Axel et al Sockeye Study, Copeland et al NRR DRR).
-    * Discuss the two life histories NRR vs DRR?
-*	A previous study showed that the lowest transitional probabilities of Red Fish Lake Sockeye occurred in the Dead Water reach.
-    * Information about the dead water reach. Where is it? What is it? Any publications that mention it?
-* Paragraph on pike minnow and small mouth bass? populations in the Columbia and Salmon River and implications of predation. 
-    * Are there any studies that have assess predation, movement, populations of predatory fish (piscivorous) within the Columbia, Snake, or Salmon River?
-* Any other background information to help motivate the study that I might be missing?
-* Paragraph on what we did to address the knowledge gap.
-    * Pike minnow population estimate. Bioenergetics model. Utilized previously established SARs to answer the questions about how this anthropogenically altered reach is impacting the recovery of adults back to the Lemhi and overall on the system.
+***Paragraph 1***
 
+* The Lemhi River supports an ESA-listed Chinook salmon population with substantial cultural and recreational value and is a candidate for protection and/or recovery.
+* The population has become depleted with lower adult returns in recent years.
+* Decreased returns and/or increased mortality of the population have often been attributed to (in chronological order by life stage):
+  - Degraded natal tributary habitat (e.g., high amount of agriculture)
+  - Reduced survival in the mainstem corridor e.g., Snake and Columbia rivers
+  - Poor ocean conditions
+  - Others worth mentioning? Perhaps adult harvest in ocean and/or in-river returns?
+  
+***Paragraph 2***
+
+* One potentially under-appreciated source of mortality on juvenile Chinook salmon is predation from piscivorous fishes.
+  - At this point, I'm thinking leave avian predation out of the equation, but instead include in Discussion
+  - and keep focus on the freshwater environment
+* What is known about downriver (Columbia/Snake) piscivorous fish populations and potential predation on juvenile Chinook salmon?
+  - literature review of northern pikeminnow, smallmouth bass, other? predation on juvenile Chinook salmon
+  - still stay away from avian predation
+  
+***Paragraph 3***
+
+* Summary of findings from Axel et al. and early RT reports and papers (Ackerman et al. 2019, Porter et al. 2020, 2021, See et al. RT manuscript) in Deadwater slough. Recent studies have demonstrated decreased movement and survival of juvenile salmonids emigrating through the Deadwater Slough. Axel et al. (2015) demonstrated decreased rates of emigration and survival for sockeye salmon *Oncorhynchus nerka* from Redfish Lake emigrating during the spring and recent winter telemetry studies have indicated decreased transition probabilities (approximately 10% less than nearby reaches) of juvenile Chinook salmon *Oncorhynchus tschawytscha* through Deadwater Slough during fall and winter months (Ackerman et al. 2018; Porter et al. 2019).
+* Axel et al. (2015) found increased mortality in a particular reach spanning location x to location y in the mainstem Salmon River on a study of juvenile (hatchery?) sockeye salmon released near Redfish Lake and actively migrating downriver.
+  - in their case, these were actively migrating juveniles, and so transitional probabilities can likely be interpreted (almost) directly as survival
+  - A previous study showed that the lowest transitional probabilities of Red Fish Lake Sockeye occurred in the Dead Water reach.
+* Ackerman et al. and Porter et al. found reduced (apparent) survival in a reach spanning near the town of North Fork to just downstream of Deadwater Slough.
+  - in these cases, there's a chance that juvenile Chinook could exhibit concealment behavior prior to winter and so transition probability is interpreted as the probability of a fish surviving AND moving
+* Anecdotally, locals (and others? maybe NOAA?) informed us that northern pikeminno and perhaps other species are prevalent in Deadwater Slough.
+
+***Paragraph 4***
+
+* Chinook salmon in the Lemhi River exhibit 2 juvenile migration tactics (site Copeland and Venditti [2014] and See et al. *in prep*).
+  - downstream rearing (DSR)
+  - natal reach rearing (NRR)
+* Define these juvenile migration tactics for stream-type Chinook salmon
+
+***Paragraph 5***
+
+* Some concern arose that predation at or near Deadwater Slough was *not* inconsequential to the Lemhi River Chinook salmon (and adjacent) population(s), impacting both DSR and NRR emigrants
+* We hypothesize that decreases in survival (or apparent survival) of juvenile Chinook salmon (and sockeye?) are largely, or at least partially, due to increased densities of piscivorous predators in the Deadwater Slough area resulting from anthropogenically impacted habitat after the Dump Creek alluvial fan was formed. 
+* Beginning in 2019, we set out to evaluate fish predator populations in the Deadwater Slough and their potential predation upon and impacts to juvenile emigrants from the Lemhi River population, both DSR and NRR.
+* Our objectives are four-fold:
+  1. Estimate the abundance of fish predators in Deadwater Slough during the peaks of fall (DSR) and spring (NRR) juvenile emigrations from the Lemhi River.
+  2. Document (and perhaps quantify) predation on juvenile Chinook salmon during the sampling/emigration periods.
+  3. Using a bioenergetics approach, attempt to estimate the number of juvenile Chinook salmon consumed during some defined fall and/or spring sampling/emigration period.
+  4. After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach)
+
+* Additionally, Deadwater Slough occurs in a reach of the Salmon River believed to be important for overwinter rearing of presmolts attempting to exhibit concealment behavior to survive winter prior to spring emigration to the ocean. Deadwater Slough further contains little to no hydrological or structure features (i.e., fish cover) allowing juvenile salmonids to be predated upon without being able to seek adequate refuge. This is also an extremely important reach and relevant study to the entirety of the upper Salmon River anadromous population(s), as each emigrating fish must pass through the Deadwater area.
 
 # Methods
 
-* Briefly touch on radio telemetry methods and cite the RT publication if it is out at this point? (might not be) or that goes in intro and discussion.
-* Hook and line sampling mark recapture to estimate predator population in November 2019, April 2020, September/October 2020 (these dates may be wrong).
-    * Provide calculations for total pop abundance estimate with uncertainty.
-* Conducted gastric lavage sampling at multiple occasions to try and estimate the percent of the diet that is juvenile chinook salmon. 
-    * Wet weight after dividing by prey type 
-    *	Are there any reference in the literature about this? Or any other studies? 
-*	Water Temperature measurements.
-    *	Hobo tidbit placed at site. 
-    *	Calculated daily average water temperature for 365 days of the year.
-*	Developed a bioenergetics model for the average sized Pike Minnow observed to maintain body weight through the 365 days modelled. 
-    *	Incorporated daily temperature time step.
-    * Calculated total biomass consumed to maintain weight for an individual fish across 365 days.
-    *	Multiplied by the total population estimates. (this may vary with time, but not sure yet).
-*	Adult estimates.
-    *	Calculated total mass consumed based on above. Multiplied fraction of diet that is chinook by the total mass consumed. 
-    *	Then we have to divide by average mass of a fish from the Lemhi screw trap? Smolt, pre-smolt, average?
-*	Used SARs (published or ours?) to then estimate the number of adults that may return if predation is reduced. 
-    *	Do we want to say predation is reduced to 0, or maybe a range of reduction?
-*	Anything else?
+## Study Site
+
+<!-- The following was pulled directly from a technical report, but probably could/should be improved for the manuscript -->
+
+The Deadwater Slough is an approximately two kilometer (km) section of the mainstem Salmon River located rough 5.8 river kms downstream from North Fork, Idaho (publication quality map referenced here). The downstream end of the Deadwater Slough occurs at the confluence of Dump Creek and the Salmon River. Around 1897, a small mining diversion reservoir failed in the Dump Creek drainage, creating upslope instability, causing a large erosion event that deposited large amounts of sediment at the confluence of the Salmon River and Dump Creek (Emerson 1973 ref here). The event created a large alluvial fan which backed up the Salmon River creating an approximately 25.3 acre (maybe convert to square meters or kilometers?) reservoir-like area that is unnaturally slow and deep (map reference or image here). The river in this section has slower water velocities, a deepened channel, and (anecdotally) warmer water temperatures which can favor piscivorous fishes (e.g., northern pikeminnow *Ptychocheilus oregonensis*, smallmouth bass *Micropterus dolomieu*). 
+
+## Abundance of Piscivorous Fishes (Objective 1)
+
+**Data = C/M/R and Effort**
+
+* Capture methods used - We initially attempted electrofishing, snorkeling, netting, others?, but eventually settled on angling as best method for mark-recapture.
+* Mark-recapture - We kept the mark and recapture events close together in an attempt to use a closed population model
+* What are the assumptions of a closed population model?
+* How was sampling performed? What relevant information was captured for each fish? How/where were fish released? How was effort recorded to calculate CPUE?
+* Description of sampling time frame:
+  - Fall 2019: Goal was to estimate abundance during the peak of DSR emigration i.e., timing was done to coincide to be shortly after peak fall (DSR) emigration at the lower Lemhi River screw trap with the hopes of documenting predation. DSR are the more abundant juvenile emigration tactic.
+  - Fall 2020: Intent was to repeat the above, but instead during peak NRR emigration, but effort canceled due to COVID-19. Instead, sampling was re-schedule to fall when social distancing, etc. could be put in place.
+  - Spring 2021: Did a relative abundance effort during spring 2021. Had to reduce to a CPUE (single-week) effort due to funding constraints. However, goal was to 1) document presence during NRR outmigration and 2) estimate CPUE to provide a relative comparison to the fall efforts.
+
+
+## Predation Upon Juvenile Chinook Salmon i.e., Gastric Lavage (Objective 2)
+
+**Data = Gastric Lavage Data**
+
+The goal was to document predation upon juvenile Chinook salmon (or other targets), and ideally, estimate the proportion of their diet that consisted of juvenile Chinook salmon at the time of sampling?
+
+* Which individuals was gastric lavage performed upon?
+* How was gastric lavage performed?
+* Intent was to quantify predation on juvenile Chinook salmon
+  - or incidentally, juvenile steelhead or sockeye salmon
+
+
+## Bioenergetics (Objective 3)
+
+**Data = Temperature, Bioenergetics Inputs, Others?**
+
+Pull material from technical report
+
+
+## Impacts to Adult Returns (Objective 4)
+
+**Data = SARs, Adult Escapements, Others?**
+
+Pull material from technical report
 
 
 # Results
 
-*	Total population estimates of Pike Minnow. Chart or table, but likely a chart.
+## Abundance of Piscivorous Fishes (Objective 1)
+
+* Total population estimates of Pike Minnow. Chart or table, but likely a chart.
+* What is that equate to as a density? e.g., how many pikeminnow per 10 square meters? Is that a reasonable number?
+
+
+## Predation Upon Juvenile Chinook Salmon i.e., Gastric Lavage (Objective 2)
+
 *	Gastric lavage sampling results. What percent of the diet is chinook salmon from each sampling event. Pie chart? Mike loves pie charts.
+
+
+## Bioenergetics (Objective 3)
+
+* Water Temperature measurements.
+    *	Hobo tidbit placed at site. 
+    *	Calculated daily average water temperature for 365 days of the year.
 *	Water temperature plot for the 365 average.
 *	Bioenergetics results. Total mass consumed over a 365 day period. Plot of daily consumption with day of year on x and mass on y.
+
+
+## Impacts to Adult Returns (Objective 4)
+
 *	SAR results. Maybe a plot of multiple scenarios depending on gastric lavage results? And pop estimates if they vary in time.
-*	Anything else?
 
 
 # Discussion
 
-*	Here we will need to discuss for each result above: 
-    *	How do our results compare to other sources within the literature?
-    *	What are the broader implications of each result?
-*	Management implications and how these results, analysis, modelling framework could be applied elsewhere?
+Start with a summary of the most important results! How many pikeminnow are there? Did we document/quantify predation? What's the potential impacts to adult returns?
+
+## Mark-Recapture Model
+
+Re-hash out our assumptions? What assumptions were most likely violated e.g., the closed population assumption? If we assumed an open population with varying immigration/emigration rates how might that affect our estimate? In the end, how good do we think our estimate is and is the bottom-line that we belive there still to be a shit-ton of pikeminnow even if our assumptions were violated?
 
 
-## Conclusion
+## Gastric Lavage
 
-*	What are the most important results?
-    *	Adult returns
-    *	Pop estimate of pike minnow
-    *	Total predation on juveniles
-*	We have also presented a novel modeling framework for estimating predation on native, critically endangered anadromous species which can be applied to other areas of interest. John day? Others?
+
+## Bioenergetics
+
+
+## Impacts to Adult Returns
+
+
+## Avian Predation
+
+In the discussion, let's also acknowledge the potential impacts from avian predation. Outside of the scope of the study, but what did we find in the first year? Other large studies that estimate impacts of avian predaton (herons in particular) on juvenile Chinook salmon, especially in altered habitats? Anecdotally, what did we see i.e., we noticed lots of herons traveling to/from the site especially in the anastomosizing section above Deadwater Slough?
+
+* In addition to fish predators the Deadwater Slough is also recognized as an important bird watching and nesting area due to the riparian and backwater habitats created by the feature [(Deadwater Slough - Audubon Important Bird Areas)](https://www.audubon.org/important-bird-areas/deadwater-slough#). 
+
+
+## Management Implications
+
+Discuss the potential for various management actions:
+* Removing the Dump Creek alluvial fan and restoring flow. What would that look like?
+* A local bounty program? What would that look like? Have they been successful elsewhere e.g., in the Columbia River?
+
 *	Also, this is an anthropogenically created dead water area, which could be a candidate for restoration (removing the impoundment). Is there anything in the literature that discusses habitat preferences for pike minnow? If we speed up velocities and add some cover potentially pike minnow predation success will be lowered. Will these fish just move elsewhere? 
+
+
+## Conclusions
+
+*	We have also presented a novel modeling framework for estimating predation on native, critically endangered anadromous species which can be applied to other areas of interest. John day? Others?
 *	The end. 
 
 
