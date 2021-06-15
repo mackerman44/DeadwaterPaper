@@ -13,7 +13,7 @@ author:
       email: Nicholas.Porter@merck.com
       institute: [biomark]
       correspondence: false
-  - Michael Hall:
+  - Michael S. Hall:
       email: Mike.Hall1@merck.com
       institute: [biomark]
       correspondence: false
@@ -39,11 +39,11 @@ output:
 fontsize: 12pt
 mainfont: Times New Roman
 bibliography: 
-- references.bib
-- packages.bib
+- references.bib      # Kevin's library
+- AckermanLibrary.bib # Mike's library
 csl: "../templates/american-fisheries-society.csl" # Insert path for the bib-style
 abstract: |
-  Although well documented through the Columbia and Snake River hydropower system, little is known about movement and survival of Salmon River juvenile Chinook salmon through their migratory corridors above the hydropower system. With increases in water temperatures, predator abundance, and predator distribution, this knowledge is evermore necessary to characterize limiting factors and recovery potential of this imperiled species. To further understanding of predation impacts on juvenile Chinook Salmon in the Salmon River, specifically, the anthropogenically altered Deadwater Reach, we estimated the population of predatory species, calculated the bioenergetic requirement of predator species to maintain size, and estimated the number of juveniles predated upon within said reach. We then used previously established smolt-to-adult return ratios to understand the impact that predation within the Deadwater Reach has on adult returns to the Lemhi River of Idaho, with broader implications for anadromous populations outside of the Lemhi River specifically. 
+  Abstract text here. 
 keywords: |
   northern pikeminnow; Chinook salmon; predation; mark-recapture; bioenergetics
 highlights: |
@@ -64,6 +64,23 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r load-libraries}
+library(tidyverse)
+library(janitor)
+
+```
+
+```{r set-prefix}
+# set NAS prefix, depending on operating system
+if(.Platform$OS.type != 'unix') {
+  nas_prefix = "S:"
+} else if(.Platform$OS.type == 'unix') {
+  nas_prefix = "~/../../Volumes/ABS"
+}
+
+```
+
+\newpage
 
 # Introduction
 
@@ -79,26 +96,26 @@ knitr::opts_chunk$set(
   
 ***Paragraph 2***
 
-* One potentially under-appreciated source of mortality on juvenile Chinook salmon is predation from piscivorous fishes.
+* One potentially under-appreciated source of mortality on juvenile Chinook salmon is predation from piscivorous fishes, native and/or non-native
   - At this point, I'm thinking leave avian predation out of the equation, but instead include in Discussion
   - and keep focus on the freshwater environment
 * What is known about downriver (Columbia/Snake) piscivorous fish populations and potential predation on juvenile Chinook salmon?
-  - literature review of northern pikeminnow, smallmouth bass, other? predation on juvenile Chinook salmon
+  - literature review of northern pikeminnow, smallmouth bass, other? predation on juvenile Chinook salmon, particulary from the Snake and Columbia rivers
   - still stay away from avian predation
   
 ***Paragraph 3***
 
-* Summary of findings from Axel et al. and early RT reports and papers (Ackerman et al. 2019, Porter et al. 2020, 2021, See et al. RT manuscript) in Deadwater slough. Recent studies have demonstrated decreased movement and survival of juvenile salmonids emigrating through the Deadwater Slough. Axel et al. (2015) demonstrated decreased rates of emigration and survival for sockeye salmon *Oncorhynchus nerka* from Redfish Lake emigrating during the spring and recent winter telemetry studies have indicated decreased transition probabilities (approximately 10% less than nearby reaches) of juvenile Chinook salmon *Oncorhynchus tschawytscha* through Deadwater Slough during fall and winter months (Ackerman et al. 2018; Porter et al. 2019).
-* Axel et al. (2015) found increased mortality in a particular reach spanning location x to location y in the mainstem Salmon River on a study of juvenile (hatchery?) sockeye salmon released near Redfish Lake and actively migrating downriver.
+* Summary of findings from @Axel2015 and early RT reports and papers (@Ackerman2018a, @Porter2019, @Porter2020) in Deadwater Slough. Recent studies have demonstrated decreased movement and survival of juvenile salmonids emigrating through the Deadwater Slough. @Axel2015 demonstrated decreased rates of emigration and survival for sockeye salmon *Oncorhynchus nerka* from Redfish Lake emigrating during the spring and recent winter telemetry studies have indicated decreased transition probabilities (approximately 10% less than nearby reaches) of juvenile Chinook salmon *Oncorhynchus tschawytscha* through Deadwater Slough during fall and winter months (@Ackerman2018a, @Porter2019, @Porter2020).
+* @Axel2015 found increased mortality in a particular reach spanning location x to location y in the mainstem Salmon River on a study of juvenile (hatchery?) sockeye salmon released near Redfish Lake and actively migrating downriver.
   - in their case, these were actively migrating juveniles, and so transitional probabilities can likely be interpreted (almost) directly as survival
   - A previous study showed that the lowest transitional probabilities of Red Fish Lake Sockeye occurred in the Dead Water reach.
-* Ackerman et al. and Porter et al. found reduced (apparent) survival in a reach spanning near the town of North Fork to just downstream of Deadwater Slough.
+* @Ackerman2018a and @Porter2019, @Porter2020 found reduced (apparent) survival in a reach spanning near the town of North Fork to just downstream of Deadwater Slough.
   - in these cases, there's a chance that juvenile Chinook could exhibit concealment behavior prior to winter and so transition probability is interpreted as the probability of a fish surviving AND moving
-* Anecdotally, locals (and others? maybe NOAA?) informed us that northern pikeminno and perhaps other species are prevalent in Deadwater Slough.
+* Anecdotally, locals (and others? maybe NOAA?) informed us that northern pikeminnow and perhaps other species are prevalent in Deadwater Slough.
 
 ***Paragraph 4***
 
-* Chinook salmon in the Lemhi River exhibit 2 juvenile migration tactics (site Copeland and Venditti [2014] and See et al. *in prep*).
+* Chinook salmon in the Lemhi River exhibit two juvenile migration tactics (@Copeland2014c and See et al. *in prep*).
   - downstream rearing (DSR)
   - natal reach rearing (NRR)
 * Define these juvenile migration tactics for stream-type Chinook salmon
@@ -122,9 +139,15 @@ knitr::opts_chunk$set(
 
 <!-- The following was pulled directly from a technical report, but probably could/should be improved for the manuscript -->
 
-The Deadwater Slough is an approximately two kilometer (km) section of the mainstem Salmon River located rough 5.8 river kms downstream from North Fork, Idaho (publication quality map referenced here). The downstream end of the Deadwater Slough occurs at the confluence of Dump Creek and the Salmon River. Around 1897, a small mining diversion reservoir failed in the Dump Creek drainage, creating upslope instability, causing a large erosion event that deposited large amounts of sediment at the confluence of the Salmon River and Dump Creek (Emerson 1973 ref here). The event created a large alluvial fan which backed up the Salmon River creating an approximately 25.3 acre (maybe convert to square meters or kilometers?) reservoir-like area that is unnaturally slow and deep (map reference or image here). The river in this section has slower water velocities, a deepened channel, and (anecdotally) warmer water temperatures which can favor piscivorous fishes (e.g., northern pikeminnow *Ptychocheilus oregonensis*, smallmouth bass *Micropterus dolomieu*). 
+The Deadwater Slough is an approximately two kilometer (km) section of the mainstem Salmon River located rough 5.8 river kms downstream from North Fork, Idaho (publication quality map referenced here). The downstream end of the Deadwater Slough occurs at the confluence of Dump Creek and the Salmon River. Around 1897, a small mining diversion reservoir failed in the Dump Creek drainage, creating upslope instability, causing a large erosion event that deposited large amounts of sediment at the confluence of the Salmon River and Dump Creek (@Emerson1973). The event created a large alluvial fan which backed up the Salmon River creating an approximately 25.3 acre (maybe convert to square meters or kilometers?) reservoir-like area that is unnaturally slow and deep (map reference or image here). The river in this section has slower water velocities, a deepened channel, and (anecdotally) warmer water temperatures which can favor piscivorous fishes (e.g., northern pikeminnow *Ptychocheilus oregonensis*, smallmouth bass *Micropterus dolomieu*). 
 
 ## Abundance of Piscivorous Fishes (Objective 1)
+
+```{r cmr-effort-data}
+cmr_df = read_csv(paste0(nas_prefix, "/data/fish/deadwater/deadwater_cmr_effort_20210614.csv")) %>%
+  clean_names()
+  
+```
 
 **Data = C/M/R and Effort**
 
@@ -136,6 +159,15 @@ The Deadwater Slough is an approximately two kilometer (km) section of the mains
   - Fall 2019: Goal was to estimate abundance during the peak of DSR emigration i.e., timing was done to coincide to be shortly after peak fall (DSR) emigration at the lower Lemhi River screw trap with the hopes of documenting predation. DSR are the more abundant juvenile emigration tactic.
   - Fall 2020: Intent was to repeat the above, but instead during peak NRR emigration, but effort canceled due to COVID-19. Instead, sampling was re-schedule to fall when social distancing, etc. could be put in place.
   - Spring 2021: Did a relative abundance effort during spring 2021. Had to reduce to a CPUE (single-week) effort due to funding constraints. However, goal was to 1) document presence during NRR outmigration and 2) estimate CPUE to provide a relative comparison to the fall efforts.
+  
+The Chapman-modified Lincoln-Peterson estimator is below, where $M$ is the number of fish marked and returned to the population, $n$ is the number of fish caught in the second/recapture event and $m$ is the number of marked fish in the second sample.
+$$
+\hat{N} = \frac{(M + 1)(n + 1)}{(m + 1)} - 1
+$$
+The Schnabel estimator is shown below, where the $M$, $n$ and $m$ are indexed by the sampling occasion, $i$. This estimator does not have an associate standard error, but 95% confidence intervals can be calculated.
+$$
+\hat{N} = \frac{\sum\limits_{i = 1}^k n_i M_i}{\left(\sum\limits_{i = 1}^k m_i \right) + 1}
+$$
 
 
 ## Predation Upon Juvenile Chinook Salmon i.e., Gastric Lavage (Objective 2)
@@ -151,10 +183,24 @@ The goal was to document predation upon juvenile Chinook salmon (or other target
   
 <!-- below pulled from technical report -->
 
-We collected stomach contents from most captured individuals using gastric lavage (Foster 1977) and examined contents for the presence or absence of juvenile Chinook salmon and other incidentals (e.g., steelhead, sockeye salmon) juveniles and the proportion of stomach contents containing targets versus non-targets (e.g., macroinvertebrates). Stomach contents were stored in whirl-paks, preserved with 99% isopropyl alcohol, and analyzed one week later in a controlled environment. Each sample was uniquely identified to match up with the appropriate fish record, contents were identified down to its unique composition, total weight of all content was measured in grams, and total weight of fish content, if found, was measured in grams. Throughout the sampling period a proportion of the captured individuals were sacrificed after gastric lavage to validate that the gastric lavage was successful at flushing all or most of the stomach contents from the northern pikeminnow.
+We collected stomach contents from most captured individuals using gastric lavage (@Foster1977) and examined contents for the presence or absence of juvenile Chinook salmon and other incidentals (e.g., steelhead, sockeye salmon) juveniles and the proportion of stomach contents containing targets versus non-targets (e.g., macroinvertebrates). Stomach contents were stored in whirl-paks, preserved with 99% isopropyl alcohol, and analyzed one week later in a controlled environment. Each sample was uniquely identified to match up with the appropriate fish record, contents were identified down to its unique composition, total weight of all content was measured in grams, and total weight of fish content, if found, was measured in grams. Throughout the sampling period a proportion of the captured individuals were sacrificed after gastric lavage to validate that the gastric lavage was successful at flushing all or most of the stomach contents from the northern pikeminnow.
 
 
 ## Bioenergetics (Objective 3)
+
+```{r temp-data}
+temp_df = read_delim(paste0(nas_prefix,
+                            "/data/temperature/deadwater/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
+                     delim = "\t",
+                     comment = "#") %>%
+  rename(discharge_cfs = `47768_00060`,
+         discharge_cfs_cd = `47768_00060_cd`,
+         gage_ht_ft = `47769_00065`,
+         gage_ht_ft_cd = `47769_00065_cd`,
+         water_temp_c = `47773_00010`,
+         water_temp_c_cd = `47773_00010_cd`)
+
+```
 
 **Data = Temperature, Bioenergetics Inputs, Others?**
 
@@ -227,6 +273,8 @@ In the discussion, let's also acknowledge the potential impacts from avian preda
 Discuss the potential for various management actions:
 * Removing the Dump Creek alluvial fan and restoring flow. What would that look like?
 * A local bounty program? What would that look like? Have they been successful elsewhere e.g., in the Columbia River?
+
+* Deadwater is an opportunity to benefit multiple (6 or 7) local populations with a single management or restoration action.
 
 *	Also, this is an anthropogenically created dead water area, which could be a candidate for restoration (removing the impoundment). Is there anything in the literature that discusses habitat preferences for pike minnow? If we speed up velocities and add some cover potentially pike minnow predation success will be lowered. Will these fish just move elsewhere? 
 
