@@ -110,6 +110,8 @@ In recent years, concerns arose that predation on juvenile Chinook salmon at or 
 3. Using a bioenergetics approach, attempt to estimate the number of juvenile Chinook salmon consumed during defined emigration periods for DSR and NRR juveniles.
 4. Estimate potential impacts to Chinook salmon adult returns based on the estimate of juvenile Chinook salmon consumed during the defined emigration periods.
 
+We follow with a discussion of the various assumptions that went into the mark-recapture and bioenergetics models and assessment of impacts to adult returns and how violations of some assumptions may affect overall results and inferences from the study.
+
 
 # Methods
 
