@@ -26,12 +26,10 @@ require(nlstools)
 require(stringi)
 require(MASS)
 require(readr)
+
+#Read in the Deadwater dataset
 deadwater <- read_csv("analysis/data/raw data/deadwater_cmr_effort_20210614.csv") %>%
   mutate(Date = as.POSIXct(Date, format = "%m/%d/%y"))
-
-bioenergetics<- read_csv("analysis/data/raw data/2020 Bioenergetics 1 year.csv") #%>%
-   mutate(day = as.POSIXct(day))
-  mutate(day = as.Date(day, origin=as.Date("1960-01-01")))
 
 NPM = deadwater %>%
   filter(Species == "Northern Pikeminnow")
@@ -40,6 +38,32 @@ Clean_NPM = NPM %>%
   mutate(Fish_or_Parts = case_when(stri_detect_fixed(StomachContents, "Fish") ~ "Fish or Fish Parts",
                                    stri_detect_fixed(StomachContents, "Empty") ~ "Empty", TRUE ~ "Other")) %>%
   drop_na(Length)
+
+#Read in teh Bioenergetics
+
+bioenergetics<- read_csv("analysis/data/raw data/2020 Bioenergetics 1 year.csv") %>%
+  mutate(Date = as.POSIXct(Date, format = "%m/%d/%y")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g))
+
+#Fall bioenergetics looking at 78 days
+Fall_bioenergetics = bioenergetics %>%
+  filter(Date > "2020-08-31") %>%
+  filter(Date < "2020-11-18") %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g))
+
+#Plot of fish eatten
+Fall_bioenergetics %>%
+  filter(Date >= "2020-09-01 06:00:00" & Date <= "2020-11-17 07:00:00") %>%
+  ggplot() +
+  aes(x = Date, y = Cumu_fish_eatten, colour = Temperature_C) +
+  geom_line(size = 2.5) +
+  scale_color_viridis_c(option = "viridis", direction = 1) +
+  labs(y = "Cumulative fish eatten g") +
+  theme_classic()
+
+
+
+esquisse::esquisser(Fall_bioenergetics)
 
 
 
