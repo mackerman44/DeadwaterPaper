@@ -25,9 +25,13 @@ require(Rcapture)
 require(nlstools)
 require(stringi)
 require(MASS)
-
+require(readr)
 deadwater <- read_csv("analysis/data/raw data/deadwater_cmr_effort_20210614.csv") %>%
   mutate(Date = as.POSIXct(Date, format = "%m/%d/%y"))
+
+bioenergetics<- read_csv("analysis/data/raw data/2020 Bioenergetics 1 year.csv") #%>%
+   mutate(day = as.POSIXct(day))
+  mutate(day = as.Date(day, origin=as.Date("1960-01-01")))
 
 NPM = deadwater %>%
   filter(Species == "Northern Pikeminnow")
@@ -43,7 +47,7 @@ Clean_NPM = NPM %>%
 
 Clean_NPM$NPM_50=lencat(Clean_NPM$Length, w = 50)
 
-esquisse::esquisser(Clean_NPM)
+#esquisse::esquisser(Clean_NPM)
 
 
 ##group_by(Species) %>% 165,640,25
