@@ -123,7 +123,7 @@ The Deadwater Slough is an approximately 1.5 kilometer section of the mainstem S
 ## Abundance of Piscivorous Fishes (Objective 1)
 
 ```{r cmr-effort-data}
-cmr_df = read_csv("../data/raw data/deadwater_cmr_effort_20210614.csv") %>%
+cmr_df = read_csv("../data/raw_data/deadwater_cmr_effort_20210614.csv") %>%
   clean_names()
 
 ```
@@ -168,7 +168,7 @@ We collected stomach contents from most captured individuals using gastric lavag
 ## Bioenergetics (Objective 3)
 
 ```{r shoup-temp-data}
-temp_df = read_tsv("../data/raw data/USGS_13307000_Salmon_River_Nr_Shoup.txt",
+temp_df = read_tsv("../data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt",
                    comment = "#") %>%
   rename(discharge_cfs = `47768_00060`,
          discharge_cfs_cd = `47768_00060_cd`,
@@ -290,7 +290,7 @@ Discuss the potential for various management actions:
 <div id="figures"></div>
 
 ```{r map, out.width = "85%", fig.cap = "Map of the Deadwater Slough study area. The high-resolution orthoimage portion directly surrounding the Deadwater Slough was generated from aerial images taken by a drone. The red polygon indicates the reach characterized by unnaturally slow water velocities and a deepened channel. The location of the Dump Creek delta is indicated."}
-knitr::include_graphics("../figures/deadwater_map.png")
+knitr::include_graphics("../figures/deadwater_map_low_res.png")
 
 ```
 
