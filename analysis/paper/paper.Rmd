@@ -101,7 +101,7 @@ One potentially important, but perhaps under-appreciated source of mortality on 
 
 Spring/summer Chinook Salmon in the Upper Salmon MPG are stream-type and exhibit two distinct migration tactics; downstream rearing (DSR) and natal reach rearing (NRR) [@Copeland2014]. The DSR migrants leave the natal spawning area as subyearlings between June and November and typically overwinter in downstream, mainstem habitats until the following spring when they emigrate to the ocean as smolts. Alternatively, NRR migrants remain in their natal spawning areas for approximately one year after emergence until emigration to the ocean as smolts. Diversity of migratory tactics provides a mechanism for coping with adverse conditions in freshwater rearing and migration environments and buffers against catastrophic events, thereby increasing population resiliency.
 
-The Deadwater Slough is located in a reach of the Salmon River that is believed to be a historically important overwinter rearing area for DSR emigrants. Moreover, this reach is part of the migratory pathway for juvenile DSR and NRR emigrants from all eight extant populations. The slough lacks hydrological and structural features (i.e., homogeneous channel with fine substrate) that can provide essential refuge from predation. As a result, predation on juvenile Chinook salmon proximal to the Deadwater Slough has been cited as a concern for the Upper Salmon River MPG, impacting DSR migrants in the fall and NRR emigrants during the spring.
+The Deadwater Slough is located in a reach of the Salmon River that is believed to be a historically important overwinter rearing area for DSR emigrants. Moreover, this reach is part of the migratory pathway for juvenile DSR and NRR emigrants from all eight extant populations. The slough lacks hydrological and structural features (i.e., a homogenous channel with fine substrate and little cover) that can provide essential refuge from predation. As a result, predation on juvenile Chinook salmon proximal to the Deadwater Slough has been cited as a concern for the Upper Salmon River MPG, impacting DSR migrants in the fall and NRR emigrants during the spring.
 
 We hypothesize that increased densitied of piscivorous predators in the Deadwater Slough area may explain the reduced survival (or apparent survival) observed for juvenile Chinook Salmon [@Ackerman2018] and Sockeye Salmon [@Axel2015]. In this study, we estimated the abundance of a piscivorous fish predator population in the Deadwater Slough and their potential impacts to juvenile salmon emigrants, focusing on DSR and NRR Chinook Salmon. Our objectives for the study were four-fold:
 
@@ -117,9 +117,7 @@ We follow with a discussion of the various assumptions that went into the mark-r
 
 ## Study Site
 
-<!-- The following was pulled directly from a technical report, but probably could/should be improved for the manuscript -->
-
-The Deadwater Slough is an approximately two-kilometer (km) section of the mainstem Salmon River locations roughly 5.8 river kms downstream from the town of North Fork, Idaho ***(publication quality map referenced here)***. The downstream end of the Deadwater Slough is located at the confluence of Dump Creek and the Salmon River. Around 1897, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River and Dump Creek [@Emerson1973]. The influx of sediment created a delta that impeded flow of the Salmon River, thereby creating an unnaturally slow and deep section in the river, spanning approximately 25.3 acres. The slower water velocities, deepened channel, and (anecdotally) warmer water temperatures favor piscivorous fishes known to occupy the reach (e.g., northern pikeminnow *Ptychocheilus oregonensis*, smallmouth bass *Micropterus dolomieu*).
+The Deadwater Slough is an approximately 1.5 kilometer section of the mainstem Salmon River located roughly 5.8 river kilometers downstream from the town of North Fork, Idaho ***(publication quality map referenced here)***. The downstream end of the slough is located at the confluence of Dump Creek and the Salmon River. Around 1897, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River, thereby creating an unnaturally slow and deep section in the river, spanning approximately 30 acres and averaging 68 m width. Both northern pikeminnow *Ptychocheilus oregonensis* and smallmouth bass *Micropterus dolomieu* inhabit the slough which likely provides favorable conditions for their feeding and growth (e.g., reduced water velocity, deep channel, warmer water temperature).
 
 
 ## Abundance of Piscivorous Fishes (Objective 1)
@@ -273,11 +271,28 @@ Discuss the potential for various management actions:
 
 \newpage
 
-# References 
+# Literature Cited 
 
 <!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
 
 <div id="refs"></div>
+
+\newpage
+
+# Tables
+
+<div id="tables"></div>
+
+\newpage
+
+# Figures
+
+<div id="figures"></div>
+
+```{r map, out.width = "85%", fig.cap = "Map of the Deadwater Slough study area. The high-resolution orthoimage portion directly surrounding the Deadwater Slough was generated from aerial images taken by a drone. The red polygon indicates the reach characterized by unnaturally slow water velocities and a deepened channel. The location of the Dump Creek delta is indicated."}
+knitr::include_graphics("../figures/deadwater_map.png")
+
+```
 
 \newpage
 
