@@ -35,7 +35,13 @@ NPM = deadwater %>%
 Clean_NPM = NPM %>%
   mutate(Fish_or_Parts = case_when(stri_detect_fixed(StomachContents, "Fish") ~ "Fish or Fish Parts",
                                    stri_detect_fixed(StomachContents, "Empty") ~ "Empty", TRUE ~ "Other")) %>%
-  drop_na(Length)
+  drop_na(Length) %>%
+  mutate(Non_fish_wt = StomachContentsWeight - FishContentWeight)
+
+Stomach_content_DF = Clean_NPM %>%
+  dplyr::select(Date, Length, LavageID, StomachContents, Comments, Fish_or_Parts, StomachContentsWeight, Non_fish_wt, FishContentWeight)
+
+unique(Clean_NPM)
 
 #Read in the Bioenergetics
 
@@ -114,22 +120,32 @@ Bioenergetics_plot_10percent
 
 #esquisse::esquisser(Fall_bioenergetics)
 
-#Histogram Ogle
+# Stomach contents and length frequency ############################################################
 
 Clean_NPM$NPM_50=lencat(Clean_NPM$Length, w = 50)
 
+Stomach_catagories_sum = Stomach_content_DF %>%
+  drop_na(StomachContentsWeight) %>%
+  group_by(Fish_or_Parts) %>%
+  count()
+
+Stomach_wt_sum = Stomach_content_DF %>%
+  drop_na(StomachContentsWeight) %>%
+  group_by(Fish_or_Parts) %>%
+  summarise(sum(StomachContentsWeight))
+
+Non_fishwt_sum = Stomach_content_DF %>%
+  drop_na(StomachContentsWeight) %>%
+  group_by(Fish_or_Parts) %>%
+  summarise(sum(Non_fish_wt))
+
+Fish_weights_sum = Stomach_content_DF %>%
+  drop_na(StomachContentsWeight) %>%
+  group_by(Fish_or_Parts) %>%
+  summarise(sum(FishContentWeight))
+
+
 #esquisse::esquisser(Clean_NPM)
-
-
-##group_by(Species) %>% 165,640,25
-#custbins=seq(150,675,25)
-#hist(~Length,data=Clean_NPM,xlab="TL (mm)", ylim=c(0,500))
-##xtick<-seq(150,650,20)####creating minor tick marks
-#axis(side=1, at=xtick, labels = FALSE)####setting minor tick marks
-
-
-
-
 
 Stomach_contents_per_sizeclass = Clean_NPM %>%
   filter(Date >= "2020-05-17 23:00:00" & Date <= "2020-11-21 00:00:00") %>%
@@ -188,3 +204,5 @@ ggsave('analysis/paper/figures/fall bioenergetics.jpg',
        fall_bioenergetics,
        width = 8,
        height = 4)
+
+
