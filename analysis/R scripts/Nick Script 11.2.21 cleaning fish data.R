@@ -65,6 +65,15 @@ Fall_bioenergetics = bioenergetics %>%
   mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
   mutate(Date = as.Date(Date))
 
+Alternative_bioenergetics <- read_csv("analysis/data/raw data/Bioenergetics 32 fish 68 inverts.csv") %>%
+  mutate(Date = as.POSIXct(Date, format = "%m/%d/%y")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+
+
+
 #Plot of fish eatten
 fall_bioenergetics = Fall_bioenergetics %>%
   filter(Date >= "2020-09-01" & Date <= "2020-11-17") %>%
@@ -116,7 +125,21 @@ Bioenergetics_plot_10percent <- bioenergetics_10percet %>%
 
 Bioenergetics_plot_10percent
 
+Alt_Bioenergetics_plot <- Alternative_bioenergetics %>%
+  ggplot() +
+  aes(x = Date, y = Cumu_fish_eatten, colour = Temperature_C) +
+  geom_line(size = 2.5) +
+  scale_color_distiller(palette = "Spectral", direction = -1) +
+  #labs(y = "Cumulative fish eatten (g)") +
+  #scale_x_date(breaks = "1 month") +
+  scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 50),
+                     sec.axis = sec_axis(~. /12, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 2))) +
+  #theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(color = "Temperature (C)", x = "Month")
 
+Alt_Bioenergetics_plot
 
 #esquisse::esquisser(Fall_bioenergetics)
 
