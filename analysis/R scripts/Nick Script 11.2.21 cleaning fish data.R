@@ -34,7 +34,9 @@ NPM = deadwater %>%
 
 Clean_NPM = NPM %>%
   mutate(Fish_or_Parts = case_when(stri_detect_fixed(StomachContents, "Fish") ~ "Fish or Fish Parts",
-                                   stri_detect_fixed(StomachContents, "Empty") ~ "Empty", TRUE ~ "Other")) %>%
+                                   stri_detect_fixed(StomachContents, "Empty") ~ "Empty",
+                                   stri_detect_fixed(Comments, "Whole scuplin") ~ "Fish or Fish Parts",
+                                   TRUE ~ "Other")) %>%
   drop_na(Length) %>%
   mutate(Non_fish_wt = StomachContentsWeight - FishContentWeight)
 
@@ -57,21 +59,18 @@ mutate(Date = as.POSIXct(Date, format = "%m/%d/%y")) %>%
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
-
-#Fall bioenergetics looking at 78 days
-Fall_bioenergetics = bioenergetics %>%
-  filter(Date > "2020-08-31") %>%
-  filter(Date < "2020-11-18") %>%
-  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
-  mutate(Date = as.Date(Date))
-
 Alternative_bioenergetics <- read_csv("analysis/data/raw data/Bioenergetics 32 fish 68 inverts.csv") %>%
   mutate(Date = as.POSIXct(Date, format = "%m/%d/%y")) %>%
   mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
-
+#Fall bioenergetics looking at 78 days
+Fall_bioenergetics = Alternative_bioenergetics %>%
+  filter(Date > "2020-08-31") %>%
+  filter(Date < "2020-11-18") %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
+  mutate(Date = as.Date(Date))
 
 
 #Plot of fish eatten
@@ -202,6 +201,8 @@ Bioenergetics_plot
 Bioenergetics_plot_10percent
 fall_bioenergetics
 
+Alt_Bioenergetics_plot
+
 # Save fish passing plot
 ggsave('analysis/paper/figures/length_freq.jpg',
        length_freq,
@@ -214,7 +215,7 @@ ggsave('analysis/paper/figures/stomach content per sizeclass.jpg',
        height = 4)
 
 ggsave('analysis/paper/figures/bioenergetics.jpg',
-       Bioenergetics_plot,
+       Alternative_Bioenergetics_plot,
        width = 8,
        height = 4)
 
