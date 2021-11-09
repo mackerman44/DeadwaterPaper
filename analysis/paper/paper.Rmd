@@ -1,5 +1,5 @@
 ---
-title: "Northern Pikeminnow Abundance in Deadwater Slough and Potential Impacts to Local Chinook Salmon Populations"
+title: "Northern Pikeminnow Predation on Juvenile Chinook Salmon and Potential Impacts to Local Populations"
 author:
   - Richard A. Carmichael:
       email: Richard.Carmichael@merck.com
@@ -10,7 +10,7 @@ author:
       institute: [biomark]
       correspondence: false
   - Kevin E. See:
-      email: Kevin.See@merck.com
+      email: Kevin.See@dfw.wa.gov
       institute: [biomark, wdfw]
       correspondence: false
   - Michael S. Hall:
@@ -18,12 +18,12 @@ author:
       institute: [biomark]
       correspondence: false
   - Michael W. Ackerman:
-      email: Mike.Ackerman@merck.com
+      email: mike.ackerman@mthoodenvironmental.com
       institute: [biomark, mhe]
       correspondence: false
 institute:
   - biomark: Biomark, Inc., 705 South 8th Street, Boise, Idaho, 83702, USA
-  - wdfw: Washington Department of Fish and Wildife, *Address Here*
+  - wdfw: Washington Department of Fish and Wildife, Under A Bridge, Seattle, Washington, 00000, USA
   - mhe: Mount Hood Environmental, PO Box 4282, McCall, Idaho, 83638, USA
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -77,11 +77,11 @@ library(janitor)
 
 # Introduction
 
-The Upper Salmon River major population group (MPG) supports eight extant spring/summer Chinook salmon *Oncorhynchus tshawytscha* populations including Salmon River (above Redfish Lake), Valley Creek, Yankee Fork Salmon River, East Fork Salmon River, Salmon River (mainstem below Redfish), Pahsimeroi River, Lemhi River, and North Fork Salmon River [@NOAA2017]. For the MPG to be considered viable, at least five of these eight populations should meet viability criteria set forth by @McElhany2000 and @ICTRT2007, and is necessary for recovery of the Snake River Evolutionary Significant Unit (ESU). Populations within the ESU have substantial cultural value, support downriver mainstem Snake and Columbia River commercial and subsistence fisheries, and in year with sufficient abundance, support local fisheries that contribute to the local economies. All Upper Salmon River MPG populations have become depleted in recent decades. Declines in survival of juvenile Chinook salmon have been attributed to the removal of beavers from the landscape (fur trade), mining activities, simplification of rivers resulting from the construction of railroads and agriculture, water withdrawals, logging activities, urbanization, avian predation, proliferation of non-native species (e.g., non-native coastal rainbow trout *O. mykiss irideus* and brook trout *Salvelinus fontinalis*), warming streams and rivers, and modifications to downriver migration corridors (e.g., from hydropower projects). Moreover, the abundance of adult returns are further impacted by ocean and downriver harvests, altered ocean conditions, and changes to the spawning migration corridor. Each of these factors have contributed, to varying and unknown extents, to reduced adult escapement, the primary metric used to assess population viability. In response to the above human activities and reduced abundances, action agencies have invested substantial funds in recent years to rehabilitate tributary ecosystems in an attempt to improve juvenile survival and adult spawning conditions.
+The Upper Salmon River major population group (MPG) supports eight extant spring/summer Chinook Salmon *Oncorhynchus tshawytscha* populations including Salmon River (above Redfish Lake), Valley Creek, Yankee Fork Salmon River, East Fork Salmon River, Salmon River (mainstem below Redfish), Pahsimeroi River, Lemhi River, and North Fork Salmon River [@NOAA2017]. At least five of these eight populations must meet criteria set forth by @McElhany2000 and @ICTRT2007 for the MPG to be considered viable and for the recovery of the Snake River Evolutionary Significant Unit (ESU). Populations within the ESU have substantial cultural value, support downriver mainstem Snake and Columbia River commercial and subsistence fisheries, and support local fisheries and economies in years with sufficient abundance. All populations within the Upper Salmon River MPG have become depleted in recent decades. Declines in survival of juvenile Chinook Salmon have been attributed to the removal of beavers from the landscape (fur trade), mining activities, river simplification, water withdrawals, logging activities, urbanization, avian predation, proliferation of non-native species (e.g., non-native coastal rainbow trout *O. mykiss irideus* and brook trout *Salvelinus fontinalis*), warming streams and rivers, and modifications to downriver migration corridors (e.g., from hydropower projects). Moreover, the abundance of returning adults are further impacted by ocean and downriver harvests, poor ocean conditions, and changes to the spawning migration corridor. Each of these factors have contributed, to varying and unknown extents, to reduced adult escapement, the primary metric used to assess population viability. In response to the decline in Chinook Salmon abundance from the myriad human activities and associated habitat degradation, action agencies have attempted to improve juvenile survival and adult spawning conditions by investing in the rehabilitation of tributary ecosystems.
 
 ***Paragraph 2***
 
-One potentially important, but perhaps under-appreciated source of mortality on Chinook salmon is predation on emigrating juveniles by piscivorious fishes, including both native and non-native species. As an example,...
+One potentially important, but perhaps under-appreciated source of mortality on Chinook salmon is predation on emigrating juveniles by piscivorous fishes, including both native and non-native species. As an example,...
 
   - At this point, I'm thinking leave avian predation out of the equation, but instead include in Discussion
   - and keep focus on the freshwater environment
@@ -91,30 +91,27 @@ One potentially important, but perhaps under-appreciated source of mortality on 
   
 ***Paragraph 3***
 
-* Summary of findings from @Axel2015 and early RT reports and papers (@Ackerman2018a, @Porter2019, @Porter2020) in Deadwater Slough. Recent studies have demonstrated decreased movement and survival of juvenile salmonids emigrating through the Deadwater Slough. @Axel2015 demonstrated decreased rates of emigration and survival for sockeye salmon *Oncorhynchus nerka* from Redfish Lake emigrating during the spring and recent winter telemetry studies have indicated decreased transition probabilities (approximately 10% less than nearby reaches) of juvenile Chinook salmon *Oncorhynchus tschawytscha* through Deadwater Slough during fall and winter months (@Ackerman2018a, @Porter2019, @Porter2020).
+* Summary of findings from @Axel2015 and early RT reports and papers (@Ackerman2018, @Porter2019, @Porter2020) in Deadwater Slough. Recent studies have demonstrated decreased movement and survival of juvenile salmonids emigrating through the Deadwater Slough. @Axel2015 demonstrated decreased rates of emigration and survival for sockeye salmon *Oncorhynchus nerka* from Redfish Lake emigrating during the spring and recent winter telemetry studies have indicated decreased transition probabilities (approximately 10% less than nearby reaches) of juvenile Chinook salmon *Oncorhynchus tschawytscha* through Deadwater Slough during fall and winter months (@Ackerman2018, @Porter2019, @Porter2020).
 * @Axel2015 found increased mortality in a particular reach spanning location x to location y in the mainstem Salmon River on a study of juvenile (hatchery?) sockeye salmon released near Redfish Lake and actively migrating downriver.
   - in their case, these were actively migrating juveniles, and so transitional probabilities can likely be interpreted (almost) directly as survival
   - A previous study showed that the lowest transitional probabilities of Red Fish Lake Sockeye occurred in the Dead Water reach.
-* @Ackerman2018a and @Porter2019, @Porter2020 found reduced (apparent) survival in a reach spanning near the town of North Fork to just downstream of Deadwater Slough.
+* @Ackerman2018 and @Porter2019, @Porter2020 found reduced (apparent) survival in a reach spanning near the town of North Fork to just downstream of Deadwater Slough.
   - in these cases, there's a chance that juvenile Chinook could exhibit concealment behavior prior to winter and so transition probability is interpreted as the probability of a fish surviving AND moving
 * Anecdotally, locals (and others? maybe NOAA?) informed us that northern pikeminnow and perhaps other species are prevalent in Deadwater Slough.
 
-***Paragraph 4***
+Spring/summer Chinook Salmon in the Upper Salmon MPG are stream-type and exhibit two distinct migration tactics; downstream rearing (DSR) and natal reach rearing (NRR) [@Copeland2014]. The DSR migrants leave the natal spawning area as subyearlings between June and November and typically overwinter in downstream, mainstem habitats until the following spring when they emigrate to the ocean as smolts. Alternatively, NRR migrants remain in their natal spawning areas for approximately one year after emergence until emigration to the ocean as smolts. Diversity of migratory tactics provides a mechanism for coping with adverse conditions in freshwater rearing and migration environments and buffers against catastrophic events, thereby increasing population resiliency.
 
-Spring/summer Chinook salmon in the Upper Salmon MPG are stream-type and exhibit two distinct migration tactics, termed downstream rearing (DSR) and natal reach rearing (NRR) by [@Copeland2014]. The DSR migrants leave the natal spawning area as subyearlings during June through November and typically winter in downstream, mainstem habitats prior to emigration to the ocean the following spring as smolts. Alternatively, NRR migrants remain in their natal areas for approximately one year after emergence prior to emigration to the ocean as smolts. The diversity of emigration tactics provides for increases population resiliency due to changes in the freshwater rearing and migration environments and buffers against catastrophic events.
+The Deadwater Slough is located in a reach of the Salmon River that is believed to be a historically important overwinter rearing area for DSR emigrants. Moreover, this reach is part of the migratory pathway for juvenile DSR and NRR emigrants from all eight extant populations. The slough lacks hydrological and structural features (i.e., homogeneous channel with fine substrate) that can provide essential refuge from predation. As a result, predation on juvenile Chinook salmon proximal to the Deadwater Slough has been cited as a concern for the Upper Salmon River MPG, impacting DSR migrants in the fall and NRR emigrants during the spring.
 
-***Paragraph 5***
+We hypothesize that increased densitied of piscivorous predators in the Deadwater Slough area may explain the reduced survival (or apparent survival) observed for juvenile Chinook Salmon [@Ackerman2018] and Sockeye Salmon [@Axel2015]. In this study, we estimated the abundance of a piscivorous fish predator population in the Deadwater Slough and their potential impacts to juvenile salmon emigrants, focusing on DSR and NRR Chinook Salmon. Our objectives for the study were four-fold:
 
-* Some concern arose that predation at or near Deadwater Slough was *not* inconsequential to the Lemhi River Chinook salmon (and adjacent) population(s), impacting both DSR and NRR emigrants
-* We hypothesize that decreases in survival (or apparent survival) of juvenile Chinook salmon (and sockeye?) are largely, or at least partially, due to increased densities of piscivorous predators in the Deadwater Slough area resulting from anthropogenically impacted habitat after the Dump Creek alluvial fan was formed. 
-* Beginning in 2019, we set out to evaluate fish predator populations in the Deadwater Slough and their potential predation upon and impacts to juvenile emigrants from the Lemhi River population, both DSR and NRR.
-* Our objectives are four-fold:
-  1. Estimate the abundance of fish predators in Deadwater Slough during the peaks of fall (DSR) and spring (NRR) juvenile emigrations from the Lemhi River.
-  2. Document (and perhaps quantify) predation on juvenile Chinook salmon during the sampling/emigration periods.
-  3. Using a bioenergetics approach, attempt to estimate the number of juvenile Chinook salmon consumed during some defined fall and/or spring sampling/emigration period.
-  4. After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach)
+1. Estimate the abundance (or relative abundance) of potential predators in the Deadwater Slough during the peaks of fall (DSR) and spring (NRR) juvenile emigrations.
+2. Document predation on juvenile Chinook Salmon during the emigration periods using gastric lavage.
+3. Use a bioenergetics approach to estimate the total consumption of juvenile DSR and NRR Chinook salmon during defined emigration periods.
+4. Quantify the potential impacts of estimated predation on juvenile to Chinook Salmon adult returns.
 
-* Additionally, Deadwater Slough occurs in a reach of the Salmon River believed to be important for overwinter rearing of presmolts attempting to exhibit concealment behavior to survive winter prior to spring emigration to the ocean. Deadwater Slough further contains little to no hydrological or structure features (i.e., fish cover) allowing juvenile salmonids to be predated upon without being able to seek adequate refuge. This is also an extremely important reach and relevant study to the entirety of the upper Salmon River anadromous population(s), as each emigrating fish must pass through the Deadwater area.
+We follow with a discussion of the various assumptions that went into the mark-recapture and bioenergetics models and assessment of impacts to adult returns and how violations of some assumptions may affect overall results and inferences from the study.
+
 
 # Methods
 
@@ -122,7 +119,8 @@ Spring/summer Chinook salmon in the Upper Salmon MPG are stream-type and exhibit
 
 <!-- The following was pulled directly from a technical report, but probably could/should be improved for the manuscript -->
 
-The Deadwater Slough is an approximately two kilometer (km) section of the mainstem Salmon River located rough 5.8 river kms downstream from North Fork, Idaho (publication quality map referenced here). The downstream end of the Deadwater Slough occurs at the confluence of Dump Creek and the Salmon River. Around 1897, a small mining diversion reservoir failed in the Dump Creek drainage, creating upslope instability, causing a large erosion event that deposited large amounts of sediment at the confluence of the Salmon River and Dump Creek (@Emerson1973). The event created a large alluvial fan which backed up the Salmon River creating an approximately 25.3 acre (maybe convert to square meters or kilometers?) reservoir-like area that is unnaturally slow and deep (map reference or image here). The river in this section has slower water velocities, a deepened channel, and (anecdotally) warmer water temperatures which can favor piscivorous fishes (e.g., northern pikeminnow *Ptychocheilus oregonensis*, smallmouth bass *Micropterus dolomieu*). 
+The Deadwater Slough is an approximately two-kilometer (km) section of the mainstem Salmon River locations roughly 5.8 river kms downstream from the town of North Fork, Idaho ***(publication quality map referenced here)***. The downstream end of the Deadwater Slough is located at the confluence of Dump Creek and the Salmon River. Around 1897, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River and Dump Creek [@Emerson1973]. The influx of sediment created a delta that impeded flow of the Salmon River, thereby creating an unnaturally slow and deep section in the river, spanning approximately 25.3 acres. The slower water velocities, deepened channel, and (anecdotally) warmer water temperatures favor piscivorous fishes known to occupy the reach (e.g., northern pikeminnow *Ptychocheilus oregonensis*, smallmouth bass *Micropterus dolomieu*).
+
 
 ## Abundance of Piscivorous Fishes (Objective 1)
 
@@ -194,6 +192,7 @@ Pull material from technical report
 
 Pull material from technical report
 
+  4. After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach)
 
 # Results
 
@@ -224,7 +223,8 @@ Pull material from technical report
 
 # Discussion
 
-Start with a summary of the most important results! How many pikeminnow are there? Did we document/quantify predation? What's the potential impacts to adult returns?
+We estimated the population size of northern pikeminnow in the Deadwater Slough and during the fall emigration period to be greater than ***xx,xxx***. And although we did not attempt to estimate population size during the spring emigration period, the relative abundance measured as CPUE was comparable to that during the fall sampling periods (update statement later). That fall population size estimate translates to ***xxx*** northern pikeminnow per 100 m or ***xxx*** pikeminnow per 100 m^2^. For context, that is similar/more/less than estimates from the Columbia River where predation impacts have been demonstrated as substantial and bounty programs have been implemented to reduce northern pikeminnow abundance. Given that estimate of abundance and some assumptions, we estimated that northern pikeminnow potentially consume between ***xx,xxx*** and ***xx,xxx*** juvenile Chinook salmon during the *x* sampling periods resulting in a reduction of adult returns between ***xxx*** and ***x,xxx***. We suggest that modifications to the habitat due to human activities in the Deadwater Reach has resulted in favorable conditions for northern pikeminnow, including improving conditions for predation upon juvenile Chinook salmon, which has resulted in a consequential impact to ESA-listed Chinook salmon populations in the Upper Salmon River MPG.
+
 
 ## Mark-Recapture Model
 
@@ -238,15 +238,17 @@ Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or o
 
 ## Bioenergetics
 
+What assumptions did we make during the bioenergetics assessment? And how might violations of those assumptions change our estimate of the number of juvenile Chinook salmon consumed and resulting impacts to adult returns?
+
 
 ## Impacts to Adult Returns
+
+Again, what assumptions did we make here and how might violations of those assumptions change our estimate of impacts to adult returns.
 
 
 ## Avian Predation
 
-In the discussion, let's also acknowledge the potential impacts from avian predation. Outside of the scope of the study, but what did we find in the first year? Other large studies that estimate impacts of avian predaton (herons in particular) on juvenile Chinook salmon, especially in altered habitats? Anecdotally, what did we see i.e., we noticed lots of herons traveling to/from the site especially in the anastomosizing section above Deadwater Slough?
-
-* In addition to fish predators the Deadwater Slough is also recognized as an important bird watching and nesting area due to the riparian and backwater habitats created by the feature [(Deadwater Slough - Audubon Important Bird Areas)](https://www.audubon.org/important-bird-areas/deadwater-slough#). 
+Although not formally assessed here, another potential source of predation upon juvenile salmon in the Deadwater Slough is from avian predators including great blue herons *Ardea herodias* and bald eagles *Haliaeetus leucocephalus*. The Deadwater Slough is recognized as an important bird watching and nesting area due to the riparian and backwater habitats created by the feature [(Deadwater Slough - Audubon Important Bird Areas)](https://www.audubon.org/important-bird-areas/deadwater-slough#). During the initial sampling event in 2019, a two-person crew equipped with a mobile passive integrated transponder (PIT) tag antenna walked the entire reach and surrounding and upstream areas scanning for PIT tags. During the informal survey, we did identify nine PIT tags on surfaces surrounding Deadwater Slough, many of which were near nests or in an upstream anastomizing reach where herons and eagles are prevalent. Investigating their tag histories in [PTAGIS](https://www.ptagis.org/), these tags were implanted into a combination of juvenile Chinook Salmon (3), Sockeye Salmon (3), and steelhead (3) suggesting avian predation does occur at and adjacent to the Deadwater Reach, although to an unknown degree. ***Follow up with a brief lit review on avian predation on juvenile Chinook salmon elsewhere***  
 
 
 ## Management Implications
