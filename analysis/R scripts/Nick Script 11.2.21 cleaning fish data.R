@@ -26,7 +26,7 @@ require(MASS)
 require(readr)
 
 #Read in the Deadwater dataset
-deadwater <- read_csv("analysis/data/raw data/deadwater_cmr_effort_20210614.csv") %>%
+deadwater <- read_csv("analysis/data/raw data/deadwater_cmr_effort_20210614.csv") #%>%
   mutate(Date = as.POSIXct(Date, format = "%m/%d/%y"))
 
 NPM = deadwater %>%
