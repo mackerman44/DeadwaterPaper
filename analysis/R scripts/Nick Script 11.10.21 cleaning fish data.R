@@ -37,6 +37,7 @@ Clean_NPM = NPM %>%
   mutate(Fish_or_Parts = case_when(stri_detect_fixed(StomachContents, "Fish") ~ "Fish or Fish Parts",
                                    stri_detect_fixed(StomachContents, "Empty") ~ "Empty",
                                    stri_detect_fixed(Comments, "Whole scuplin") ~ "Fish or Fish Parts",
+                                   stri_detect_fixed(StomachContents, "Whitefish") ~ "Fish or Fish Parts",
                                    TRUE ~ "Other")) %>%
   drop_na(Length) %>%
   mutate(Non_fish_wt = StomachContentsWeight - FishContentWeight)
@@ -167,6 +168,29 @@ Fish_weights_sum = Stomach_content_DF %>%
   drop_na(StomachContentsWeight) %>%
   group_by(Fish_or_Parts) %>%
   summarise(sum(FishContentWeight))
+
+#determining fish spp vs unknown
+
+Num_Hungry_fish = Stomach_content_DF %>%
+  filter(!Fish_or_Parts == "Empty") %>%
+  group_by(Fish_or_Parts) %>%
+  count()
+
+Num_Hungry_fish_YR = Stomach_content_DF %>%
+  filter(!Fish_or_Parts == "Empty") %>%
+  mutate(Year = year(Date)) %>%
+  group_by(Year, Fish_or_Parts) %>%
+  count()
+
+Hungry_fish_DF = Stomach_content_DF %>%
+  filter(Fish_or_Parts == "Fish or Fish Parts") %>%
+  mutate(Fish = case_when(stri_detect_fixed(StomachContents, "Shiner") ~ "Redside Shiner",
+                          stri_detect_fixed(StomachContents, "Whitefish") ~ "Mountin Whitefish",
+                          stri_detect_fixed(StomachContents, "scuplin") ~ "Sculpin",
+                          stri_detect_fixed(StomachContents, "Chinook") ~ "Chinook",
+                          stri_detect_fixed(Comments, "whitefish") ~ "Mountin Whitefish",
+                          stri_detect_fixed(Comments, "scuplin") ~ "Sculpin",
+                          stri_detect_fixed(Comments, "chinook") ~ "Chinook", TRUE ~ "Other"))
 
 
 #esquisse::esquisser(Clean_NPM)
