@@ -26,8 +26,9 @@ require(MASS)
 require(readr)
 
 #Read in the Deadwater dataset
-deadwater <- read_csv("analysis/data/raw data/deadwater_cmr_effort_20210614.csv") #%>%
-  mutate(Date = as.POSIXct(Date, format = "%m/%d/%y"))
+deadwater <- read_csv("analysis/data/raw_data/deadwater_cmr_effort_20210614.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d/%Y"))
+
 
 NPM = deadwater %>%
   filter(Species == "Northern Pikeminnow")
@@ -36,39 +37,41 @@ Clean_NPM = NPM %>%
   mutate(Fish_or_Parts = case_when(stri_detect_fixed(StomachContents, "Fish") ~ "Fish or Fish Parts",
                                    stri_detect_fixed(StomachContents, "Empty") ~ "Empty",
                                    stri_detect_fixed(Comments, "Whole scuplin") ~ "Fish or Fish Parts",
+                                   stri_detect_fixed(StomachContents, "Whitefish") ~ "Fish or Fish Parts",
                                    TRUE ~ "Other")) %>%
   drop_na(Length) %>%
   mutate(Non_fish_wt = StomachContentsWeight - FishContentWeight)
 
 Stomach_content_DF = Clean_NPM %>%
-  dplyr::select(Date, Length, LavageID, StomachContents, Comments, Fish_or_Parts, StomachContentsWeight, Non_fish_wt, FishContentWeight)
+  dplyr::select(Date, Length, LavageID, StomachContents, Comments,
+                Fish_or_Parts, StomachContentsWeight, Non_fish_wt, FishContentWeight) %>%
+  filter(!StomachContents %in% c("Lost sample CG27-001","Did Not Lavage")) %>%
+  drop_na(StomachContents)
 
-unique(Clean_NPM)
 
 #Read in the Bioenergetics
 
-bioenergetics<- read_csv("analysis/data/raw data/2020 Bioenergetics 1 year.csv") %>%
-  mutate(Date = as.POSIXct(Date, format = "%m/%d/%y")) %>%
+bioenergetics<- read_csv("analysis/data/raw_data/2020 Bioenergetics 1 year.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d/%y")) %>%
   mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
-bioenergetics_10percet <- read_csv("analysis/data/raw data/2020 Bioenergetics 1 year 10% growth.csv") %>%
-mutate(Date = as.POSIXct(Date, format = "%m/%d/%y")) %>%
+bioenergetics_10percet <- read_csv("analysis/data/raw_data/2020 Bioenergetics 1 year 10% growth.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d/%y")) %>%
   mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
-Alternative_bioenergetics <- read_csv("analysis/data/raw data/Bioenergetics 32 fish 68 inverts.csv") %>%
-  mutate(Date = as.POSIXct(Date, format = "%m/%d/%y")) %>%
+Alternative_bioenergetics <- read_csv("analysis/data/raw_data/Bioenergetics 32 fish 68 inverts.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d/%y")) %>%
   mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
 #Fall bioenergetics looking at 78 days
 Fall_bioenergetics = Alternative_bioenergetics %>%
-  filter(Date > "2020-08-31") %>%
-  filter(Date < "2020-11-18") %>%
+  filter(Date >= "2020-09-01" & Date <= "2020-11-17") %>%
   mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
   mutate(Date = as.Date(Date))
 
@@ -166,11 +169,33 @@ Fish_weights_sum = Stomach_content_DF %>%
   group_by(Fish_or_Parts) %>%
   summarise(sum(FishContentWeight))
 
+#determining fish spp vs unknown
+
+Num_Hungry_fish = Stomach_content_DF %>%
+  filter(!Fish_or_Parts == "Empty") %>%
+  group_by(Fish_or_Parts) %>%
+  count()
+
+Num_Hungry_fish_YR = Stomach_content_DF %>%
+  filter(!Fish_or_Parts == "Empty") %>%
+  mutate(Year = year(Date)) %>%
+  group_by(Year, Fish_or_Parts) %>%
+  count()
+
+Hungry_fish_DF = Stomach_content_DF %>%
+  filter(Fish_or_Parts == "Fish or Fish Parts") %>%
+  mutate(Fish = case_when(stri_detect_fixed(StomachContents, "Shiner") ~ "Redside Shiner",
+                          stri_detect_fixed(StomachContents, "Whitefish") ~ "Mountin Whitefish",
+                          stri_detect_fixed(StomachContents, "scuplin") ~ "Sculpin",
+                          stri_detect_fixed(StomachContents, "Chinook") ~ "Chinook",
+                          stri_detect_fixed(Comments, "whitefish") ~ "Mountin Whitefish",
+                          stri_detect_fixed(Comments, "scuplin") ~ "Sculpin",
+                          stri_detect_fixed(Comments, "chinook") ~ "Chinook", TRUE ~ "Other"))
+
 
 #esquisse::esquisser(Clean_NPM)
 
 Stomach_contents_per_sizeclass = Clean_NPM %>%
-  filter(Date >= "2020-05-17 23:00:00" & Date <= "2020-11-21 00:00:00") %>%
   filter(Method %in%
            "Angling") %>%
   ggplot() +
@@ -214,8 +239,8 @@ ggsave('analysis/paper/figures/stomach content per sizeclass.jpg',
        width = 8,
        height = 4)
 
-ggsave('analysis/paper/figures/bioenergetics.jpg',
-       Alternative_Bioenergetics_plot,
+ggsave('analysis/paper/figures/Alternative_Bioenergetics.jpg',
+       Alt_Bioenergetics_plot,
        width = 8,
        height = 4)
 
