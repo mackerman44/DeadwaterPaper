@@ -123,9 +123,162 @@ The Deadwater Slough is an approximately 1.5 kilometer section of the mainstem S
 ## Abundance of Piscivorous Fishes (Objective 1)
 
 ```{r cmr-effort-data}
-cmr_df = read_csv("../data/raw_data/deadwater_cmr_effort_20210614.csv") %>%
-  clean_names()
+# cmr_df = read_csv(here("analysis/data/raw_data/deadwater_cmr_effort_20210614.csv")) %>%
+cmr_df = readxl::read_excel(here("analysis/data/raw_data/Deadwater_predation_mark_recapture_11.09.21.xlsx")) %>%
+  clean_names() %>%
+  filter(count > 0) %>%
+  # pull out only Northern Pikeminnow
+  filter(species == "Northern Pikeminnow") %>%
+  # mutate(across(date,
+  #               mdy)) %>%
+  mutate(across(date,
+                ymd)) %>%
+  mutate(across(c(start_time, end_time),
+                ~ ymd_hms(paste(year(date), month(date), day(date), hour(.), minute(.), second(.))))) %>%
+  # split into sampling periods
+  mutate(event_name = if_else(month(date) > 8,
+                              paste("Fall", year(date), sep = "_"),
+                              paste("Spring", year(date), sep = "_")))
 
+effort_df = cmr_df %>%
+  select(event_name,
+         site,
+         date,
+         crew,
+         method,
+         equipment,
+         start_time:total_effort,
+         total_day_effort) %>%
+  distinct() %>%
+  group_by(event_name,
+           date) %>%
+  summarise(across(total_effort,
+                   sum),
+            .groups = "drop") 
+
+cpue_df = effort_df %>%
+  # add how many pikeminnow were caught
+  left_join(cmr_df %>%
+              filter(capture_type != "Recapture") %>%
+              group_by(event_name, species, date) %>%
+              summarise(n_fish = n(),
+                        .groups = "drop")) %>%
+  mutate(cpue = n_fish / total_effort)
+
+```
+
+```{r lincoln-petersen-estimator}
+# using Lincoln-Petersen model, combining first 4 and last four days
+# define mark and recapture periods
+cap_periods = tibble(event_name = "Fall_2019",
+                     cap_period = "Mark",
+                     int = interval(start = ymd('20191112'),
+                                    end = ymd('20191114'))) %>%
+  bind_rows(tibble(event_name = "Fall_2019",
+                   cap_period = "Recapture",
+                   int = interval(start = ymd('20191119'),
+                                  end = ymd('20191121')))) %>%
+  bind_rows(tibble(event_name = "Fall_2020",
+                   cap_period = "Mark",
+                   int = interval(start = ymd('20201020'),
+                                  end = ymd('20201023')))) %>%
+  bind_rows(tibble(event_name = "Fall_2020",
+                   cap_period = "Recapture",
+                   int = interval(start = ymd('20201027'),
+                                  end = ymd('20201030'))))
+
+cmr_df$cap_period = NA_character_
+for(i in 1:nrow(cap_periods)) {
+  my_int = cap_periods$int[i]
+  index = which(cmr_df$date %within% my_int)
+  cmr_df$cap_period[index] = cap_periods$cap_period[i]
+}
+
+LP_mod = cmr_df %>%
+  filter(species == "Northern Pikeminnow") %>%
+  # filter out spring 2021 (no recapture)
+  filter(event_name != "Spring_2021") %>%
+  mutate(mr_type = if_else(cap_period == "Mark" & fish_status == "Live",
+                           "M",
+                           if_else(cap_period == "Recapture",
+                                   if_else(capture_type == "Mark",
+                                           "C",
+                                           if_else(capture_type == "Recapture",
+                                                   "R",
+                                                   NA_character_)),
+                                   NA_character_))) %>%
+  filter(!is.na(mr_type)) %>%
+  group_by(event_name, species) %>%
+  summarise(M = sum(mr_type == "M"),
+            n = sum(mr_type %in% c("C", "R")),
+            m = sum(mr_type == 'R'),
+            .groups = "drop") %>%
+  nest(data = -c(event_name, species)) %>%
+  crossing(model = c("Petersen",
+                     "Chapman")) %>%
+  mutate(mr_mod = map2(data,
+                       model,
+                      .f = function(x, y) {
+                        with(x,
+                             mrClosed(M = M,
+                                      n = n,
+                                      m = m,
+                                      method = y))
+                      }),
+         N_summ = map(mr_mod,
+                      .f = summary,
+                      incl.SE = T),
+         CI = map(mr_mod,
+                  .f = confint)) %>%
+  mutate(N = map_dbl(N_summ,
+                     .f = function(x) x[1]),
+         SE = map_dbl(N_summ,
+                      .f = function(x) x[2]),
+         N.lci = map_dbl(CI,
+                         .f = function(x) x[1]),
+         N.uci = map_dbl(CI,
+                         .f = function(x) x[2])) %>%
+  select(-N_summ, -CI)
+```
+
+```{r schnabel-estimator}
+# using Schnabel model
+N_mods = cmr_df %>%
+  filter(species == "Northern Pikeminnow") %>%
+  # filter out spring 2021 (no recapture)
+  filter(event_name != "Spring_2021") %>%
+  group_by(event_name, species, date, fish_status, capture_type) %>%
+  summarise(n_fish = n(),
+            .groups = "drop") %>%
+  group_by(event_name, species, date) %>%
+  summarise(n = sum(n_fish),
+            m = sum(n_fish[capture_type == "Recapture"]),
+            R = sum(n_fish[fish_status == "Live"]),
+            dead_fish = sum(n_fish[fish_status == "Dead"]),
+            .groups = "drop") %>%
+  group_by(event_name, species) %>%
+  nest() %>%
+  mutate(mod = map(data,
+                   .f = function(x) {
+                     with(x,
+                          mrClosed(n = n,
+                                   m = m,
+                                   R = R,
+                                   method = "Schnabel",
+                                   chapman.mod = TRUE))
+                   }),
+         N = map_dbl(mod,
+                     .f = summary),
+         CI = map(mod,
+                  .f = confint))
+
+N_mods %>%
+  select(species, N, CI) %>%
+  mutate(N.lci = map_dbl(CI,
+                         .f = function(x) x[1]),
+         N.uci = map_dbl(CI,
+                         .f = function(x) x[2])) %>%
+  select(-CI)
 ```
 
 **Data = C/M/R and Effort**
