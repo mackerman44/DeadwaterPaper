@@ -43,22 +43,6 @@ raw_df %>%
   # tabyl(date, capture_type)
   tabyl(fish_status)
 
-# calculate effort
-raw_df %>%
-  select(event_name,
-         site,
-         date,
-         crew,
-         method,
-         equipment,
-         start_time:total_effort,
-         total_day_effort) %>%
-  distinct() %>%
-  group_by(event_name,
-           date) %>%
-  summarise(across(total_effort,
-                   sum),
-            .groups = "drop")
 
 # using Schnabel model
 N_mods = raw_df %>%
@@ -215,3 +199,60 @@ LP_mod %>%
   mutate(range = Uci - Lci,
          prop_range = range / N) %>%
   arrange(event_name, model)
+
+#-----------------------------------------------------------------
+# CPUE
+#-----------------------------------------------------------------
+
+# calculate effort
+cpue_df = raw_df %>%
+  select(event_name,
+         site,
+         date,
+         crew,
+         method,
+         equipment,
+         start_time:total_effort,
+         total_day_effort) %>%
+  distinct() %>%
+  group_by(event_name,
+           date) %>%
+  summarise(across(total_effort,
+                   sum),
+            .groups = "drop") %>%
+  # add how many pikeminnow were caught
+  left_join(raw_df %>%
+              filter(species == "Northern Pikeminnow") %>%
+              filter(capture_type != "Recapture") %>%
+              group_by(event_name, species, date) %>%
+              summarise(n_fish = n(),
+                        .groups = "drop")) %>%
+  mutate(cpue = n_fish / total_effort)
+
+cpue_df %>%
+  ggplot(aes(x = date,
+             y = cpue,
+             color = event_name)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ event_name,
+             scales = 'free_x')
+
+
+cpue_df %>%
+  group_by(species, event_name) %>%
+  summarise(across(c(total_effort, n_fish),
+                   sum),
+            .groups = "drop") %>%
+  mutate(across(total_effort,
+                ~ . / 60)) %>%
+  mutate(cpue = n_fish / total_effort) %>%
+  ggplot(aes(x = event_name,
+             y = cpue,
+             fill = event_name)) +
+  geom_col() +
+  scale_fill_brewer(palette = "Set1",
+                    name = "Event") +
+  labs(x = "Event",
+       y = "CPUE (Pikeminnow caught per hour)") +
+  theme(legend.position = "none")
