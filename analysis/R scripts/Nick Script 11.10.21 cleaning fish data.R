@@ -69,16 +69,25 @@ Alternative_bioenergetics <- read_csv("analysis/data/raw_data/Bioenergetics 32 f
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
+sevendyeight_bioenergetics <- read_csv("analysis/data/raw_data/78_day_bioenergetics.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d/%y")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
 #Fall bioenergetics looking at 78 days
 Fall_bioenergetics = Alternative_bioenergetics %>%
   filter(Date >= "2020-09-01" & Date <= "2020-11-17") %>%
   mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
   mutate(Date = as.Date(Date))
 
+#Fall bioenergetics looking at 78 days
+Fall_bioenergetics_2 = sevendyeight_bioenergetics %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
+  mutate(Date = as.Date(Date))
 
 #Plot of fish eatten
-fall_bioenergetics = Fall_bioenergetics %>%
-  filter(Date >= "2020-09-01" & Date <= "2020-11-17") %>%
+fall_bioenergetics = Fall_bioenergetics_2 %>%
   ggplot() +
   aes(x = Date, y = Cumu_fish_eatten, colour = Temperature_C) +
   geom_line(size = 2.5) +
