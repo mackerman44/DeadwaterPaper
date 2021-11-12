@@ -266,7 +266,7 @@ LP_mod = cmr_df %>%
 ```
 
 ```{r schnabel-estimator, eval = T}
-# using Schnabel model
+# using Schnabel and Schumacher-Eschmeyer estimators
 N_mods = cmr_df %>%
   # filter out spring 2021 (no recapture)
   filter(event_name != "Spring_2021") %>%
@@ -314,15 +314,26 @@ N_mods = cmr_df %>%
   - Fall 2020: Intent was to repeat the above, but instead during peak NRR emigration, but effort canceled due to COVID-19. Instead, sampling was re-schedule to fall when social distancing, etc. could be put in place.
   - Spring 2021: Did a relative abundance effort during spring 2021. Had to reduce to a CPUE (single-week) effort due to funding constraints. However, goal was to 1) document presence during NRR outmigration and 2) estimate CPUE to provide a relative comparison to the fall efforts.
   
-The Chapman-modified Lincoln-Peterson estimator is below, where $M$ is the number of fish marked and returned to the population, $n$ is the number of fish caught in the second/recapture event and $m$ is the number of marked fish in the second sample.
+The Lincoln-Petersen estimator is below, where $M$ is the number of fish marked and returned to the population, $n$ is the number of fish caught in the second/recapture event and $m$ is the number of marked fish in the second sample.
+
+$$
+\hat{N} = \frac{(M)(n)}{(m)}
+$$
+
+  
+The Lincoln-Petersen estimator can be biased with small samples, so we also investigated the Chapman-modified Lincoln-Petersen estimator which is shown below.
 $$
 \hat{N} = \frac{(M + 1)(n + 1)}{(m + 1)} - 1
 $$
-The Schnabel estimator is shown below, where the $M$, $n$ and $m$ are indexed by the sampling occasion, $i$. This estimator does not have an associate standard error, but 95% confidence intervals can be calculated.
+The Schnabel estimator is shown below, where the $M$, $n$ and $m$ are indexed by the sampling occasion, $i$. In our example, the sampling occasions are defined as each day of sampling. This estimator does not have an associate standard error, but 95% confidence intervals can be calculated.
 $$
 \hat{N} = \frac{\sum\limits_{i = 1}^k n_i M_i}{\left(\sum\limits_{i = 1}^k m_i \right) + 1}
 $$
+There is another estimator for this type of multiple census surveys, called the Schumacher-Eschmeyer estimator, which is based on minimizing the weighted sum of squares between the proportion of marked individuals in the sample and the unknown proportion of marked individuals in the population. It is shown below.
 
+$$
+\hat{N} = \frac{\sum\limits_{i = 1}^k n_i M^2_i}{\sum\limits_{i = 1}^k m_i M_i}
+$$
 
 ## Predation Upon Juvenile Chinook Salmon i.e., Gastric Lavage (Objective 2)
 
