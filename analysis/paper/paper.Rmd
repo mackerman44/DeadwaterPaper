@@ -17,6 +17,10 @@ author:
       email: Mike.Hall1@merck.com
       institute: [biomark]
       correspondence: false
+  - Tara E. Blackman:
+      email: tara.blackman@mthoodenvironmental.com
+      institute: [mhe]
+      correspondence: false
   - Michael W. Ackerman:
       email: mike.ackerman@mthoodenvironmental.com
       institute: [biomark, mhe]
