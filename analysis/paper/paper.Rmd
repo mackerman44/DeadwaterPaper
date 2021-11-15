@@ -382,6 +382,38 @@ Pull material from technical report
 
 ## Abundance of Piscivorous Fishes (Objective 1)
 
+```{r abund-data-lp}
+LP_mod %>%
+  select(event_name, species, data) %>%
+  distinct() %>%
+  unnest(data) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  rename(`Sampling Event` = event_name,
+         Species = species) %>%
+  kbl(booktabs = T,
+      format.args = list(big.mark = ","),
+      caption = "Data summary for single census estimators. M is the number of fish caught in the first sample, marked and returned to the population. n is the number of fish caught in the second sample, and m is the number of marked fish caught in the second sample.") %>%
+  kable_styling()
+```
+
+```{r abund-data-schn}
+N_mods %>%
+  select(event_name, species, data) %>%
+  distinct() %>%
+  unnest(data) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  rename(`Sampling Event` = event_name,
+         Species = species,
+         Date = date) %>%
+  kbl(booktabs = T,
+      format.args = list(big.mark = ","),
+      caption = "Data summary for multiple census estimators. n is number of fish caught, m is the number of marked fish caught, u is the number of unmarked fish caught, and R is the number of marked fish returned to the population.") %>%
+  kable_styling()
+```
+
+
 ```{r abund-est}
 all_est = LP_mod %>%
   select(event_name, species, model, N:Uci) %>%
