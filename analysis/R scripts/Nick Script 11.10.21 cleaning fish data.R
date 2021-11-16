@@ -158,6 +158,11 @@ Alt_Bioenergetics_plot
 
 Clean_NPM$NPM_50=lencat(Clean_NPM$Length, w = 50)
 
+PSD_DF = Clean_NPM %>%
+  group_by(NPM_50) %>%
+  summarise(n = n())
+
+
 Stomach_catagories_sum = Stomach_content_DF %>%
   drop_na(StomachContentsWeight) %>%
   group_by(Fish_or_Parts) %>%
