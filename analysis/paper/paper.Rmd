@@ -115,15 +115,16 @@ One potentially important, but perhaps under-appreciated source of mortality on 
   - literature review of northern pikeminnow, smallmouth bass, other? predation on juvenile Chinook salmon, particulary from the Snake and Columbia rivers
   - still stay away from avian predation
   
-***Paragraph 3***
+An estimated 200 million juvenile salmonids emigrate through the lower Snake and Columbia rivers, annually. Of those, approximately 16.4 million (8%) are consumed by northern pikeminnow [Beamesderfer1996]. @Peterson1994 estimated that the annual loss of juvenile salmonids to northern pikeminnow to be 7.3% of all juvenile salmonids entering the John Day Reservoir. Additionally, 78% of these salmonids consumed near a dam were consumed when alive [@Peterson1994]. Dams are known to be areas of predation, but @Ward1995 estimated that 48% of predation is occurring away from dams in mid-reservoir areas. Most of the research has been targeted around dams and reservoirs, but there are areas functioning similar to a reservoir in the rivers upstream. One of these areas is the Deadwater Slough in the Salmon River. The Deadwater Slough is a 25.3-acre area that is unnaturally slow and deep within the Salmon River and resembles a small reservoir (Figure \@ref(fig:map)). This unnatural area has little to no cover, higher depth, and fine substrate which favor piscivorous fish predators (e.g., northern pikeminnow *Ptychocheilus oregonensis*, smallmouth bass *Micropterus dolomieu*) [@Watkins2015]. @Axel2015 demonstrated decreased rates of emigration and apparent survival for Sockeye Salmon *Oncorhynchus nerka* from Redfish Lake emigrating during the spring. Further, recent winter telemetry studies have indicated decreased transition probabilities (approximately 10% less than surrounding reaches) of juvenile Chinook salmon through Deadwater Slough during fall and winter months [@Ackerman2018; @Porter2019].
 
-* Summary of findings from @Axel2015 and early RT reports and papers (@Ackerman2018, @Porter2019, @Porter2020) in Deadwater Slough. Recent studies have demonstrated decreased movement and survival of juvenile salmonids emigrating through the Deadwater Slough. @Axel2015 demonstrated decreased rates of emigration and survival for sockeye salmon *Oncorhynchus nerka* from Redfish Lake emigrating during the spring and recent winter telemetry studies have indicated decreased transition probabilities (approximately 10% less than nearby reaches) of juvenile Chinook salmon *Oncorhynchus tschawytscha* through Deadwater Slough during fall and winter months (@Ackerman2018, @Porter2019, @Porter2020).
+<!--
 * @Axel2015 found increased mortality in a particular reach spanning location x to location y in the mainstem Salmon River on a study of juvenile (hatchery?) sockeye salmon released near Redfish Lake and actively migrating downriver.
   - in their case, these were actively migrating juveniles, and so transitional probabilities can likely be interpreted (almost) directly as survival
   - A previous study showed that the lowest transitional probabilities of Red Fish Lake Sockeye occurred in the Dead Water reach.
 * @Ackerman2018 and @Porter2019, @Porter2020 found reduced (apparent) survival in a reach spanning near the town of North Fork to just downstream of Deadwater Slough.
   - in these cases, there's a chance that juvenile Chinook could exhibit concealment behavior prior to winter and so transition probability is interpreted as the probability of a fish surviving AND moving
 * Anecdotally, locals (and others? maybe NOAA?) informed us that northern pikeminnow and perhaps other species are prevalent in Deadwater Slough.
+-->
 
 Spring/summer Chinook Salmon in the Upper Salmon MPG are stream-type and exhibit two distinct migration tactics; downstream rearing (DSR) and natal reach rearing (NRR) [@Copeland2014]. The DSR migrants leave the natal spawning area as subyearlings between June and November and typically overwinter in downstream, mainstem habitats until the following spring when they emigrate to the ocean as smolts. Alternatively, NRR migrants remain in their natal spawning areas for approximately one year after emergence until emigration to the ocean as smolts. Diversity of migratory tactics provides a mechanism for coping with adverse conditions in freshwater rearing and migration environments and buffers against catastrophic events, thereby increasing population resiliency.
 
@@ -146,7 +147,7 @@ We follow with a discussion of the various assumptions that went into the mark-r
 The Deadwater Slough is an approximately 1.5 kilometer section of the mainstem Salmon River located roughly 5.8 river kilometers downstream from the town of North Fork, Idaho (Figure \@ref(fig:map)). The downstream end of the slough is located at the confluence of Dump Creek and the Salmon River. Around 1897, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River, thereby creating an unnaturally slow and deep section in the river, spanning approximately 30 acres and averaging 68 m width. Both northern pikeminnow *Ptychocheilus oregonensis* and smallmouth bass *Micropterus dolomieu* inhabit the slough which likely provides favorable conditions for their feeding and growth (e.g., reduced water velocity, deep channel, warmer water temperature).
 
 
-## Abundance of Piscivorous Fishes (Objective 1)
+## Abundance of Piscivorous Fishes
 
 ```{r cmr-effort-data}
 raw_df = readxl::read_excel(here("analysis/data/raw_data/Deadwater_predation_mark_recapture_11.09.21.xlsx")) %>%
@@ -334,24 +335,19 @@ There is another estimator for this type of multiple census surveys, called the 
 $$
 \hat{N} = \frac{\sum\limits_{i = 1}^k n_i M^2_i}{\sum\limits_{i = 1}^k m_i M_i}
 $$
-
-## Predation Upon Juvenile Chinook Salmon i.e., Gastric Lavage (Objective 2)
-
-**Data = Gastric Lavage Data**
-
-The goal was to document predation upon juvenile Chinook salmon (or other targets), and ideally, estimate the proportion of their diet that consisted of juvenile Chinook salmon at the time of sampling?
-
-* Which individuals was gastric lavage performed upon?
-* How was gastric lavage performed?
-* Intent was to quantify predation on juvenile Chinook salmon
-  - or incidentally, juvenile steelhead or sockeye salmon
-  
-<!-- below pulled from technical report -->
-
-We collected stomach contents from most captured individuals using gastric lavage (@Foster1977) and examined contents for the presence or absence of juvenile Chinook salmon and other incidentals (e.g., steelhead, sockeye salmon) juveniles and the proportion of stomach contents containing targets versus non-targets (e.g., macroinvertebrates). Stomach contents were stored in whirl-paks, preserved with 99% isopropyl alcohol, and analyzed one week later in a controlled environment. Each sample was uniquely identified to match up with the appropriate fish record, contents were identified down to its unique composition, total weight of all content was measured in grams, and total weight of fish content, if found, was measured in grams. Throughout the sampling period a proportion of the captured individuals were sacrificed after gastric lavage to validate that the gastric lavage was successful at flushing all or most of the stomach contents from the northern pikeminnow.
+We additionally calculated the proportional stock density (PSD) of northern pikeminnow with 300 mm total length (TL) for stock and 400 mm TL for quality.
+$$
+PSD_{i} = 100 * \frac{FQ_{i}}{FS_{i}}
+$$
+where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$.
 
 
-## Bioenergetics (Objective 3)
+## Predation On Juvenile Chinook Salmon
+
+We were interested in documenting potential consumption of juvenile Chinook Salmon by northern pikeminnow, and ideally, estimate the proportion of their diet consisting of juvenile Chinook Salmon at the time of sampling. To accomplish this, we collected stomach contents using gastric lavage as described in @Foster1977 and examined contents for the presence or absence of juvenile Chinook Salmon or other incidentals (e.g., steelhead, Sockeye Salmon, Redside Shiner, etc.), and the proportion of any stomach contents containing fish or fish parts versus non-targets (e.g., macroinvertebrates, organic matter, etc.). Stomach contents were stored in whirl-paks, preserved with 99% isopropyl alcohol, and analyzed within the following week in a controlled environment. Each sample was uniquely identified to match up with the appropriate fish record, contents were identified down to their unique composition, total weight of all content was measured as wet weight in grams, and total weight of fish content, if found, was measured in grams. Fish and fish parts were identified down to species, if possible, or categorized as unknown if unidentifiable. Throughout the sampling periods a subset of the capture individuals were sacrificed after gastric lavage to validate whether gastric lavage was successful at flushing stomach contents from the northern pikeminnow.
+
+
+## Bioenergetics
 
 ```{r shoup-temp-data}
 temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
@@ -365,22 +361,21 @@ temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Sh
 
 ```
 
-**Data = Temperature, Bioenergetics Inputs, Others?**
+To estimate the impacts from northern pikeminnow on juvenile Chinook Salmon outmigrants in Deadwater Slough, we used an R-based application of Fish Bioenergetics v4.0 developed by @Deslauriers2017. We estimated a daily rate of consumption for an individual northern pikeminnow based on predator and prey energy densities, water temperatures, and predator start and end weights. We also ran two alternative models one with a year of temperature inputs from 2019, and another with the same temperature inputs but a 10% growth in weight of the average pikeminnow at the end of the model. The average length of northern pikeminnow captured at the Deadwater Slough during our study was 370.6 mm which calculates to an average starting weight of 847 g using the FSA package (@Ogle2019) in R which provides a weight-length formula for northern pikeminnow sourced from @Parker1995. Predator energy density for northern pikeminnow was available in the Bioenergetics v4.0 application and was fixed at 6,703 Joules(J)/g. Prey energy densities was taken from @Moss2016 where they estimated juvenile Chinook Salmon at 21,500 J/g. Using these temperatures, weights, and energy inputs, we estimated a total consumption in grams for an individual norther pikeminnow within Deadwater Slough.
 
-Pull material from technical report
+We ran three bioenergetic models for this study. First, we chose a 78-day period from September 1 through November 17 where we know Chinook Salmon DSR emigrants begin to enter the mainstem Salmon River from natal tributaries (e.g., Lemhi River) and begin to migrate downstream, but when temperatures are still high enough that juveniles are not yet exhibiting concealment behavior or torpor. The second model was still assuming no growth but taking the entire year into account for the model rather than the 78-day fall period. The assumption of no growth for pikeminnow was included to show what may be occurring if the population of northern pikeminnow is stable. If growther of the population is occurring, the alternative model shows how an increase of 10% body weight changes the estimates of consumption over a full year period. To estimate the number of possible Chinook Salmon that could be consumed, we assumed a weight of 12 g per individual chinook Salmon. This weight was an average from juvenile Chinook salmon emigrating past six rotary screw traps operating in the Upper Salmon above Deadwater Slough including traps in the Lemhi, Pahsimeroi, and North Fork Salmon rivers and one trap operating near the Sawtooth hatchery.
 
 
-## Impacts to Adult Returns (Objective 4)
+## Impacts to Adult Returns
 
-**Data = SARs, Adult Escapements, Others?**
+Text here...
 
-Pull material from technical report
+<!-- After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach) -->
 
-  4. After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach)
 
 # Results
 
-## Abundance of Piscivorous Fishes (Objective 1)
+## Abundance of Piscivorous Fishes
 
 ```{r abund-data-lp}
 LP_mod %>%
@@ -412,7 +407,6 @@ N_mods %>%
       caption = "Data summary for multiple census estimators. n is number of fish caught, m is the number of marked fish caught, u is the number of unmarked fish caught, and R is the number of marked fish returned to the population.") %>%
   kable_styling()
 ```
-
 
 ```{r abund-est}
 all_est = LP_mod %>%
@@ -483,25 +477,38 @@ cpue_df %>%
 
 ```
 
+<!--
 * Total population estimates of Pike Minnow. Chart or table, but likely a chart.
 * What is that equate to as a density? e.g., how many pikeminnow per 10 square meters? Is that a reasonable number?
+-->
+
+PSD for northern pikeminnow across all three years was 42.26% or 42.26% of fish were over the quality size classification 400 mm TL we denoted in the Methods, demonstrating a high percentage of above average size classs present within Deadwater Slough.
 
 
-## Predation Upon Juvenile Chinook Salmon i.e., Gastric Lavage (Objective 2)
+## Predation On Juvenile Chinook Salmon
 
-*	Gastric lavage sampling results. What percent of the diet is chinook salmon from each sampling event. Pie chart? Mike loves pie charts.
+During 2019, 660 northern pikeminnow were gastric lavaged. Of those fish, 603 had empty stomachs, 57 had stomach contents, 12 had fish parts, and of those 12 with fish parts 1 MWF and 2 shiners. During the 2020 season 805 northern pikeminnow were gastric lavaged with 613 empty stomachs, 188 with stomach contents and 23 with fish parts. Out of the 23 stomachs with fish parts present 10 were unknown, 6 red sided shiner, 4 suckers, 2 sculpin, and 1 chinook. In 2021, we had 105 stomach samples with 98 being non-fish and 7 having fish or fish parts.
 
+<!--- Need to add Nick's gastric lavage table here -->
 
-## Bioenergetics (Objective 3)
+## Bioenergetics
 
+<!-- Need to add Nick's figures here -->
+
+Over the fall time period a single northern pikeminnow is modeled to eat 61 g of fish. If we extrapolate this out to the potential effect the estimated population of ***xx,xxx***, then ***xxx,xxx*** g of fish are being eaten each fall during the migration of juvenile Chinook salmon having the potential to consume ***xxx** juvenile Chinook as a discrete population.
+
+Over the point of a whole year, a single northern pikeminnow is modeled to eat 283 g of fish and 613 g of other food types.
+
+<!--
 * Water Temperature measurements.
     *	Hobo tidbit placed at site. 
     *	Calculated daily average water temperature for 365 days of the year.
 *	Water temperature plot for the 365 average.
 *	Bioenergetics results. Total mass consumed over a 365 day period. Plot of daily consumption with day of year on x and mass on y.
+-->
 
 
-## Impacts to Adult Returns (Objective 4)
+## Impacts to Adult Returns
 
 *	SAR results. Maybe a plot of multiple scenarios depending on gastric lavage results? And pop estimates if they vary in time.
 
@@ -513,13 +520,18 @@ We estimated the population size of Northern Pikeminnow in the Deadwater Slough 
 
 ## Mark-Recapture Model
 
+<!--
 Re-hash out our assumptions? What assumptions were most likely violated e.g., the closed population assumption? If we assumed an open population with varying immigration/emigration rates how might that affect our estimate? In the end, how good do we think our estimate is and is the bottom-line that we belive there still to be a shit-ton of pikeminnow even if our assumptions were violated?
+-->
 
 
 ## Gastric Lavage
 
-Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or other fishes) in a very small number of stomach contents. However, we don't necessarily believe that to mean that pikeminnow in Deadwater Slough rarely consume juvenile Chinook salmon. Are there other cases where gastric lavage failed to document predation? How soon after consumption do you need to take a sample? So instead, we made some assumptions about the proportion of a pikeminnows diet consisting of Chinook salmon.
+We were able to gastric lavage the majority of fish collected including some non-predatory species. We euthanized nine northern pikeminnow for dissection to confirm that the gastric lavage was effective in removing stomach contents. Our results support the findings the previous year that dissected individuals that the dissected gastric lavage was effective in removing stomach contents (@Lott2020). Additionally , we found that the fish captured in trap-nets had a similar proportion of stomach content samples. Of those, 1,214 (76.2%) were completely empty, 345 (21.6%) had stomach contents, and 35 (2.2%) contained fish parts. We were able to identify juvenile shiners, a largescale sucker, sculpin, mountain whitefish, and one Chinook Salmon within stomach contents, but most samples were too digested to identify to species.
 
+<!--
+Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or other fishes) in a very small number of stomach contents. However, we don't necessarily believe that to mean that pikeminnow in Deadwater Slough rarely consume juvenile Chinook salmon. Are there other cases where gastric lavage failed to document predation? How soon after consumption do you need to take a sample? So instead, we made some assumptions about the proportion of a pikeminnows diet consisting of Chinook salmon.
+-->
 
 ## Bioenergetics
 
@@ -538,13 +550,15 @@ Although not formally assessed in this study, avian predators including Great Bl
 
 ## Management Implications
 
-Discuss the potential for various management actions:
-* Removing the Dump Creek alluvial fan and restoring flow. What would that look like?
-* A local bounty program? What would that look like? Have they been successful elsewhere e.g., in the Columbia River?
+We estimated that consumption of juvenile Chinook Salmon by northern pikeminnow in the Deadwater Slough potentially reduces annual adult returns by ***xxx - x,xxx*** to upriver populations. Presumably, that reduction in adult returns impacts both the ESA-listed natural populations in the Upper Salmon River MPG plus the two hatchery populations in the Upper Salmon, Pahsimeroi and Sawtooth hatcheries, which provide for recreational fishing opportunities. Fisheries managers desire increased adult returns to both aide in the recovery of natural populations as well as to provide additional harvest in recreational fisheries to boost local economies. A reduction in predation mortality at Deadwater Slough on juvenile Chinook Salmon has potential to benefit multiple upriver natural and hatchery populations, in contrast to typical tributary habitat rehabilition actions which typically benefit a single population. Moreover, the deepened, slack water conditions that favor northern pikeminnow at Deadwater Slough are indirectly the result of manmade activities i.e., the failure of a manmade mining reservoir dam. Given these reasons, it seems that Deadwater Slough could be a candidate for management or restoration actions to benefit local Chinook Salmon populations.
 
-* Deadwater is an opportunity to benefit multiple (6 or 7) local populations with a single management or restoration action.
 
-*	Also, this is an anthropogenically created dead water area, which could be a candidate for restoration (removing the impoundment). Is there anything in the literature that discusses habitat preferences for pike minnow? If we speed up velocities and add some cover potentially pike minnow predation success will be lowered. Will these fish just move elsewhere? 
+
+We see two potential management actions: 1) removing the Dump Creek delta to restore flow and 2) a local northern pikeminnow bounty program to encourage harvest of northern pikeminnow in Deadwater Slough. 
+
+
+
+Is there anything in the literature that discusses habitat preferences for pike minnow? If we speed up velocities and add some cover potentially pike minnow predation success will be lowered. Will these fish just move elsewhere? 
 
 
 ## Conclusions
@@ -555,7 +569,7 @@ Discuss the potential for various management actions:
 
 # Acknowledgements
 
-<!--Please feel free to add others that I missed or improve*** -->
+<!-- Please feel free to add others that I missed or improve -->
 
 The authors extent much appreciation to the many volunteers who assisted with field efforts including collaborators from Bureau of Reclamation, Idaho Department of Fish and Game, and Lemhi Regional Land Trust, among others. This manuscript benefited from reviews and contributions from colleagues at the Idaho Governor's Office of Species Conservation, Rio Applied Science and Engineering, and from Sean Gibbs and Ben Briscoe at Mount Hood Environmental. Funding for this study was provided by the Bureau of Reclamation, Pacific Northwest Regional Office (contract No. 140R1021F0018). Special thanks to Caitlin Alcott and Inter-Fluve for their administrative support and guidance.
 
