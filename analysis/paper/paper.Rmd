@@ -98,6 +98,13 @@ options(knitr.kable.NA = '-')
 # set default theme for figures
 theme_set(theme_bw())
 
+# when knitting to Word, use this
+doc.type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
+
+if(doc.type == 'docx') {
+  options(knitr.table.format = "pandoc")
+}
+
 ```
 
 \newpage
@@ -378,37 +385,6 @@ Text here...
 
 ## Abundance of Piscivorous Fishes
 
-```{r abund-data-lp}
-LP_mod %>%
-  select(event_name, species, data) %>%
-  distinct() %>%
-  unnest(data) %>%
-  mutate(across(event_name,
-                ~ str_replace(., "_", " "))) %>%
-  rename(`Sampling Event` = event_name,
-         Species = species) %>%
-  kbl(booktabs = T,
-      format.args = list(big.mark = ","),
-      caption = "Data summary for single census estimators. M is the number of fish caught in the first sample, marked and returned to the population. n is the number of fish caught in the second sample, and m is the number of marked fish caught in the second sample.") %>%
-  kable_styling()
-```
-
-```{r abund-data-schn}
-N_mods %>%
-  select(event_name, species, data) %>%
-  distinct() %>%
-  unnest(data) %>%
-  mutate(across(event_name,
-                ~ str_replace(., "_", " "))) %>%
-  rename(`Sampling Event` = event_name,
-         Species = species,
-         Date = date) %>%
-  kbl(booktabs = T,
-      format.args = list(big.mark = ","),
-      caption = "Data summary for multiple census estimators. n is number of fish caught, m is the number of marked fish caught, u is the number of unmarked fish caught, and R is the number of marked fish returned to the population.") %>%
-  kable_styling()
-```
-
 ```{r abund-est}
 all_est = LP_mod %>%
   select(event_name, species, model, N:Uci) %>%
@@ -423,15 +399,7 @@ all_est = LP_mod %>%
   arrange(event_name, model)
 ```
 
-```{r abund-tab}
-all_est %>%
-  select(-c(species, range:prop_range)) %>%
-  rename(`Sampling Event` = event_name,
-         Estimator = model) %>%
-  kbl(booktabs = T,
-      format.args = list(big.mark = ",")) %>%
-  kable_styling()
-```
+
 
 ```{r abund-fig, fig.cap = "Estimates of abundance of northern pikeminnow using different estimators."}
 all_est %>%
@@ -588,6 +556,55 @@ The authors extent much appreciation to the many volunteers who assisted with fi
 # Tables
 
 <div id="tables"></div>
+
+```{r abund-data-lp}
+LP_mod %>%
+  select(event_name, species, data) %>%
+  distinct() %>%
+  unnest(data) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  rename(`Sampling Event` = event_name,
+         Species = species) %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        caption = "Data summary for single census estimators. M is the number of fish caught in the first sample, marked and returned to the population. n is the number of fish caught in the second sample, and m is the number of marked fish caught in the second sample.") %>%
+  kable_styling()
+
+```
+
+\newpage
+
+```{r abund-data-schn}
+N_mods %>%
+  select(event_name, species, data) %>%
+  distinct() %>%
+  unnest(data) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  rename(`Sampling Event` = event_name,
+         Species = species,
+         Date = date) %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        caption = "Data summary for multiple census estimators. n is number of fish caught, m is the number of marked fish caught, u is the number of unmarked fish caught, and R is the number of marked fish returned to the population.") %>%
+  kable_styling()
+
+```
+
+\newpage
+
+```{r abund-tab}
+all_est %>%
+  select(-c(species, range:prop_range)) %>%
+  rename(`Sampling Event` = event_name,
+         Estimator = model) %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        caption = "Temporary caption.") %>%
+  kable_styling()
+
+```
 
 \newpage
 
