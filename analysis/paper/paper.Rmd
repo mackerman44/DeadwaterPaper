@@ -401,50 +401,8 @@ all_est = LP_mod %>%
 
 
 
-```{r abund-fig, fig.cap = "Estimates of abundance of northern pikeminnow using different estimators."}
-all_est %>%
-  mutate(across(c(N, Lci, Uci),
-                 ~ . / 1000)) %>%
-  ggplot(aes(x = model,
-             y = N,
-             color = model)) +
-  geom_errorbar(aes(ymin = Lci,
-                    ymax = Uci),
-                width = 0.1) +
-  geom_point(size = 4) +
-  facet_wrap(~ event_name) +
-  scale_color_brewer(palette = "Set1") +
-  coord_cartesian(ylim = c(0, 100)) +
-  labs(x = "Estimator",
-       y = "Pikeminnow Abundance (x 1,000)") +
-  theme(legend.position = "none",
-        axis.text.x = element_text(angle = 45,
-                                   hjust = 1))
 
-```
 
-```{r cpue-fig, fig.cap = "Total catch per unit effort across entire sampling event."}
-cpue_df %>%
-  mutate(across(event_name,
-                ~ str_replace(., "_", " "))) %>%
-  group_by(species, event_name) %>%
-  summarise(across(c(total_effort, n_fish),
-                   sum),
-            .groups = "drop") %>%
-  mutate(across(total_effort,
-                ~ . / 60)) %>%
-  mutate(cpue = n_fish / total_effort) %>%
-  ggplot(aes(x = event_name,
-             y = cpue,
-             fill = event_name)) +
-  geom_col() +
-  scale_fill_brewer(palette = "Set1",
-                    name = "Event") +
-  labs(x = "Event",
-       y = "CPUE (Pikeminnow caught per hour)") +
-  theme(legend.position = "none")
-
-```
 
 <!--
 * Total population estimates of Pike Minnow. Chart or table, but likely a chart.
@@ -614,6 +572,55 @@ all_est %>%
 
 ```{r map, out.width = "85%", fig.cap = "Map of the Deadwater Slough study area. The high-resolution orthoimage portion directly surrounding the Deadwater Slough was generated from aerial images taken by a drone. The red polygon indicates the reach characterized by unnaturally slow water velocities and a deepened channel. The location of the Dump Creek delta is indicated."}
 knitr::include_graphics("../figures/deadwater_map_low_res.png")
+
+```
+
+\newpage
+
+```{r abund-fig, fig.cap = "Estimates of abundance of northern pikeminnow using different estimators."}
+all_est %>%
+  mutate(across(c(N, Lci, Uci),
+                 ~ . / 1000)) %>%
+  ggplot(aes(x = model,
+             y = N,
+             color = model)) +
+  geom_errorbar(aes(ymin = Lci,
+                    ymax = Uci),
+                width = 0.1) +
+  geom_point(size = 4) +
+  facet_wrap(~ event_name) +
+  scale_color_brewer(palette = "Set1") +
+  coord_cartesian(ylim = c(0, 100)) +
+  labs(x = "Estimator",
+       y = "Pikeminnow Abundance (x 1,000)") +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+
+```
+
+\newpage
+
+```{r cpue-fig, fig.cap = "Total catch per unit effort across entire sampling event."}
+cpue_df %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  group_by(species, event_name) %>%
+  summarise(across(c(total_effort, n_fish),
+                   sum),
+            .groups = "drop") %>%
+  mutate(across(total_effort,
+                ~ . / 60)) %>%
+  mutate(cpue = n_fish / total_effort) %>%
+  ggplot(aes(x = event_name,
+             y = cpue,
+             fill = event_name)) +
+  geom_col() +
+  scale_fill_brewer(palette = "Set1",
+                    name = "Event") +
+  labs(x = "Event",
+       y = "CPUE (Pikeminnow caught per hour)") +
+  theme(legend.position = "none")
 
 ```
 
