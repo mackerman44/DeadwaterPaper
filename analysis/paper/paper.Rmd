@@ -352,7 +352,7 @@ where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $
 
 ## Predation On Juvenile Chinook Salmon
 
-We were interested in documenting potential consumption of juvenile Chinook Salmon by northern pikeminnow, and ideally, estimate the proportion of their diet consisting of juvenile Chinook Salmon at the time of sampling. To accomplish this, we collected stomach contents using gastric lavage as described in @Foster1977 and examined contents for the presence or absence of juvenile Chinook Salmon or other incidentals (e.g., steelhead, Sockeye Salmon, Redside Shiner, etc.), and the proportion of any stomach contents containing fish or fish parts versus non-targets (e.g., macroinvertebrates, organic matter, etc.). Stomach contents were stored in whirl-paks, preserved with 99% isopropyl alcohol, and analyzed within the following week in a controlled environment. Each sample was uniquely identified to match up with the appropriate fish record, contents were identified down to their unique composition, total weight of all content was measured as wet weight in grams, and total weight of fish content, if found, was measured in grams. Fish and fish parts were identified down to species, if possible, or categorized as unknown if unidentifiable. Throughout the sampling periods a subset of the capture individuals were sacrificed after gastric lavage to validate whether gastric lavage was successful at flushing stomach contents from the northern pikeminnow.
+Gastric lavage [@Foster1977] was used to examine the stomach contents of Northern Pikeminnow for the presence of juvenile Chinook Salmon, other fishes (e.g., juvenile steelhead, juvenile Sockeye Salmon, Redside Shiner, etc.), and non-targets (e.g., macroinvertebrates, organic matter, etc.). Stomach contents were preserved with 99% isopropyl alcohol in whirl-paks and analyzed in a laboratory. For each sample, wet weight (grams) was recorded for the combined stomach content and for the fish content. Fish and fish remnants were identified to the lowest taxonomic unit, when possible, or were categorized as unknown. A subset of Northern Pikeminnow captures were euthanized for dissection after gastric lavage to validate the efficacy of the methodology.
 
 
 ## Bioenergetics
@@ -634,6 +634,8 @@ This report was generated on `r Sys.time()` using the following computational en
 # which R packages and versions?
 if ("devtools" %in% installed.packages()) devtools::session_info()
 ```
+
+\newpage
 
 The current Git commit details are:
 
