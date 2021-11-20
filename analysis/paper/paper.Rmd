@@ -91,6 +91,7 @@ library(here)
 library(FSA)
 library(knitr)
 library(kableExtra)
+library(stringi)
 
 # format NA values in tables
 options(knitr.kable.NA = '-')
@@ -351,6 +352,22 @@ where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $
 
 
 ## Predation On Juvenile Chinook Salmon
+
+```{r gastric-data}
+gastric_df = raw_df %>%
+  filter(species == "Northern Pikeminnow") %>%
+  mutate(fish_or_parts = case_when(stri_detect_fixed(stomach_contents, "Fish") ~ "Fish or Fish Parts",
+                                   stri_detect_fixed(stomach_contents, "Empty") ~"Empty",
+                                   stri_detect_fixed(comments, "Whole scuplin") ~ "Fish or Fish Parts",
+                                   stri_detect_fixed(stomach_contents, "Whitefish") ~ "Fish or Fish Parts",
+                                   TRUE ~ "Other")) %>%
+  drop_na(length) %>%
+  mutate(non_fish_wt = stomach_contents_weight - fish_content_weight) %>%
+  dplyr::select(date, length, lavage_id, stomach_contents, comments, fish_or_parts, stomach_contents_weight, non_fish_wt,                  fish_content_weight) %>%
+  filter(!stomach_contents %in% c("Lost sample CG27-001", "Did Not Lavage")) %>%
+  drop_na(stomach_contents)
+  
+```
 
 Gastric lavage [@Foster1977] was used to examine the stomach contents of Northern Pikeminnow for the presence of juvenile Chinook Salmon, other fishes (e.g., juvenile steelhead, juvenile Sockeye Salmon, Redside Shiner, etc.), and non-targets (e.g., macroinvertebrates, organic matter, etc.). Stomach contents were preserved with 99% isopropyl alcohol in whirl-paks and analyzed in a laboratory. For each sample, wet weight (grams) was recorded for the combined stomach content and for the fish content. Fish and fish remnants were identified to the lowest taxonomic unit, when possible, or were categorized as unknown. A subset of Northern Pikeminnow captures were euthanized for dissection after gastric lavage to validate the efficacy of the methodology.
 
