@@ -78,6 +78,7 @@ knitr::opts_chunk$set(
   fig.path = "../figures/",
   dpi = 300
 )
+
 ```
 
 ```{r load-libraries}
@@ -112,11 +113,13 @@ if(doc.type == 'docx') {
 
 # Introduction
 
-The Upper Salmon River major population group (MPG) supports eight independent, extant spring/summer Chinook Salmon *Oncorhynchus tshawytscha* populations including Salmon River (above Redfish Lake), Valley Creek, Yankee Fork Salmon River, East Fork Salmon River, Salmon River (mainstem below Redfish), Pahsimeroi River, Lemhi River, and North Fork Salmon River [@NOAA2017]. At least five of these eight populations must meet criteria set forth by @McElhany2000 and @ICTRT2007 for the MPG to be considered viable and for the recovery of the Snake River Evolutionary Significant Unit (ESU). Populations within the ESU have substantial cultural value, support downriver mainstem Snake and Columbia River commercial and subsistence fisheries, and support local fisheries and economies in years with sufficient abundance. All populations within the Upper Salmon River MPG have become depleted in recent decades. Declines in survival of juvenile Chinook Salmon have been attributed to the removal of beavers from the landscape (fur trade), mining activities, river simplification, water withdrawals, logging activities, urbanization, avian predation, proliferation of non-native species (e.g., non-native coastal rainbow trout *O. mykiss irideus* and brook trout *Salvelinus fontinalis*), warming streams and rivers, and modifications to downriver migration corridors (e.g., from hydropower projects). Moreover, the abundance of returning adults are further impacted by ocean and downriver harvests, poor ocean conditions, and changes to the spawning migration corridor. Each of these factors have contributed, to varying and unknown extents, to reduced adult escapement, the primary metric used to assess population viability. In response to the decline in Chinook Salmon abundance from the myriad human activities and associated habitat degradation, action agencies have attempted to improve juvenile survival and adult spawning conditions by investing in the rehabilitation of tributary ecosystems.
+The Upper Salmon River major population group (MPG) supports eight independent, extant spring/summer Chinook Salmon *Oncorhynchus tshawytscha* populations including Salmon River (above Redfish Lake), Valley Creek, Yankee Fork Salmon River, East Fork Salmon River, Salmon River (mainstem below Redfish), Pahsimeroi River, Lemhi River, and North Fork Salmon River [@NOAA2017]. All populations within the Upper Salmon River MPG have become depleted in recent decades. Declines in survival of juvenile Chinook Salmon have been associated with hydrosystem passage (@Schaller2014), ocean conditions and regional climate (@Welch2021; @Gosselin2021), and freshwater habitat modification.
 
-One potentially important, but perhaps under-appreciated source of mortality for Chinook Salmon is predation on emigrating juveniles by piscivorous fishes, including both native and non-native species. Dams and reservoirs in the Columbia River basin are the primary locations associated with high rates of predation on salmonids [@Petersen1994; @Ward1995]. There are generally two maechanisms that explain these high predation zones. First, migration rates of juvenile Chinook Salmon are reduced during reservoir passage [@Venditti2000], thereby increasing the time migrating smolts are vulnerable to predation. Second, reservoirs and downstream tailraces created by dams on the Columbia and Snake rivers have created favorable slow-water habitat for several species of piscivorous fish known to consume juvenile Chinook Salmon including Walleye *Sander vitreus*, Smallmouth Bass *Micropterus dolomieu*, and Northern Pikeminnow *Ptychocheilus oregonensis*. In the Lower Granite Reservoir on the Snake River, juvenile Chinook Salmon are common prey items of non-native Smallmouth Bass during some seasons [@Erhardt2018]. Walleye also prefer slow water habitats and are considered a potentially important source for Juvenile Chinook Salmon mortality [@NOAA2020], particularly as their abundance has significantly increased in Snake River dam facilities between 2008 and 2020.
+All populations within the Upper Salmon River MPG have become depleted in recent decades. Declines in survival of juvenile Chinook Salmon have been attributed to the removal of beavers from the landscape (fur trade), mining activities, river simplification, water withdrawals, logging activities, urbanization, avian predation, proliferation of non-native species (e.g., non-native coastal rainbow trout *O. mykiss irideus* and brook trout *Salvelinus fontinalis*), warming streams and rivers, and modifications to downriver migration corridors (e.g., from hydropower projects). Moreover, the abundance of returning adults are further impacted by ocean and downriver harvests, poor ocean conditions, and changes to the spawning migration corridor. Each of these factors have contributed, to varying and unknown extents, to reduced adult escapement, the primary metric used to assess population viability. In response to the decline in Chinook Salmon abundance from the myriad human activities and associated habitat degradation, action agencies have attempted to improve juvenile survival and adult spawning conditions by investing in the rehabilitation of tributary ecosystems.
 
-In addition to non-native species, Northern Pikeminnow are a native, piscivorous fish preferring slow water habitats. Consequently, they too have benefited from dams on the Columbia River and become abundance predators on salmonid outmigrants [@Knutsen1999]. Indeed, Northern Pikeminnow are estimated to consume 8% (16.4 million) of the estimated 200 million juvenile salmonids emigrating through the lower Snake and Columbia rivers, annually [@Beamesderfer1996]. Predation by piscivorous fish may have been a factor in the below-average survival of wild Chinook Salmon in 2020 [@NOAA2020], however there is a dearth of current data on piscivorous predator populations in the Columbia River.
+One potentially important, but perhaps under-appreciated source of mortality for Chinook Salmon is predation on emigrating juveniles by piscivorous fishes, including both native and non-native species. Dams and reservoirs in the Columbia River basin are the primary locations associated with high rates of predation on salmonids [@Petersen1994; @Ward1995]. There are generally two maechanisms that explain these high predation zones. First, migration rates of juvenile Chinook Salmon are reduced during reservoir passage [@Venditti2000], thereby increasing the time migrating smolts are vulnerable to predation. Second, reservoirs and downstream tailraces created by dams on the Columbia and Snake rivers have created favorable slow-water habitat for several species of piscivorous fish known to consume juvenile Chinook Salmon including Walleye *Sander vitreus*, Smallmouth Bass *Micropterus dolomieu*, and Northern Pikeminnow *Ptychocheilus oregonensis*. In the Lower Granite Reservoir on the Snake River, juvenile Chinook Salmon are common prey items of non-native Smallmouth Bass during some seasons [@Erhardt2018]. Walleye also prefer slow water habitats and are considered a potentially important source for Juvenile Chinook Salmon mortality [@Widener2021], particularly as their abundance has significantly increased in Snake River dam facilities between 2008 and 2020.
+
+In addition to non-native species, Northern Pikeminnow are a native, piscivorous fish preferring slow water habitats. Consequently, they too have benefited from dams on the Columbia River and become abundance predators on salmonid outmigrants [@Knutsen1999]. Indeed, Northern Pikeminnow are estimated to consume 8% (16.4 million) of the estimated 200 million juvenile salmonids emigrating through the lower Snake and Columbia rivers, annually [@Beamesderfer1996]. Predation by piscivorous fish may have been a factor in the below-average survival of wild Chinook Salmon in 2020 [@Widener2021], however there is a dearth of current data on piscivorous predator populations in the Columbia River.
 
 Habitat containing slow-velocities and other attributes that support piscivorous predators are not limited to dams and reservoirs. One such area is the Deadwater Slough in the Salmon River, which occupies a 25.3-acre reach of unnaturally slow and deep water (Figure \@ref(fig:map)). The Deadwater Slough contains little to no cover, increased depth, and fine substrate which favor piscivorous fish predators (e.g., Northern Pikeminnow, Smallmouth Bass) [@Watkins2015]. @Axel2015 demonstrated decreased rates of emigration and apparent survival for Sockeye Salmon *Oncorhynchus nerka* from Redfish Lake emigrating during the spring. Further, recent winter telemetry studies have indicated decreased transition probabilities (approximately 10% less than surrounding reaches) of juvenile Chinook salmon through Deadwater Slough during fall and winter months [@Ackerman2018; @Porter2019].
 
@@ -354,7 +357,7 @@ There is another estimator for this type of multiple census surveys, called the 
 $$
 \hat{N} = \frac{\sum\limits_{i = 1}^k n_i M^2_i}{\sum\limits_{i = 1}^k m_i M_i}
 $$
-We additionally calculated the proportional stock density (PSD) of Northern Pikeminnow with 300 mm total length (TL) for stock and 400 mm TL for quality.
+Additionally, we calculated the proportional stock density (PSD) of Northern Pikeminnow with 300 mm total length (TL) for stock and 400 mm TL for quality.
 $$
 PSD_{i} = 100 * \frac{FQ_{i}}{FS_{i}}
 $$
@@ -373,10 +376,46 @@ gastric_df = raw_df %>%
                                    TRUE ~ "Other")) %>%
   drop_na(length) %>%
   mutate(non_fish_wt = stomach_contents_weight - fish_content_weight) %>%
-  dplyr::select(date, length, lavage_id, stomach_contents, comments, fish_or_parts, stomach_contents_weight, non_fish_wt,                  fish_content_weight) %>%
+  dplyr::select(date, method, length, lavage_id, stomach_contents, comments, fish_or_parts, stomach_contents_weight, non_fish_wt, fish_content_weight) %>%
   filter(!stomach_contents %in% c("Lost sample CG27-001", "Did Not Lavage")) %>%
   drop_na(stomach_contents)
+
+# hungry_fish_df = gastric_df %>%
+#   filter(fish_or_parts == "Fish or Fish Parts") %>%
+#   mutate(fish = case_when(stri_detect_fixed(stomach_contents, "Shiner") ~ "Redside Shiner",
+#                           stri_detect_fixed(stomach_contents, "Whitefish") ~ "Mountain Whitefish",
+#                           stri_detect_fixed(stomach_contents, "scuplin") ~ "Sculpin",
+#                           stri_detect_fixed(stomach_contents, "Chinook") ~ "Chinook",
+#                           stri_detect_fixed(comments, "whitefish") ~ "Mountin Whitefish",
+#                           stri_detect_fixed(comments, "scuplin") ~ "Sculpin",
+#                           stri_detect_fixed(comments, "chinook") ~ "Chinook",
+#                           TRUE ~ "Other"))
   
+```
+
+```{r gastric-summ}
+gastric_df$npm_50 = lencat(gastric_df$length, w = 50)
+
+psd_df = gastric_df %>%
+  group_by(npm_50) %>%
+  summarize(n = n())
+
+gastric_df2 = gastric_df %>%
+  drop_na(stomach_contents_weight) %>%
+  group_by(fish_or_parts)
+
+stmch_ctgry_summ = gastric_df2 %>%
+  count()
+
+stmch_wt_summ = gastric_df2 %>%
+  summarise(sum(stomach_contents_weight))
+
+non_fish_wt_summ = gastric_df2 %>%
+  summarise(sum(non_fish_wt))
+
+fish_wt_summ = gastric_df2 %>%
+  summarise(sum(fish_content_weight))
+
 ```
 
 Gastric lavage [@Foster1977] was used to examine the stomach contents of Northern Pikeminnow for the presence of juvenile Chinook Salmon, other fishes (e.g., juvenile steelhead, juvenile Sockeye Salmon, Redside Shiner, etc.), and non-targets (e.g., macroinvertebrates, organic matter, etc.). Stomach contents were preserved with 99% isopropyl alcohol in whirl-paks and analyzed in a laboratory. For each sample, wet weight (grams) was recorded for the combined stomach content and for the fish content. Fish and fish remnants were identified to the lowest taxonomic unit, when possible, or were categorized as unknown. A subset of Northern Pikeminnow captures were euthanized for dissection after gastric lavage to validate the efficacy of the methodology.
@@ -385,7 +424,7 @@ Gastric lavage [@Foster1977] was used to examine the stomach contents of Norther
 ## Bioenergetics
 
 ```{r shoup-temp-data}
-temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
+shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
                    comment = "#") %>%
   rename(discharge_cfs = `47768_00060`,
          discharge_cfs_cd = `47768_00060_cd`,
@@ -393,6 +432,37 @@ temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Sh
          gage_ht_ft_cd = `47769_00065_cd`,
          water_temp_c = `47773_00010`,
          water_temp_c_cd = `47773_00010_cd`)
+
+```
+
+```{r read-bio-outputs}
+# full year, no growth
+full_yr_no_growth = read_csv(here("analysis/data/raw_data/2020 Bioenergetics 1 year.csv")) %>%
+  clean_names() %>%
+  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
+  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
+  mutate(month = month(date))
+
+# full year, 10% growth
+full_yr_10p_growth = read_csv(here("analysis/data/raw_data/2020 Bioenergetics 1 year 10% growth.csv")) %>%
+  clean_names() %>%
+  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
+  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
+  mutate(month = month(date))
+
+# an alternative model
+alternative_mod = read_csv(here("analysis/data/raw_data/Bioenergetics 32 fish 68 inverts.csv")) %>%
+  clean_names() %>%
+  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
+  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
+  mutate(month = month(date))
+
+# Fall emigration period (9/1 - 11/17), no growth
+fall_only_no_growth = read_csv(here("analysis/data/raw_data/78_day_bioenergetics.csv")) %>%
+  clean_names() %>%
+  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
+  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
+  mutate(month = month(date))
 
 ```
 
@@ -430,6 +500,7 @@ all_est = LP_mod %>%
   mutate(model = fct_recode(model,
                             "Schumacher-Eschmeyer" = "SchumacherEschmeyer")) %>%
   arrange(event_name, model)
+
 ```
 
 <!--
@@ -442,7 +513,7 @@ PSD for northern pikeminnow across all three years was 42.26% or 42.26% of fish 
 
 ## Predation On Juvenile Chinook Salmon
 
-During 2019, 660 northern pikeminnow were gastric lavaged. Of those fish, 603 had empty stomachs, 57 had stomach contents, 12 had fish parts, and of those 12 with fish parts 1 MWF and 2 shiners. During the 2020 season 805 northern pikeminnow were gastric lavaged with 613 empty stomachs, 188 with stomach contents and 23 with fish parts. Out of the 23 stomachs with fish parts present 10 were unknown, 6 red sided shiner, 4 suckers, 2 sculpin, and 1 chinook. In 2021, we had 105 stomach samples with 98 being non-fish and 7 having fish or fish parts.
+During 2019, 660 Northern Pikeminnow were gastric lavaged. Of those fish, we observed 603 individuals with empty stomachs, and 57 individuals with stomach contents. Twelve of the samples contained fish remnants including a single Mountain Whitefish and two Redside Shiners. During the 2020 season, 805 Northern Pikeminnow were gastric lavaged comprised of 613 individuals with empty stomachs and 188 individuals with stomach contents. Twenty-three individuals had fish remnants in their stomach contents including ten with unidentifiable remnants, six Redside Shiners, four suckers, two sculpin, and one juvenile Chinook Salmon. In 2021, we collected stomach contents from 105 Northern Pikeminnow with 98 containing non-fish prey items and observed seven containing fish remnants. 
 
 <!--- Need to add Nick's gastric lavage table here -->
 
@@ -450,9 +521,9 @@ During 2019, 660 northern pikeminnow were gastric lavaged. Of those fish, 603 ha
 
 <!-- Need to add Nick's figures here -->
 
-Over the fall time period a single northern pikeminnow is modeled to eat 61 g of fish. If we extrapolate this out to the potential effect the estimated population of ***xx,xxx***, then ***xxx,xxx*** g of fish are being eaten each fall during the migration of juvenile Chinook salmon having the potential to consume ***xxx** juvenile Chinook as a discrete population.
+Over the fall time period a single Northern Pikeminnow is modeled to eat 61 g of fish. For the estimated population of ***xx,xxx***, then ***xxx,xxx*** g of fish are being eaten each fall during the migration of juvenile Chinook Salmon. Therefore, Northern Pikeminnow in the Deadwater Slough can potentially consume ***xx,xxx*** juvenile Chinook Salmon as a discrete population.
 
-Over the point of a whole year, a single northern pikeminnow is modeled to eat 283 g of fish and 613 g of other food types.
+Over an entire year, we estimate that a single Northern Pikeminnow will eat 283 g of fish and 613 g of other food types.
 
 <!--
 * Water Temperature measurements.
@@ -482,11 +553,12 @@ Re-hash out our assumptions? What assumptions were most likely violated e.g., th
 
 ## Gastric Lavage
 
-The majority of fish collected during this study received gastric lavage, including some non-predatory species. To validate the efficacy of this method, we euthanized nine Northern Pikeminnow after gastric lavage was completed and removed the remaining stomach contents via dissection. Our results support previous findings that gastric lavage effectively removes stomach contents (@Lott2020). Additionally, we found that the fish captured in net-traps had a similar proportion of stomach content samples. of those, 1,214 (76.2%) were completely emply, 345 (21.6%) had stomach contents, and 35 (2.2%) contained fish remnants. We were able to identify juvenile Red Shiners, a Largescale Sucker, Sculpin, Mountain Whitefish, and one Chinook Salmon within stomach contents, but most samples were too digested to identify to species.
+The majority of fish collected during this study received gastric lavage, including some non-predatory species. To validate the efficacy of this method, we euthanized nine Northern Pikeminnow after gastric lavage was completed and removed the remaining stomach contents via dissection. Our results support previous findings that gastric lavage effectively removes stomach contents (@Lott2020). Additionally, we found that the fish captured in net-traps had a similar proportion of stomach content samples. of those, 1,214 (76.2%) were completely empty, 345 (21.6%) had stomach contents, and 35 (2.2%) contained fish remnants. We were successfully able to identify Redside Shiners, a Largescale Sucker, sculpin, Mountain Whitefish, and one juvenile Chinook Salmon in the stomach contents. However, decomposition from digestion rendered most stomach contents unidentifiable.
 
 <!--
 Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or other fishes) in a very small number of stomach contents. However, we don't necessarily believe that to mean that pikeminnow in Deadwater Slough rarely consume juvenile Chinook salmon. Are there other cases where gastric lavage failed to document predation? How soon after consumption do you need to take a sample? So instead, we made some assumptions about the proportion of a pikeminnows diet consisting of Chinook salmon.
 -->
+
 
 ## Bioenergetics
 
@@ -500,12 +572,14 @@ Again, what assumptions did we make here and how might violations of those assum
 
 ## Avian Predation
 
-Although not formally assessed in this study, avian predators including Great Blue Herons *Ardea herodias* and Bald Eagles *Haliaeetus leucocephalus* are another potential source of mortality for juvenile salmon in the Deadwater Slough. The Deadwater Slough is recognized as an important bird watching and nesting area due to the associated riparian and backwater habitats [(Deadwater Slough - Audubon Important Bird Areas)](https://www.audubon.org/important-bird-areas/deadwater-slough#). Several piscivorous bird species have been documented using the Deadwater Slough that include the Common *Mergus merganser* and Hooded *Lophodytes cucullatus* mergansers, the Great Blue Heron, the Double-crested Cormorant *Phalacrocorax auritus*, and the Belted Kingfisher *Megaceryle alcyon* [@eBird2021]. During the intial sampling event in 2019, a two-person crew walked the entire reach and surrounding and upstream areas scanning for passive integrated transponder (PIT) tags. During that informal survey, nine PIT tags were recovered near active bird nests or in an upstream anastomizing reach where herons and eagles are prevalent, suggesting that mortality may have been a result of avian predation. The PIT tag histories in [PTAGIS](https://www.ptagis.org/) indicate these tags were implanted into a combination of juvenile Chinook Salmon (3), Sockeye Salmon (3), and steelhead (3). Avian predation contributes a major component of the total mortality for yearling Chinook Salmon in some locations in the lower Snake River and Columbia River, particularly at hydroelectric dams and within reservoirs [@Evans2012; -@Evans2016]; however, we did not observe large colonies of piscivorous birds within the study area. Although there is documentation of individual Double-crested Cormorants [@eBird2021] at the Deadwater Slough, the site is not within their breeding range, rather, it is part of a migration corridor. Given the current avian species known to occupy Deadwater Slough, it is unlikely that avian predation on juvenile salmonids is comparable to elsewhere in the Columbia River basin with large piscivorous bird colonies. Nevertheless, we hypothesize that the reservoir-like conditions at the Deadwater Slough may increase the probability of avian predation on juvenile Chinook Salmon from the many piscivorous birds known to use the site. Future estimates of predation would benefit from consideration of the contribution of piscivorous avian predators.
+Although not formally assessed in this study, avian predators including Great Blue Herons *Ardea herodias* and Bald Eagles *Haliaeetus leucocephalus* are another potential source of mortality for juvenile salmon in the Deadwater Slough. The Deadwater Slough is recognized as an important bird watching and nesting area due to the associated riparian and backwater habitats [(Deadwater Slough - Audubon Important Bird Areas)](https://www.audubon.org/important-bird-areas/deadwater-slough#). Several piscivorous bird species have been documented using the Deadwater Slough that include the Common *Mergus merganser* and Hooded *Lophodytes cucullatus* mergansers, the Great Blue Heron, the Double-crested Cormorant *Phalacrocorax auritus*, and the Belted Kingfisher *Megaceryle alcyon* [@eBird2021]. During the initial sampling event in 2019, a two-person crew walked the entire reach and surrounding and upstream areas scanning for passive integrated transponder (PIT) tags. During that informal survey, nine PIT tags were recovered near active bird nests or in an upstream anastomizing reach where herons and eagles are prevalent, suggesting that mortality may have been a result of avian predation. The PIT tag histories in [PTAGIS](https://www.ptagis.org/) indicate these tags were implanted into a combination of juvenile Chinook Salmon (3), Sockeye Salmon (3), and steelhead (3). Avian predation contributes a major component of the total mortality for yearling Chinook Salmon in some locations in the lower Snake River and Columbia River, particularly at hydroelectric dams and within reservoirs [@Evans2012; -@Evans2016]; however, we did not observe large colonies of piscivorous birds within the study area. Although there is documentation of individual Double-crested Cormorants [@eBird2021] at the Deadwater Slough, the site is not within their breeding range, rather, it is part of a migration corridor. Given the current avian species known to occupy Deadwater Slough, it is unlikely that avian predation on juvenile salmonids is comparable to elsewhere in the Columbia River basin with large piscivorous bird colonies. Nevertheless, we hypothesize that the reservoir-like conditions at the Deadwater Slough may increase the probability of avian predation on juvenile Chinook Salmon from the many piscivorous birds known to use the site. Future estimates of predation would benefit from consideration of the contribution of piscivorous avian predators.
 
 
 ## Management Implications
 
-We estimated that consumption of juvenile Chinook Salmon by northern pikeminnow in the Deadwater Slough potentially reduces annual adult returns by ***xxx - x,xxx*** to upriver populations. Presumably, that reduction in adult returns impacts both the ESA-listed natural populations in the Upper Salmon River MPG plus the two hatchery populations in the Upper Salmon, Pahsimeroi and Sawtooth hatcheries, which provide for recreational fishing opportunities. Fisheries managers desire increased adult returns to both aide in the recovery of natural populations as well as to provide additional harvest in recreational fisheries to boost local economies. A reduction in predation mortality at Deadwater Slough on juvenile Chinook Salmon has potential to benefit multiple upriver natural and hatchery populations, in contrast to typical tributary habitat rehabilition actions which typically benefit a single population. Moreover, the deepened, slack water conditions that favor northern pikeminnow at Deadwater Slough are indirectly the result of manmade activities i.e., the failure of a manmade mining reservoir dam. Given these reasons, it seems that Deadwater Slough could be a candidate for management or restoration actions to benefit local Chinook Salmon populations.
+At least five of the eight populations in the Upper Salmon MPG must meet criteria set forth by @McElhany2000 and @ICTRT2007 for the MPG to be considered viable and for the recovery of the Snake River Evolutionary Significant Unit. Populations with the ESU have substantial cultural value, support downriver mainstem Snake and Columbia River commercial and subsistence fisheries, and support local fisheries and economies in years with sufficient abundance.
+
+We estimated that consumption of juvenile Chinook Salmon by Northern Pikeminnow in the Deadwater Slough potentially reduces annual adult returns by ***xxx - x,xxx*** (perhaps express as percent, too) to upriver populations. Presumably, that reduction in adult returns impacts both the ESA-listed natural populations in the Upper Salmon River MPG and two hatchery populations in the Upper Salmon, Pahsimeroi and Sawtooth hatcheries, which provide for recrational fishing opportunities. Consequently, reducing juvenile Chinook Salmon predation mortalities at Deadwater Slough can potentially benefit multiple upriver natural and hatchery populations upriver. Because the Deadwater Slough is part of the migratory pathway for emigrating salmonids, including for multiple species and populations, the impact of that benefit would likely be higher than tributary habitat rehabilitation actions, which typically benefit a single population. Moreover, the deepened, slack water conditions that favor northern pikeminnow at Deadwater Slough are indirectly the result of manmade activities i.e., the failure of a manmade mining reservoir dam. Given these reasons, it seems that Deadwater Slough could be a candidate for management or restoration actions to benefit local Chinook Salmon populations.
 
 We see two potential management actions: 1) removing the Dump Creek delta to restore flow and 2) a local northern pikeminnow bounty program to encourage harvest of northern pikeminnow in Deadwater Slough. 
 
@@ -651,6 +725,145 @@ cpue_df %>%
 
 \newpage
 
+```{r fall-bio-fig, fig.cap = "First bioenergetics plot."}
+fall_bio_p = fall_only_no_growth %>%
+  ggplot() +
+  aes(x = date,
+      y = cum_cons_fish_g,
+      colour = temperature_c) +
+  geom_line(size = 2.5) +
+  scale_color_distiller(palette = "Spectral",
+                        direction = -1) +
+  scale_x_date(breaks = "2 week") +
+  scale_y_continuous(name = "Scumulative fish eaten (g)",
+                     breaks = seq(0, 200, by = 10),
+                     sec.axis = sec_axis(~. / 12, 
+                                         name = "Potential number of Chinook Salmon smolts",
+                                         breaks = seq(0, 20, by = 1))) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(color = "Temperature (C)")
+
+fall_bio_p
+
+```
+
+\newpage
+
+```{r full-yr-ng-fig, fig.cap = "Next bioenergetics plot."}
+full_yr_ng_p = full_yr_no_growth %>%
+  ggplot() +
+  aes(x = date,
+      y = cum_cons_fish_g,
+      colour = temperature_c) +
+  geom_line(size = 2.5) +
+  scale_color_distiller(palette = "Spectral",
+                        direction = -1) +
+  #scale_x_date(breaks = "2 week") +
+  scale_y_continuous(name = "Cumulative fish eaten (g)",
+                     breaks = seq(0, 600, by = 50),
+                     sec.axis = sec_axis(~. / 12,
+                                         name = "Potential number of Chinook Salmon smolts",
+                                         breaks = seq(0, 30, by = 2))) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(color = "Temperature (C)",
+       x = "Month")
+
+full_yr_ng_p
+
+```
+
+```{r full-yr-10p-fig, eval = F, fig.cap = "Another bioenergetics plot."}
+full_yr_10p_p = full_yr_10p_growth %>%
+  ggplot() +
+  aes(x = date,
+      y = cum_cons_fish_g,
+      colour = temperature_c) +
+  geom_line(size = 2.5) +
+  scale_color_distiller(palette = "Spectral",
+                        direction = -1) +
+  #scale_x_date(breaks = "2 week") +
+  scale_y_continuous(name = "Cumulative fish eaten (g)",
+                     breaks = seq(0, 600, by = 50),
+                     sec.axis = sec_axis(~. / 12,
+                                         name = "Potential number of Chinook Salmon smolts",
+                                         breaks = seq(0, 40, by = 2))) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(color = "Temperature (C)",
+       x = "Month")
+
+full_yr_10p_p
+
+```
+
+```{r alt-mod-fig, eval = F, fig.cap = "Another bioenergetics plot, again."}
+alt_mod_p = alternative_mod %>%
+  ggplot() +
+  aes(x = date,
+      y = cum_cons_fish_g,
+      colour = temperature_c) +
+  geom_line(size = 2.5) +
+  scale_color_distiller(palette = "Spectral",
+                        direction = -1) +
+  #scale_x_date(breaks = "2 week") +
+  scale_y_continuous(name = "Cumulative fish eaten (g)",
+                     breaks = seq(0, 600, by = 50),
+                     sec.axis = sec_axis(~. / 12,
+                                         name = "Potential number of Chinook Salmon smolts",
+                                         breaks = seq(0, 30, by = 2))) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(color = "Temperature (C)",
+       x = "Month")
+
+alt_mod_p
+
+```
+
+```{r stmch-cont-p, eval = F, fig.cap = "A stomach contents plot."}
+stmch_cont_per_sz_p = gastric_df %>%
+  filter(method %in% "Angling") %>%
+  ggplot() +
+  aes(x = fish_or_parts) +
+  geom_bar(fill = "#DB740E") +
+  labs(x = "Stomach Contents",
+       y = "Frequency") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   vjust = 0.5,
+                                   hjust = 1)) +
+  facet_wrap(vars(npm_50),
+             nrow = 2L)
+
+stmch_cont_per_sz_p
+
+```
+
+\newpage
+
+```{r length-freq-p, eval = T, fig.cap = "A length frequency plot."}
+length_freq_p = gastric_df %>%
+  ggplot(aes(length)) +
+  geom_histogram(breaks = seq(150, 650, by = 50),
+                 col = "#DB740E",
+                 fill = "#DB740E",
+                 alpha = .2) +
+  labs(x = "TL (mm)",
+       y = "Frequency") +
+  xlim(c(100, 700)) +
+  ylim(c(0, 800)) +
+  scale_x_continuous(breaks = seq(0, 650, by = 50)) +
+  scale_y_continuous(breaks = seq(0, 550, by = 50)) +
+  theme_classic()
+
+length_freq_p
+
+```
+
+\newpage
+
 ### Colophon
 
 This report was generated on `r Sys.time()` using the following computational environment and dependencies: 
@@ -658,6 +871,7 @@ This report was generated on `r Sys.time()` using the following computational en
 ```{r colophon, cache = FALSE}
 # which R packages and versions?
 if ("devtools" %in% installed.packages()) devtools::session_info()
+
 ```
 
 \newpage
@@ -666,5 +880,6 @@ The current Git commit details are:
 
 ```{r}
 # what commit is this file at? 
-if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
+if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())
+
 ```
