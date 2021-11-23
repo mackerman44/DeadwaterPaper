@@ -115,9 +115,9 @@ if(doc.type == 'docx') {
 
 The Upper Salmon River major population group (MPG) supports eight independent, extant spring/summer Chinook Salmon *Oncorhynchus tshawytscha* populations including Salmon River (above Redfish Lake), Valley Creek, Yankee Fork Salmon River, East Fork Salmon River, Salmon River (mainstem below Redfish), Pahsimeroi River, Lemhi River, and North Fork Salmon River [@NOAA2017]. At least five of these eight populations must meet criteria set forth by @McElhany2000 and @ICTRT2007 for the MPG to be considered viable and for the recovery of the Snake River Evolutionary Significant Unit (ESU). Populations within the ESU have substantial cultural value, support downriver mainstem Snake and Columbia River commercial and subsistence fisheries, and support local fisheries and economies in years with sufficient abundance. All populations within the Upper Salmon River MPG have become depleted in recent decades. Declines in survival of juvenile Chinook Salmon have been attributed to the removal of beavers from the landscape (fur trade), mining activities, river simplification, water withdrawals, logging activities, urbanization, avian predation, proliferation of non-native species (e.g., non-native coastal rainbow trout *O. mykiss irideus* and brook trout *Salvelinus fontinalis*), warming streams and rivers, and modifications to downriver migration corridors (e.g., from hydropower projects). Moreover, the abundance of returning adults are further impacted by ocean and downriver harvests, poor ocean conditions, and changes to the spawning migration corridor. Each of these factors have contributed, to varying and unknown extents, to reduced adult escapement, the primary metric used to assess population viability. In response to the decline in Chinook Salmon abundance from the myriad human activities and associated habitat degradation, action agencies have attempted to improve juvenile survival and adult spawning conditions by investing in the rehabilitation of tributary ecosystems.
 
-One potentially important, but perhaps under-appreciated source of mortality for Chinook Salmon is predation on emigrating juveniles by piscivorous fishes, including both native and non-native species. Dams and reservoirs in the Columbia River basin are the primary locations associated with high rates of predation on salmonids [@Petersen1994; @Ward1995]. There are generally two maechanisms that explain these high predation zones. First, migration rates of juvenile Chinook Salmon are reduced during reservoir passage [@Venditti2000], thereby increasing the time migrating smolts are vulnerable to predation. Second, reservoirs and downstream tailraces created by dams on the Columbia and Snake rivers have created favorable slow-water habitat for several species of piscivorous fish known to consume juvenile Chinook Salmon including Walleye *Sander vitreus*, Smallmouth Bass *Micropterus dolomieu*, and Northern Pikeminnow *Ptychocheilus oregonensis*. In the Lower Granite Reservoir on the Snake River, juvenile Chinook Salmon are common prey items of non-native Smallmouth Bass during some seasons [@Erhardt2018]. Walleye also prefer slow water habitats and are considered a potentially important source for Juvenile Chinook Salmon mortality [@NOAA2020], particularly as their abundance has significantly increased in Snake River dam facilities between 2008 and 2020.
+One potentially important, but perhaps under-appreciated source of mortality for Chinook Salmon is predation on emigrating juveniles by piscivorous fishes, including both native and non-native species. Dams and reservoirs in the Columbia River basin are the primary locations associated with high rates of predation on salmonids [@Petersen1994; @Ward1995]. There are generally two maechanisms that explain these high predation zones. First, migration rates of juvenile Chinook Salmon are reduced during reservoir passage [@Venditti2000], thereby increasing the time migrating smolts are vulnerable to predation. Second, reservoirs and downstream tailraces created by dams on the Columbia and Snake rivers have created favorable slow-water habitat for several species of piscivorous fish known to consume juvenile Chinook Salmon including Walleye *Sander vitreus*, Smallmouth Bass *Micropterus dolomieu*, and Northern Pikeminnow *Ptychocheilus oregonensis*. In the Lower Granite Reservoir on the Snake River, juvenile Chinook Salmon are common prey items of non-native Smallmouth Bass during some seasons [@Erhardt2018]. Walleye also prefer slow water habitats and are considered a potentially important source for Juvenile Chinook Salmon mortality [@Widener2021], particularly as their abundance has significantly increased in Snake River dam facilities between 2008 and 2020.
 
-In addition to non-native species, Northern Pikeminnow are a native, piscivorous fish preferring slow water habitats. Consequently, they too have benefited from dams on the Columbia River and become abundance predators on salmonid outmigrants [@Knutsen1999]. Indeed, Northern Pikeminnow are estimated to consume 8% (16.4 million) of the estimated 200 million juvenile salmonids emigrating through the lower Snake and Columbia rivers, annually [@Beamesderfer1996]. Predation by piscivorous fish may have been a factor in the below-average survival of wild Chinook Salmon in 2020 [@NOAA2020], however there is a dearth of current data on piscivorous predator populations in the Columbia River.
+In addition to non-native species, Northern Pikeminnow are a native, piscivorous fish preferring slow water habitats. Consequently, they too have benefited from dams on the Columbia River and become abundance predators on salmonid outmigrants [@Knutsen1999]. Indeed, Northern Pikeminnow are estimated to consume 8% (16.4 million) of the estimated 200 million juvenile salmonids emigrating through the lower Snake and Columbia rivers, annually [@Beamesderfer1996]. Predation by piscivorous fish may have been a factor in the below-average survival of wild Chinook Salmon in 2020 [@Widener2021], however there is a dearth of current data on piscivorous predator populations in the Columbia River.
 
 Habitat containing slow-velocities and other attributes that support piscivorous predators are not limited to dams and reservoirs. One such area is the Deadwater Slough in the Salmon River, which occupies a 25.3-acre reach of unnaturally slow and deep water (Figure \@ref(fig:map)). The Deadwater Slough contains little to no cover, increased depth, and fine substrate which favor piscivorous fish predators (e.g., Northern Pikeminnow, Smallmouth Bass) [@Watkins2015]. @Axel2015 demonstrated decreased rates of emigration and apparent survival for Sockeye Salmon *Oncorhynchus nerka* from Redfish Lake emigrating during the spring. Further, recent winter telemetry studies have indicated decreased transition probabilities (approximately 10% less than surrounding reaches) of juvenile Chinook salmon through Deadwater Slough during fall and winter months [@Ackerman2018; @Porter2019].
 
@@ -358,10 +358,46 @@ gastric_df = raw_df %>%
                                    TRUE ~ "Other")) %>%
   drop_na(length) %>%
   mutate(non_fish_wt = stomach_contents_weight - fish_content_weight) %>%
-  dplyr::select(date, length, lavage_id, stomach_contents, comments, fish_or_parts, stomach_contents_weight, non_fish_wt,                  fish_content_weight) %>%
+  dplyr::select(date, method, length, lavage_id, stomach_contents, comments, fish_or_parts, stomach_contents_weight, non_fish_wt, fish_content_weight) %>%
   filter(!stomach_contents %in% c("Lost sample CG27-001", "Did Not Lavage")) %>%
   drop_na(stomach_contents)
+
+# hungry_fish_df = gastric_df %>%
+#   filter(fish_or_parts == "Fish or Fish Parts") %>%
+#   mutate(fish = case_when(stri_detect_fixed(stomach_contents, "Shiner") ~ "Redside Shiner",
+#                           stri_detect_fixed(stomach_contents, "Whitefish") ~ "Mountain Whitefish",
+#                           stri_detect_fixed(stomach_contents, "scuplin") ~ "Sculpin",
+#                           stri_detect_fixed(stomach_contents, "Chinook") ~ "Chinook",
+#                           stri_detect_fixed(comments, "whitefish") ~ "Mountin Whitefish",
+#                           stri_detect_fixed(comments, "scuplin") ~ "Sculpin",
+#                           stri_detect_fixed(comments, "chinook") ~ "Chinook",
+#                           TRUE ~ "Other"))
   
+```
+
+```{r gastric-summ}
+gastric_df$npm_50 = lencat(gastric_df$length, w = 50)
+
+psd_df = gastric_df %>%
+  group_by(npm_50) %>%
+  summarize(n = n())
+
+gastric_df2 = gastric_df %>%
+  drop_na(stomach_contents_weight) %>%
+  group_by(fish_or_parts)
+
+stmch_ctgry_summ = gastric_df2 %>%
+  count()
+
+stmch_wt_summ = gastric_df2 %>%
+  summarise(sum(stomach_contents_weight))
+
+non_fish_wt_summ = gastric_df2 %>%
+  summarise(sum(non_fish_wt))
+
+fish_wt_summ = gastric_df2 %>%
+  summarise(sum(fish_content_weight))
+
 ```
 
 Gastric lavage [@Foster1977] was used to examine the stomach contents of Northern Pikeminnow for the presence of juvenile Chinook Salmon, other fishes (e.g., juvenile steelhead, juvenile Sockeye Salmon, Redside Shiner, etc.), and non-targets (e.g., macroinvertebrates, organic matter, etc.). Stomach contents were preserved with 99% isopropyl alcohol in whirl-paks and analyzed in a laboratory. For each sample, wet weight (grams) was recorded for the combined stomach content and for the fish content. Fish and fish remnants were identified to the lowest taxonomic unit, when possible, or were categorized as unknown. A subset of Northern Pikeminnow captures were euthanized for dissection after gastric lavage to validate the efficacy of the methodology.
@@ -766,6 +802,45 @@ alt_mod_p
 
 ```
 
+```{r stmch-cont-p, eval = F, fig.cap = "A stomach contents plot."}
+stmch_cont_per_sz_p = gastric_df %>%
+  filter(method %in% "Angling") %>%
+  ggplot() +
+  aes(x = fish_or_parts) +
+  geom_bar(fill = "#DB740E") +
+  labs(x = "Stomach Contents",
+       y = "Frequency") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   vjust = 0.5,
+                                   hjust = 1)) +
+  facet_wrap(vars(npm_50),
+             nrow = 2L)
+
+stmch_cont_per_sz_p
+
+```
+
+\newpage
+
+```{r length-freq-p, eval = T, fig.cap = "A length frequency plot."}
+length_freq_p = gastric_df %>%
+  ggplot(aes(length)) +
+  geom_histogram(breaks = seq(150, 650, by = 50),
+                 col = "#DB740E",
+                 fill = "#DB740E",
+                 alpha = .2) +
+  labs(x = "TL (mm)",
+       y = "Frequency") +
+  xlim(c(100, 700)) +
+  ylim(c(0, 800)) +
+  scale_x_continuous(breaks = seq(0, 650, by = 50)) +
+  scale_y_continuous(breaks = seq(0, 550, by = 50)) +
+  theme_classic()
+
+length_freq_p
+
+```
 
 \newpage
 
