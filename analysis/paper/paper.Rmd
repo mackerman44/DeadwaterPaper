@@ -78,6 +78,7 @@ knitr::opts_chunk$set(
   fig.path = "../figures/",
   dpi = 300
 )
+
 ```
 
 ```{r load-libraries}
@@ -369,7 +370,7 @@ Gastric lavage [@Foster1977] was used to examine the stomach contents of Norther
 ## Bioenergetics
 
 ```{r shoup-temp-data}
-temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
+shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
                    comment = "#") %>%
   rename(discharge_cfs = `47768_00060`,
          discharge_cfs_cd = `47768_00060_cd`,
@@ -377,6 +378,37 @@ temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Sh
          gage_ht_ft_cd = `47769_00065_cd`,
          water_temp_c = `47773_00010`,
          water_temp_c_cd = `47773_00010_cd`)
+
+```
+
+```{r read-bio-outputs}
+# full year, no growth
+full_yr_no_growth = read_csv(here("analysis/data/raw_data/2020 Bioenergetics 1 year.csv")) %>%
+  clean_names() %>%
+  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
+  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
+  mutate(month = month(date))
+
+# full year, 10% growth
+full_yr_10p_growth = read_csv(here("analysis/data/raw_data/2020 Bioenergetics 1 year 10% growth.csv")) %>%
+  clean_names() %>%
+  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
+  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
+  mutate(month = month(date))
+
+# an alternative model
+alternative_mod = read_csv(here("analysis/data/raw_data/Bioenergetics 32 fish 68 inverts.csv")) %>%
+  clean_names() %>%
+  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
+  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
+  mutate(month = month(date))
+
+# Fall emigration period (9/1 - 11/17), no growth
+fall_only_no_growth = read_csv(here("analysis/data/raw_data/78_day_bioenergetics.csv")) %>%
+  clean_names() %>%
+  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
+  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
+  mutate(month = month(date))
 
 ```
 
@@ -414,6 +446,7 @@ all_est = LP_mod %>%
   mutate(model = fct_recode(model,
                             "Schumacher-Eschmeyer" = "SchumacherEschmeyer")) %>%
   arrange(event_name, model)
+
 ```
 
 <!--
@@ -636,6 +669,106 @@ cpue_df %>%
 
 \newpage
 
+```{r fall-bio-fig, fig.cap = "First bioenergetics plot."}
+fall_bio_p = fall_only_no_growth %>%
+  ggplot() +
+  aes(x = date,
+      y = cum_cons_fish_g,
+      colour = temperature_c) +
+  geom_line(size = 2.5) +
+  scale_color_distiller(palette = "Spectral",
+                        direction = -1) +
+  scale_x_date(breaks = "2 week") +
+  scale_y_continuous(name = "Scumulative fish eaten (g)",
+                     breaks = seq(0, 200, by = 10),
+                     sec.axis = sec_axis(~. / 12, 
+                                         name = "Potential number of Chinook Salmon smolts",
+                                         breaks = seq(0, 20, by = 1))) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(color = "Temperature (C)")
+
+fall_bio_p
+
+```
+
+\newpage
+
+```{r full-yr-ng-fig, fig.cap = "Next bioenergetics plot."}
+full_yr_ng_p = full_yr_no_growth %>%
+  ggplot() +
+  aes(x = date,
+      y = cum_cons_fish_g,
+      colour = temperature_c) +
+  geom_line(size = 2.5) +
+  scale_color_distiller(palette = "Spectral",
+                        direction = -1) +
+  #scale_x_date(breaks = "2 week") +
+  scale_y_continuous(name = "Cumulative fish eaten (g)",
+                     breaks = seq(0, 600, by = 50),
+                     sec.axis = sec_axis(~. / 12,
+                                         name = "Potential number of Chinook Salmon smolts",
+                                         breaks = seq(0, 30, by = 2))) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(color = "Temperature (C)",
+       x = "Month")
+
+full_yr_ng_p
+
+```
+
+```{r full-yr-10p-fig, eval = F, fig.cap = "Another bioenergetics plot."}
+full_yr_10p_p = full_yr_10p_growth %>%
+  ggplot() +
+  aes(x = date,
+      y = cum_cons_fish_g,
+      colour = temperature_c) +
+  geom_line(size = 2.5) +
+  scale_color_distiller(palette = "Spectral",
+                        direction = -1) +
+  #scale_x_date(breaks = "2 week") +
+  scale_y_continuous(name = "Cumulative fish eaten (g)",
+                     breaks = seq(0, 600, by = 50),
+                     sec.axis = sec_axis(~. / 12,
+                                         name = "Potential number of Chinook Salmon smolts",
+                                         breaks = seq(0, 40, by = 2))) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(color = "Temperature (C)",
+       x = "Month")
+
+full_yr_10p_p
+
+```
+
+```{r alt-mod-fig, eval = F, fig.cap = "Another bioenergetics plot, again."}
+alt_mod_p = alternative_mod %>%
+  ggplot() +
+  aes(x = date,
+      y = cum_cons_fish_g,
+      colour = temperature_c) +
+  geom_line(size = 2.5) +
+  scale_color_distiller(palette = "Spectral",
+                        direction = -1) +
+  #scale_x_date(breaks = "2 week") +
+  scale_y_continuous(name = "Cumulative fish eaten (g)",
+                     breaks = seq(0, 600, by = 50),
+                     sec.axis = sec_axis(~. / 12,
+                                         name = "Potential number of Chinook Salmon smolts",
+                                         breaks = seq(0, 30, by = 2))) +
+  theme_classic() +
+  theme(legend.position = "top") +
+  labs(color = "Temperature (C)",
+       x = "Month")
+
+alt_mod_p
+
+```
+
+
+\newpage
+
 ### Colophon
 
 This report was generated on `r Sys.time()` using the following computational environment and dependencies: 
@@ -643,6 +776,7 @@ This report was generated on `r Sys.time()` using the following computational en
 ```{r colophon, cache = FALSE}
 # which R packages and versions?
 if ("devtools" %in% installed.packages()) devtools::session_info()
+
 ```
 
 \newpage
@@ -651,5 +785,6 @@ The current Git commit details are:
 
 ```{r}
 # what commit is this file at? 
-if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
+if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())
+
 ```
