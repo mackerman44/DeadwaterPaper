@@ -308,27 +308,23 @@ N_mods = cmr_df %>%
 
 ```
 
+We used several mark-recapture abundance estimators that each rely on meeting several assumptions:
 
-
-
-
-All of our estimators rely on meeting several assumptions:
-1. The population in closed (no immigration, emigration, births or deaths during the sampling period).
+1. The population in closed (no immigration, emigration, births or deaths during the sampling period)
 1. Marking a fish does not affect its chances of being caught
 1. No loss of marks
 1. No marks are missed or mistaken
 1. All fish have the same chance of being caught in the second (and subsequent) sample(s)
 
-We applied several abundance estimators, which fell into two broad categories: single census and multiple census. For the single census estimators, we treated the first week of sampling as the mark event, and the second week as the recapture event, pooling data within each of those weeks. The multiple census estimators treat each day as a survey, and use information about the total marked fish from all previous surveys to infer the total abundance.
+The estimators fell into two broad categories: single census and multiple census. For the single census estimators, we treated the first week of sampling as the mark event, and the following (second) week as the recapture event, pooling data within each of those two weeks. Alternatively, the multiple census estimators treat each day as a survey, and use information about the total marked fish from all previous surveys to infer the total abundance.
 
-The Lincoln-Petersen estimator is below, where $M$ is the number of fish marked and returned to the population, $n$ is the number of fish caught in the second/recapture event and $m$ is the number of marked fish in the second sample.
+The Lincoln-Peterson estimator, a single-census estimator, is below, where $M$ is the number of fish marked and returned to the population, the $n$ is the number of fish caught in the second/recapture event, and $m$ is the number of marked fish in the second sample.
 
 $$
 \hat{N} = \frac{(M)(n)}{(m)}
 $$
 
-  
-The Lincoln-Petersen estimator can be biased with small samples, so we also investigated the Chapman-modified Lincoln-Petersen estimator which is shown below.
+The Lincoln-Petersen estimator can be biased with small samples, so we also investigated the Chapman-modified Lincoln-Petersen estimator:
 
 $$
 \hat{N} = \frac{(M + 1)(n + 1)}{(m + 1)} - 1
