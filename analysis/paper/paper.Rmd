@@ -308,6 +308,57 @@ N_mods = cmr_df %>%
 
 ```
 
+```{r abund-est}
+all_est = LP_mod %>%
+  select(event_name, species, model, N:Uci) %>%
+  bind_rows(N_mods %>%
+             select(event_name, species, model, N:Uci)) %>%
+  mutate(range = Uci - Lci,
+         prop_range = range / N) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  mutate(model = fct_recode(model,
+                            "Schumacher-Eschmeyer" = "SchumacherEschmeyer")) %>%
+  arrange(event_name, model)
+
+```
+
+```{r spring-abund}
+total_cpue = cpue_df %>%
+              mutate(across(event_name,
+                            ~ str_replace(., "_", " "))) %>%
+              group_by(species, event_name) %>%
+              summarise(across(c(total_effort, n_fish),
+                               sum),
+                        .groups = "drop") %>%
+              mutate(across(total_effort,
+                            ~ . / 60)) %>%
+              mutate(cpue = n_fish / total_effort)
+
+
+spring_abund = all_est %>%
+  select(-range, -prop_range) %>%
+  inner_join(total_cpue,
+             by = c("event_name", "species")) %>%
+  select(species, model, 
+         model_event = event_name,
+         N_F = N, 
+         Lci_F = Lci,
+         Uci_F = Uci,
+         cpue_F = cpue) %>%
+  full_join(total_cpue %>%
+              filter(str_detect(event_name, "Spring")) %>%
+              select(species,
+                     cpue_S = cpue),
+            by = "species") %>%
+  mutate(N_S = N_F * (cpue_S / cpue_F),
+         Lci_S = Lci_F * (cpue_S / cpue_F),
+         Uci_S = Uci_F * (cpue_S / cpue_F))
+
+
+```
+
+
 We used several mark-recapture abundance estimators that each rely on meeting several assumptions:
 
 1. The population in closed (no immigration, emigration, births or deaths during the sampling period)
@@ -348,6 +399,8 @@ $$
 where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$.
 
 <!-- use ratio of CPUEs between fall and spring, and assume same capture probability in both periods to estimate abundance in the spring. Recognize that capture probability is probably smaller in the spring, so our estimate is a conservative one (the truth is probably higher). Then re-do the bioenergetics model to look at how many smolts are consumed in the spring. -->
+
+To estimate the abundance of Northern Pikeminnow in the spring, we used the ratio of total CPUE in a fall sampling event (total Northern Pikeminnow caught / effort) to the total CPUE in the spring, and multiply that ratio by the abundance of Northern Pikeminnow in the fall. This assumes the same capture probability in the fall as in the spring. If that does differ, we believe the capture probability to be lower in the spring due to higher flows, which would lead to our spring abundance estimate to be biased low. Therefore, we consider this a conservative estimate of the number of Northern Pikeminnow present in the Deadwater area during the spring Chinook smolt out migration.
 
 
 ## Predation On Juvenile Chinook Salmon
@@ -409,6 +462,16 @@ Gastric lavage [@Foster1977] was used to examine the stomach contents of Norther
 
 ## Bioenergetics
 
+A few things that need to be clarified in this section:
+* Why were the dates Sept 1 - Nov 17 chosen? They make sense, but we should include our rationale
+* Where did the temperature data come from? Hobo? Stream gauge? The methods say temperature data from 2019 was used, but the results seem to use 2020? 
+* Why does it look like we only ran it for dates in 2020? Is that the only year we had temperature data for? Would the results look different if we used temperature data from a different year?
+* The lengths of pikeminnow: did we only use pikeminnow we caught in the fall to get average length? Is there a difference in lengths between 2019 and 2020? 
+* There needs to be more explanation of the inverts vs. fish. What proportion went to each and why? Did it change through time? Based on literature at all? 
+* Where is the data that was used to get a weight of 12 g for Chinook emigrant? Was that for Chinook presmolts, or a combination of smolts and presmolts? If the latter, can we filter it to look at the average weight for presmolts only? And maybe smolts only for a different analysis? 
+* Could we run a similar model for the spring emigration period? Figure out the dates, look at lengths of pikeminnow from the spring, convert to average weight, use average size of Chinook smolts (not presmolts) from all the Upper Salmon traps? Kevin can work on converting the spring catch into some kind of estimate of pikeminnow at Deadwater in the spring
+
+
 ```{r shoup-temp-data}
 shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
                    comment = "#") %>%
@@ -454,7 +517,7 @@ fall_only_no_growth = read_csv(here("analysis/data/raw_data/78_day_bioenergetics
 
 To estimate the consumption of juvenile Chinook Salmon outmigrants by Northern Pikeminnow in the Deadwater Slough, we used the Fish Bioenergetics v4.0 applicatioon developed by @Deslauriers2017. The daily rate of consumption in grams for an individual Northern Pikeminnow was based on predator and prey energy densities, predator start and end weights, and water temperatures. Predator energy density for Northern Pikeminnow was fixed at 6,703 Joules(J)/g [@Deslauriers2017]. Prey energy densities were fixed at 21,500 J/g for juvenile Chinook salmon based on estimate from @Moss2016. To calculate the average predator start weight, we converted the average length of Northern Pikeminnow captured during our study to a weight using a weight-length formula for Northern Pikeminnow [@Parker1995] from the FSA package [@Ogle2021]. Continuous water temperature data from 2019 were used in two alternative models, on using the baseline start and end weights and the second with a 10% increase in average end weight of Northern Pikeminnow.
 
-We ran three bioenergetic models for this study. For the first model, we chose a 78-day period from September 1 through November 17 when DSR emigrants are known to enter the mainstem Salmon River from natal tributaries (e.g., Lemhi River) and begin their downstream migration. During this time, water temperatures exceed the range (0-7$^\circ$C) that would illicit concealment behavior or torpor from juvenile Chinook Salmon. This model assumed no growth for Northern Pikeminnow. The second model was run for one-year and assumed no growth for Northern Pikeminnow. The assumption of no growth for pikeminnow was included to show what may be occurring if the populaiton of Northern Pikeminnow is stable. If growth of the population is occurring, the alternative model shows how an increase of 10% body weight changes the estimtes of consumption over a full year period. To estimate the number of possible Chinook Salmon that could be consumed, we assumed a weight of 12 g per individual Chinook Salmon. This weight was an average from juvenile Chinook Salmon emigrating past six rotary screw traps operating in the Upper Salmon above Deadwater Slough including traps in the Lemhi, Pahsimeroi, and North Fork Salmon rivers and one trap operating near the Sawtooth hatchery.
+We ran three bioenergetic models for this study. For the first model, we chose a 78-day period from September 1 through November 17 when DSR emigrants are known to enter the mainstem Salmon River from natal tributaries (e.g., Lemhi River) and begin their downstream migration. During this time, water temperatures exceed the range (0-7$^\circ$C) that would illicit concealment behavior or torpor from juvenile Chinook Salmon. This model assumed no growth for Northern Pikeminnow. The second model was run for one-year and assumed no growth for Northern Pikeminnow. The assumption of no growth for pikeminnow was included to show what may be occurring if the population of Northern Pikeminnow is stable. If growth of the population is occurring, the alternative model shows how an increase of 10% body weight changes the estimates of consumption over a full year period. To estimate the number of possible Chinook Salmon that could be consumed, we assumed a weight of 12 g per individual Chinook Salmon. This weight was an average from juvenile Chinook Salmon emigrating past six rotary screw traps operating in the Upper Salmon above Deadwater Slough including traps in the Lemhi, Pahsimeroi, and North Fork Salmon rivers and one trap operating near the Sawtooth hatchery.
 
 <!--
 To estimate the impacts from northern pikeminnow on juvenile Chinook Salmon outmigrants in Deadwater Slough, we used an R-based application of Fish Bioenergetics v4.0 developed by @Deslauriers2017. We estimated a daily rate of consumption for an individual northern pikeminnow based on predator and prey energy densities, water temperatures, and predator start and end weights. We also ran two alternative models one with a year of temperature inputs from 2019, and another with the same temperature inputs but a 10% growth in weight of the average pikeminnow at the end of the model. The average length of northern pikeminnow captured at the Deadwater Slough during our study was 370.6 mm which calculates to an average starting weight of 847 g using the FSA package (@Ogle2021) in R which provides a weight-length formula for northern pikeminnow sourced from @Parker1995. Predator energy density for northern pikeminnow was available in the Bioenergetics v4.0 application and was fixed at 6,703 Joules(J)/g. Prey energy densities was taken from @Moss2016 where they estimated juvenile Chinook Salmon at 21,500 J/g. Using these temperatures, weights, and energy inputs, we estimated a total consumption in grams for an individual norther pikeminnow within Deadwater Slough.
@@ -464,21 +527,6 @@ We ran three bioenergetic models for this study. First, we chose a 78-day period
 
 
 ## Impacts to Adult Returns
-
-```{r abund-est}
-all_est = LP_mod %>%
-  select(event_name, species, model, N:Uci) %>%
-  bind_rows(N_mods %>%
-             select(event_name, species, model, N:Uci)) %>%
-  mutate(range = Uci - Lci,
-         prop_range = range / N) %>%
-  mutate(across(event_name,
-                ~ str_replace(., "_", " "))) %>%
-  mutate(model = fct_recode(model,
-                            "Schumacher-Eschmeyer" = "SchumacherEschmeyer")) %>%
-  arrange(event_name, model)
-
-```
 
 ```{r}
 # pull in SAR numbers
