@@ -347,6 +347,8 @@ PSD_{i} = 100 * \frac{FQ_{i}}{FS_{i}}
 $$
 where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$.
 
+<!-- use ratio of CPUEs between fall and spring, and assume same capture probability in both periods to estimate abundance in the spring. Recognize that capture probability is probably smaller in the spring, so our estimate is a conservative one (the truth is probably higher). Then re-do the bioenergetics model to look at how many smolts are consumed in the spring. -->
+
 
 ## Predation On Juvenile Chinook Salmon
 
