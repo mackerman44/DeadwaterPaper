@@ -125,14 +125,13 @@ Spring/summer Chinook Salmon in the Upper Salmon MPG are stream-type and exhibit
 
 The Deadwater Slough is in a reach of the Salmon River believed to be a historically important overwinter rearing area for DSR emigrants. Moreover, the slough is part of the migratory pathway for not only juvenile Chinook Salmon (both DSR and NRR emigrants), but also for the endangered Snake River Sockeye Salmon population and several population of threatened Snake River steelhead. As such, the main Salmon River has been the target of recent radio telemetry studies to examine the downstream movement, distribution, and (apparent survival) of juvenile salmonid emigrants. @Axel2015 demonstrated decreased rates of emigration and survival for Sockeye Salmon from Redfish Lake during the spring emigration. Further, recent telemetry studies of Chinook salmon emigration during fall and early winter months indicated a decreased transition probability in the reach spanning Deadwater Slough (approximately 10% less than surrounding reaches).
 
-We hypothesize that increased densities of piscivorous predators in the Deadwater Slough may explain the reduced survival (or apparent survival) observed for juvenile Chinook Salmon [@Ackerman2018] and Sockeye Salmon [@Axel2015]. In this study, we estimated the abundance of a piscivorous fish predator population in the Deadwater Slough and their potential impacts to juvenile salmon emigrants, focusing on DSR and NRR Chinook Salmon. Our objectives for the study were four-fold:
+We hypothesize that increased densities of piscivorous predators in the Deadwater Slough may explain the reduced survival (or apparent survival) observed for juvenile Chinook Salmon [@Ackerman2018] and Sockeye Salmon [@Axel2015]. In this study, we estimated the abundance of a piscivorous fish predator population in the Deadwater Slough and their potential impacts to juvenile salmon emigrants, focusing on DSR and NRR Chinook Salmon. Our objectives for the study were three-fold:
 
 1. Estimate the abundance (or relative abundance) of potential predators in the Deadwater Slough during the peaks of fall (DSR) and spring (NRR) juvenile emigrations.
 2. Document predation on juvenile Chinook Salmon during the emigration periods using gastric lavage.
 3. Use a bioenergetics approach to estimate the total consumption of juvenile DSR and NRR Chinook salmon during defined emigration periods.
-4. Quantify the potential impacts of estimated predation on juvenile to Chinook Salmon adult returns.
 
-We follow with a discussion of the various assumptions that went into the mark-recapture and bioenergetics models and assessment of impacts to adult returns and how violations of some assumptions may affect overall results and inferences from the study.
+We follow with a discussion of the various assumptions that went into the mark-recapture and bioenergetics models and how violations of some assumptions may affect overall results and inferences from the study. We also consider how consumption of juvenile Chinook Salmon by predators at Deadwater Slough might impact adult returns, hindering recovery of populations in the Upper Salmon River MPG.
 
 
 # Methods
@@ -380,6 +379,8 @@ The Lincoln-Petersen estimator can be biased with small samples, so we also inve
 $$
 \hat{N} = \frac{(M + 1)(n + 1)}{(m + 1)} - 1
 $$
+
+<!-- START HERE -->
 
 The Schnabel estimator is shown below, where the $M$, $n$ and $m$ are indexed by the sampling occasion, $i$. In our example, the sampling occasions are defined as each day of sampling. This estimator does not have an associate standard error, but 95% confidence intervals can be calculated. The Schnabel estimator is essentially a weighted average of a series of Lincoln-Petersen estimators (with a Chapman modification). 
 
