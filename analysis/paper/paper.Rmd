@@ -144,6 +144,12 @@ The Deadwater Slough is located approximately 6 kms downstream from the town of 
 
 ## Abundance of Piscivorous Fishes
 
+Our goal was to estimate the abundance of potentially piscivorous predators in the Deadwater Slough using a mark-recapture approach both during the fall and spring near the peaks of the juvenile Chinook Salmon DSR and NRR emigrations, respectively. The initial intent was to sample during fall 2019 and spring 2020 to estimate predator abundances during the emigration of the 2018 brood year. However, due to logistical concerns during the onset of the Covid-19 pandemic, the spring 2020 sampling event was delayed until fall 2020. Although this provided the benefit of an additional abundance estimates during the DSR emigration, estimates during the NRR emigration were still lacking, and so an additional sampling event was added for spring 2021. The study design was such that both the fall 2019 and fall 2020 sampling efforts included both a "mark week" and "recapture week" intended for mark-recapture models. However, due to budget constraints the spring 2021 effort only included a single "mark week"; instead, we calculated the catch-per-unit-effort (CPUE; fish per hour) for the spring 2021 effort for comparison to the fall efforts. In the end, sampling dates were as follows: fall 2019 (mark = November 12-14; recapture = November 19-21), fall 2020 (mark = October 20-23; recapture = October 27-30); spring 2021 (mark = May 18-21). The recapture events were held just one week following the mark events to reduce opportunity for immigration/emigration of predators between events i.e., to avoid violation of a closed population for mark-recapture models.
+
+We attempted multiple capture methods during the first year including raft electrofishing, fyke netting, snorkeling, and angling to reduce selectivity, both for species and size classes. Unfortunately, some of the methods proved ineffective. For example, fish were able to elude the electrical field of the raft electrofisher due to 1) the lack of flow in Deadwater Slough and 2) we lacked the appropriate motor to effectively “chase” fish given the lack of flow. Snorkeling was ineffective due to the high turbidity of the mainstem Salmon River and Deadwater Slough. And due to debris floating in the water column, there were concerns with fyke nets being pulled from their anchored locations and becoming entangled. Additionally, there were concerns with raft electrofishers and fyke nets incidentally capturing adult steelhead that are present in the mainstem Salmon River during fall and spring. In the end, angling proved to be the most effective method for capturing piscivorous predators while minimizing potential impacts to steelhead but recognizing that angling can have both species and size selectivity (bias). From here on, our focus was on fish captured by angling, unless otherwise noted.
+
+Our study relied heavily on volunteer anglers who were allowed to fish anywhere within Deadwater Slough; periodically or upon filling a livewell anglers would boat or hike their catch to a processing station located at the boat ramp approximately 500 m downstream from the top of the slough. For each fish, processors would record the date of capture, species, total length (TL; mm), and whether the fish was previously marked. If not previously marked, each fish was provided a physical mark (e.g., hole punch of lower caudal, upper caudal, left pelvic, right pelvic) and marks were unique for each marking day. We also recorded whether marked individuals were released back to be captured again. For release, processors attempted to distribute released individuals throughout Deadwater Slough to facilitate mixing back into the population. We also recorded the crew (person or combination of persons) that captured each fish and the start and end times for each crew were recorded to estimate total effort.    
+
 ```{r cmr-effort-data}
 raw_df = readxl::read_excel(here("analysis/data/raw_data/Deadwater_predation_mark_recapture_11.09.21.xlsx")) %>%
   clean_names() %>%
@@ -302,16 +308,9 @@ N_mods = cmr_df %>%
 
 ```
 
-**Data = C/M/R and Effort**
 
-* Capture methods used - We initially attempted electrofishing, snorkeling, netting, others?, but eventually settled on angling as best method for mark-recapture.
-* Mark-recapture - We kept the mark and recapture events close together in an attempt to use a closed population model
-* What are the assumptions of a closed population model?
-* How was sampling performed? What relevant information was captured for each fish? How/where were fish released? How was effort recorded to calculate CPUE?
-* Description of sampling time frame:
-  - Fall 2019: Goal was to estimate abundance during the peak of DSR emigration i.e., timing was done to coincide to be shortly after peak fall (DSR) emigration at the lower Lemhi River screw trap with the hopes of documenting predation. DSR are the more abundant juvenile emigration tactic.
-  - Fall 2020: Intent was to repeat the above, but instead during peak NRR emigration, but effort canceled due to COVID-19. Instead, sampling was re-schedule to fall when social distancing, etc. could be put in place.
-  - Spring 2021: Did a relative abundance effort during spring 2021. Had to reduce to a CPUE (single-week) effort due to funding constraints. However, goal was to 1) document presence during NRR outmigration and 2) estimate CPUE to provide a relative comparison to the fall efforts.
+
+
 
 All of our estimators rely on meeting several assumptions:
 1. The population in closed (no immigration, emigration, births or deaths during the sampling period).
