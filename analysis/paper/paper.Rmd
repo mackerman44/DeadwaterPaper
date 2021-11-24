@@ -468,6 +468,21 @@ We ran three bioenergetic models for this study. First, we chose a 78-day period
 
 ## Impacts to Adult Returns
 
+```{r abund-est}
+all_est = LP_mod %>%
+  select(event_name, species, model, N:Uci) %>%
+  bind_rows(N_mods %>%
+             select(event_name, species, model, N:Uci)) %>%
+  mutate(range = Uci - Lci,
+         prop_range = range / N) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  mutate(model = fct_recode(model,
+                            "Schumacher-Eschmeyer" = "SchumacherEschmeyer")) %>%
+  arrange(event_name, model)
+
+```
+
 ```{r}
 # pull in SAR numbers
 sar = read_csv(here("analysis/data/raw_data", 
@@ -495,8 +510,8 @@ adult_impact = fall_only_no_growth %>%
   mutate(adult_N = smolt_N * medsar,
          adult_Lci = smolt_Lci * qnorm(0.025, medsar, sdsar),
          adult_Uci = smolt_Uci * qnorm(0.975, medsar, sdsar))
-```
 
+```
 
 To estimate the number of possible Chinook salmon that could be consumed, we divided the cumulative fish consumption in grams for an individual pikeminnow by the average weight of a Chinook emigrant to come up with a presmolt equivalency and then multiplied this by our abundance estimate of northern pikeminnow in Deadwater Slough, resulting in an estimate of the equivalent total number of Chinook salmon presmolts consumed. Finally, we estimated the number of additional adult Chinook salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough reach was reduced or eliminated. We multiplied the total estimated consumed juvenile Chinook salmon by an estimate of Granite-to-Granite SARs [@McCann2019].
 
@@ -508,20 +523,6 @@ To estimate the number of possible Chinook salmon that could be consumed, we div
 
 ## Abundance of Piscivorous Fishes
 
-```{r abund-est}
-all_est = LP_mod %>%
-  select(event_name, species, model, N:Uci) %>%
-  bind_rows(N_mods %>%
-             select(event_name, species, model, N:Uci)) %>%
-  mutate(range = Uci - Lci,
-         prop_range = range / N) %>%
-  mutate(across(event_name,
-                ~ str_replace(., "_", " "))) %>%
-  mutate(model = fct_recode(model,
-                            "Schumacher-Eschmeyer" = "SchumacherEschmeyer")) %>%
-  arrange(event_name, model)
-
-```
 
 <!--
 * Total population estimates of Pike Minnow. Chart or table, but likely a chart.
