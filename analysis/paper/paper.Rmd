@@ -462,6 +462,7 @@ Gastric lavage [@Foster1977] was used to examine the stomach contents of Norther
 
 ## Bioenergetics
 
+<!--
 A few things that need to be clarified in this section:
 * Why were the dates Sept 1 - Nov 17 chosen? They make sense, but we should include our rationale
 * Where did the temperature data come from? Hobo? Stream gauge? The methods say temperature data from 2019 was used, but the results seem to use 2020? 
@@ -470,6 +471,7 @@ A few things that need to be clarified in this section:
 * There needs to be more explanation of the inverts vs. fish. What proportion went to each and why? Did it change through time? Based on literature at all? 
 * Where is the data that was used to get a weight of 12 g for Chinook emigrant? Was that for Chinook presmolts, or a combination of smolts and presmolts? If the latter, can we filter it to look at the average weight for presmolts only? And maybe smolts only for a different analysis? 
 * Could we run a similar model for the spring emigration period? Figure out the dates, look at lengths of pikeminnow from the spring, convert to average weight, use average size of Chinook smolts (not presmolts) from all the Upper Salmon traps? Kevin can work on converting the spring catch into some kind of estimate of pikeminnow at Deadwater in the spring
+-->
 
 
 ```{r shoup-temp-data}
@@ -526,6 +528,70 @@ We ran three bioenergetic models for this study. First, we chose a 78-day period
 -->
 
 
+# Results
+
+## Abundance of Piscivorous Fishes
+
+
+<!--
+* Total population estimates of Pike Minnow. Chart or table, but likely a chart.
+* What is that equate to as a density? e.g., how many pikeminnow per 10 square meters? Is that a reasonable number?
+* To calculate density, need the area of the extent surveyed each year. Was that area consistent year-to-year?
+-->
+
+Abundance estimates for northern pikeminnow during the fall sampling events ranged from `r prettyNum(min(all_est$N), big.mark = ",")` to `r prettyNum(max(all_est$N), big.mark = ",")`. The multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied. 
+
+PSD for northern pikeminnow across all three years was 42.26% or 42.26% of fish were over the quality size classification 400 mm TL we denoted in the Methods, demonstrating a high percentage of above average size classes present within Deadwater Slough.
+
+
+## Predation On Juvenile Chinook Salmon
+
+During 2019, 660 Northern Pikeminnow were gastric lavaged. Of those fish, we observed 603 individuals with empty stomachs, and 57 individuals with stomach contents. Twelve of the samples contained fish remnants including a single Mountain Whitefish and two Redside Shiners. During the 2020 season, 805 Northern Pikeminnow were gastric lavaged comprised of 613 individuals with empty stomachs and 188 individuals with stomach contents. Twenty-three individuals had fish remnants in their stomach contents including ten with unidentifiable remnants, six Redside Shiners, four suckers, two sculpin, and one juvenile Chinook Salmon. In 2021, we collected stomach contents from 105 Northern Pikeminnow with 98 containing non-fish prey items and observed seven containing fish remnants. 
+
+<!--- Need to add Nick's gastric lavage table here -->
+
+
+## Bioenergetics
+
+Over the fall time period a single Northern Pikeminnow is modeled to eat 61 g of fish. For the estimated population of ***xx,xxx***, then ***xxx,xxx*** g of fish are being eaten each fall during the migration of juvenile Chinook Salmon. Therefore, Northern Pikeminnow in the Deadwater Slough can potentially consume ***xx,xxx*** juvenile Chinook Salmon as a discrete population.
+
+Over an entire year, we estimate that a single Northern Pikeminnow will eat 283 g of fish and 613 g of other food types.
+
+<!--
+* Water Temperature measurements.
+    *	Hobo tidbit placed at site. 
+    *	Calculated daily average water temperature for 365 days of the year.
+*	Water temperature plot for the 365 average.
+*	Bioenergetics results. Total mass consumed over a 365 day period. Plot of daily consumption with day of year on x and mass on y.
+-->
+
+
+# Discussion
+
+We estimated the population size of Northern Pikeminnow in the Deadwater Slough to be greater than ***xx,xxx*** during the fall emigration period for DSR Chinook Salmon. That estimate translates to a density of ***xxx*** Northern Pikeminnow per 100 m or ***xxx*** per 100 m^2^ which is ***similar/more/less*** than estimates from elsewhere in the Columbia River ***(citation)*** where substantial Northern Pikeminnow predation impacts on salmonids have led to bounty programs aimed at reducing Northern Pikeminno abundance. The population size of Northern Pikeminnow was not directly estimated during the spring NRR Chinook salmon emigration period however, the relative abundance measured at CPUE was comparable to the fall sampling periods ***(update statement later)***. The population of Northern Pikeminnow in Deadwater Slough was estimated to consume between ***xx,xxx*** and ***xx,xxx*** juvenile Chinook Salmon during the ***x*** sampling periods and result in an estimated reduction of returning adults between ***xxx*** and ***x,xxx***. We suggest that the habitat modifications that created the Deadwater Slough have resulted in favorable conditions for Northern Pikeminnow, including improved conditions for predation upon juvenile Chinook Salmon ***(add detail here)***. Therefore, predation by Northern Pikeminnow in the Deadwater Slough likely has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon River MPG.
+
+
+## Mark-Recapture Model
+
+<!--
+Re-hash out our assumptions? What assumptions were most likely violated e.g., the closed population assumption? If we assumed an open population with varying immigration/emigration rates how might that affect our estimate? In the end, how good do we think our estimate is and is the bottom-line that we belive there still to be a shit-ton of pikeminnow even if our assumptions were violated?
+-->
+
+
+## Gastric Lavage
+
+The majority of fish collected during this study received gastric lavage, including some non-predatory species. To validate the efficacy of this method, we euthanized nine Northern Pikeminnow after gastric lavage was completed and removed the remaining stomach contents via dissection. Our results support previous findings that gastric lavage effectively removes stomach contents (@Lott2020). Additionally, we found that the fish captured in net-traps had a similar proportion of stomach content samples. of those, 1,214 (76.2%) were completely empty, 345 (21.6%) had stomach contents, and 35 (2.2%) contained fish remnants. We were successfully able to identify Redside Shiners, a Largescale Sucker, sculpin, Mountain Whitefish, and one juvenile Chinook Salmon in the stomach contents. However, decomposition from digestion rendered most stomach contents unidentifiable.
+
+<!--
+Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or other fishes) in a very small number of stomach contents. However, we don't necessarily believe that to mean that pikeminnow in Deadwater Slough rarely consume juvenile Chinook salmon. Are there other cases where gastric lavage failed to document predation? How soon after consumption do you need to take a sample? So instead, we made some assumptions about the proportion of a pikeminnows diet consisting of Chinook salmon.
+-->
+
+
+## Bioenergetics
+
+What assumptions did we make during the bioenergetics assessment? And how might violations of those assumptions change our estimate of the number of juvenile Chinook salmon consumed and resulting impacts to adult returns?
+
+
 ## Impacts to Adult Returns
 
 ```{r}
@@ -560,83 +626,15 @@ adult_impact = fall_only_no_growth %>%
 
 To estimate the number of possible Chinook salmon that could be consumed, we divided the cumulative fish consumption in grams for an individual pikeminnow by the average weight of a Chinook emigrant to come up with a presmolt equivalency and then multiplied this by our abundance estimate of northern pikeminnow in Deadwater Slough, resulting in an estimate of the equivalent total number of Chinook salmon presmolts consumed. Finally, we estimated the number of additional adult Chinook salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough reach was reduced or eliminated. We multiplied the total estimated consumed juvenile Chinook salmon by an estimate of Granite-to-Granite SARs [@McCann2019].
 
-<!-- After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach) -->
+<!-- 
+After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach)
 
-<!-- Currently only using one bioenergetics model run. Could incorporate more bioenergetics models, but if so then maybe consider focusing on a single abundance estimator (e.g. Schnabel) to avoid too many combinations in the results -->
-
-# Results
-
-## Abundance of Piscivorous Fishes
-
-
-<!--
-* Total population estimates of Pike Minnow. Chart or table, but likely a chart.
-* What is that equate to as a density? e.g., how many pikeminnow per 10 square meters? Is that a reasonable number?
-* To calculate density, need the area of the extent surveyed each year. Was that area consistent year-to-year?
+Currently only using one bioenergetics model run. Could incorporate more bioenergetics models, but if so then maybe consider focusing on a single abundance estimator (e.g. Schnabel) to avoid too many combinations in the results 
 -->
-
-Abundance estimates for northern pikeminnow during the fall sampling events ranged from `r prettyNum(min(all_est$N), big.mark = ",")` to `r prettyNum(max(all_est$N), big.mark = ",")`. The multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied. 
-
-PSD for northern pikeminnow across all three years was 42.26% or 42.26% of fish were over the quality size classification 400 mm TL we denoted in the Methods, demonstrating a high percentage of above average size classes present within Deadwater Slough.
-
-
-## Predation On Juvenile Chinook Salmon
-
-During 2019, 660 Northern Pikeminnow were gastric lavaged. Of those fish, we observed 603 individuals with empty stomachs, and 57 individuals with stomach contents. Twelve of the samples contained fish remnants including a single Mountain Whitefish and two Redside Shiners. During the 2020 season, 805 Northern Pikeminnow were gastric lavaged comprised of 613 individuals with empty stomachs and 188 individuals with stomach contents. Twenty-three individuals had fish remnants in their stomach contents including ten with unidentifiable remnants, six Redside Shiners, four suckers, two sculpin, and one juvenile Chinook Salmon. In 2021, we collected stomach contents from 105 Northern Pikeminnow with 98 containing non-fish prey items and observed seven containing fish remnants. 
-
-<!--- Need to add Nick's gastric lavage table here -->
-
-## Bioenergetics
-
-<!-- Need to add Nick's figures here -->
-
-Over the fall time period a single Northern Pikeminnow is modeled to eat 61 g of fish. For the estimated population of ***xx,xxx***, then ***xxx,xxx*** g of fish are being eaten each fall during the migration of juvenile Chinook Salmon. Therefore, Northern Pikeminnow in the Deadwater Slough can potentially consume ***xx,xxx*** juvenile Chinook Salmon as a discrete population.
-
-Over an entire year, we estimate that a single Northern Pikeminnow will eat 283 g of fish and 613 g of other food types.
-
-<!--
-* Water Temperature measurements.
-    *	Hobo tidbit placed at site. 
-    *	Calculated daily average water temperature for 365 days of the year.
-*	Water temperature plot for the 365 average.
-*	Bioenergetics results. Total mass consumed over a 365 day period. Plot of daily consumption with day of year on x and mass on y.
--->
-
-
-## Impacts to Adult Returns
-
-*	SAR results. Maybe a plot of multiple scenarios depending on gastric lavage results? And pop estimates if they vary in time.
-
-
-# Discussion
-
-We estimated the population size of Northern Pikeminnow in the Deadwater Slough to be greater than ***xx,xxx*** during the fall emigration period for DSR Chinook Salmon. That estimate translates to a density of ***xxx*** Northern Pikeminnow per 100 m or ***xxx*** per 100 m^2^ which is ***similar/more/less*** than estimates from elsewhere in the Columbia River ***(citation)*** where substantial Northern Pikeminnow predation impacts on salmonids have led to bounty programs aimed at reducing Northern Pikeminno abundance. The population size of Northern Pikeminnow was not directly estimated during the spring NRR Chinook salmon emigration period however, the relative abundance measured at CPUE was comparable to the fall sampling periods ***(update statement later)***. The population of Northern Pikeminnow in Deadwater Slough was estimated to consume between ***xx,xxx*** and ***xx,xxx*** juvenile Chinook Salmon during the ***x*** sampling periods and result in an estimated reduction of returning adults between ***xxx*** and ***x,xxx***. We suggest that the habitat modifications that created the Deadwater Slough have resulted in favorable conditions for Northern Pikeminnow, including improved conditions for predation upon juvenile Chinook Salmon ***(add detail here)***. Therefore, predation by Northern Pikeminnow in the Deadwater Slough likely has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon River MPG.
-
-
-## Mark-Recapture Model
-
-<!--
-Re-hash out our assumptions? What assumptions were most likely violated e.g., the closed population assumption? If we assumed an open population with varying immigration/emigration rates how might that affect our estimate? In the end, how good do we think our estimate is and is the bottom-line that we belive there still to be a shit-ton of pikeminnow even if our assumptions were violated?
--->
-
-
-## Gastric Lavage
-
-The majority of fish collected during this study received gastric lavage, including some non-predatory species. To validate the efficacy of this method, we euthanized nine Northern Pikeminnow after gastric lavage was completed and removed the remaining stomach contents via dissection. Our results support previous findings that gastric lavage effectively removes stomach contents (@Lott2020). Additionally, we found that the fish captured in net-traps had a similar proportion of stomach content samples. of those, 1,214 (76.2%) were completely empty, 345 (21.6%) had stomach contents, and 35 (2.2%) contained fish remnants. We were successfully able to identify Redside Shiners, a Largescale Sucker, sculpin, Mountain Whitefish, and one juvenile Chinook Salmon in the stomach contents. However, decomposition from digestion rendered most stomach contents unidentifiable.
-
-<!--
-Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or other fishes) in a very small number of stomach contents. However, we don't necessarily believe that to mean that pikeminnow in Deadwater Slough rarely consume juvenile Chinook salmon. Are there other cases where gastric lavage failed to document predation? How soon after consumption do you need to take a sample? So instead, we made some assumptions about the proportion of a pikeminnows diet consisting of Chinook salmon.
--->
-
-
-## Bioenergetics
-
-What assumptions did we make during the bioenergetics assessment? And how might violations of those assumptions change our estimate of the number of juvenile Chinook salmon consumed and resulting impacts to adult returns?
-
-
-## Impacts to Adult Returns
 
 Again, what assumptions did we make here and how might violations of those assumptions change our estimate of impacts to adult returns.
+
+*	SAR results. Maybe a plot of multiple scenarios depending on gastric lavage results? And pop estimates if they vary in time.
 
 
 ## Avian Predation
