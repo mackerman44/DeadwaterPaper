@@ -479,10 +479,41 @@ We ran three bioenergetic models for this study. First, we chose a 78-day period
 
 ## Impacts to Adult Returns
 
-Text here...
+```{r}
+# pull in SAR numbers
+sar = read_csv(here("analysis/data/raw_data", 
+                    "WSSCh_sar_4See.csv")) %>%
+  summarise(across(c(medsar, sdsar),
+                   median)) %>%
+  summarise(across(c(medsar, sdsar),
+               ~ . / 100))
+
+adult_impact = fall_only_no_growth %>%
+  filter(cum_cons_fish_g == max(cum_cons_fish_g)) %>%
+  select(cum_cons_fish_g) %>%
+  mutate(n_chnk_smolts = cum_cons_fish_g / 12) %>%
+  bind_cols(all_est %>%
+              select(event_name, 
+                     model,
+                     N,
+                     Lci,
+                     Uci)) %>%
+  mutate(across(c(smolt_N = N, 
+                  smolt_Lci = Lci, 
+                  smolt_Uci = Uci),
+                ~ . * n_chnk_smolts)) %>%
+  bind_cols(sar) %>%
+  mutate(adult_N = smolt_N * medsar,
+         adult_Lci = smolt_Lci * qnorm(0.025, medsar, sdsar),
+         adult_Uci = smolt_Uci * qnorm(0.975, medsar, sdsar))
+```
+
+
+To estimate the number of possible Chinook salmon that could be consumed, we divided the cumulative fish consumption in grams for an individual pikeminnow by the average weight of a Chinook emigrant to come up with a presmolt equivalency and then multiplied this by our abundance estimate of northern pikeminnow in Deadwater Slough, resulting in an estimate of the equivalent total number of Chinook salmon presmolts consumed. Finally, we estimated the number of additional adult Chinook salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough reach was reduced or eliminated. We multiplied the total estimated consumed juvenile Chinook salmon by an estimate of Granite-to-Granite SARs [@McCann2019].
 
 <!-- After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach) -->
 
+<!-- Currently only using one bioenergetics model run. Could incorporate more bioenergetics models, but if so then maybe consider focusing on a single abundance estimator (e.g. Schnabel) to avoid too many combinations in the results -->
 
 # Results
 
@@ -506,9 +537,12 @@ all_est = LP_mod %>%
 <!--
 * Total population estimates of Pike Minnow. Chart or table, but likely a chart.
 * What is that equate to as a density? e.g., how many pikeminnow per 10 square meters? Is that a reasonable number?
+* To calculate density, need the area of the extent surveyed each year. Was that area consistent year-to-year?
 -->
 
-PSD for northern pikeminnow across all three years was 42.26% or 42.26% of fish were over the quality size classification 400 mm TL we denoted in the Methods, demonstrating a high percentage of above average size classs present within Deadwater Slough.
+Abundance estimates for northern pikeminnow during the fall sampling events ranged from `r prettyNum(min(all_est$N), big.mark = ",")` to `r prettyNum(max(all_est$N), big.mark = ",")`. The multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied. 
+
+PSD for northern pikeminnow across all three years was 42.26% or 42.26% of fish were over the quality size classification 400 mm TL we denoted in the Methods, demonstrating a high percentage of above average size classes present within Deadwater Slough.
 
 
 ## Predation On Juvenile Chinook Salmon
@@ -861,6 +895,41 @@ length_freq_p = gastric_df %>%
 length_freq_p
 
 ```
+
+\newpage
+
+```{r adult-imp-p}
+adult_impact %>%
+  mutate(stage = "Smolt") %>%
+  select(event_name, model,
+         stage,
+         starts_with("smolt")) %>%
+  rename_with(.fn = ~ str_remove(., "smolt_"),
+              .cols = starts_with("smolt")) %>%
+  bind_rows(adult_impact %>%
+              mutate(stage = "Adult Equivalent") %>%
+              select(event_name, model,
+                     stage,
+                     starts_with("adult")) %>%
+              rename_with(.fn = ~ str_remove(., "adult_"),
+                          .cols = starts_with("adult"))) %>%
+  filter(str_detect(model, "Schuma", negate = T)) %>%
+  ggplot(aes(x = model,
+             y = N,
+             color = model)) +
+  geom_errorbar(aes(ymin = Lci,
+                    ymax = Uci),
+                width = 0.5) +
+  geom_point(size = 4) +
+  facet_grid(stage ~ event_name,
+             scales = "free_y") +
+  scale_color_brewer(palette = "Set1",
+                     name = "Model") +
+  theme(axis.text.x = element_blank(),
+        legend.position = "bottom") +
+  labs(x = "N. Pikeminnow Abundance Model")
+```
+
 
 \newpage
 
