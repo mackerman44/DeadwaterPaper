@@ -391,28 +391,29 @@ $$
 \hat{N} = \frac{(M + 1)(n + 1)}{(m + 1)} - 1
 $$
 
-<!-- START HERE -->
-
-The Schnabel estimator is shown below, where the $M$, $n$ and $m$ are indexed by the sampling occasion, $i$. In our example, the sampling occasions are defined as each day of sampling. This estimator does not have an associate standard error, but 95% confidence intervals can be calculated. The Schnabel estimator is essentially a weighted average of a series of Lincoln-Petersen estimators (with a Chapman modification). 
+For a multiple census estimator we first considered the Schnabel estimator where the $M$, $n$ and $m$ are indexed by the sampling occassion, $i$. In our case, the sampling occassions are defined as each day of sampling. The Schnabel estimator does not have an associated standard error; however, the 90% confidence intervals can be calculated. The Schnabel estimator is essentially a weighted average of a series of Lincoln-Peterson estimators (with a Chapman modfication). The Schnabel estimator is shown here:
 
 $$
 \hat{N} = \frac{\sum\limits_{i = 1}^k n_i M_i}{\left(\sum\limits_{i = 1}^k m_i \right) + 1}
 $$
 
-There is another estimator for this type of multiple census surveys, called the Schumacher-Eschmeyer estimator, which is based on minimizing the weighted sum of squares between the proportion of marked individuals in the sample and the unknown proportion of marked individuals in the population. It is shown below.
+Finally, we explored one additional estimator for multiple census surveys, called the Schumacher-Eschmeyer estimator, which is based on minimizing the weighted sum of squares between the proportion of marked individuals in the sample and the unknown proportion of marked individuals in the population. The Schumacher-Eschmeyer estimator is as follows:
 
 $$
 \hat{N} = \frac{\sum\limits_{i = 1}^k n_i M^2_i}{\sum\limits_{i = 1}^k m_i M_i}
 $$
-Additionally, we calculated the proportional stock density (PSD) of Northern Pikeminnow with 300 mm total length (TL) for stock and 400 mm TL for quality.
+
+<!-- Here, let's attempt to use the ratio of CPUEs between the fall and spring to estimate abundance in the spring. We'll assume equal capture probability in both periods. We recognize that capture probability is probably smaller in the spring (higher flows, more turbidity, perhaps cooler?), so we think our estimate is a conservative one (i.e., the truth is probably higher). Then we'll re-do the bioenergetics model to explore how many NFF smolts might be consumed in the spring -->
+
+The mark-recapture estimators allowed us to estimate the abundance of Northern Pikeminnow during the fall 2019 and fall 2020 sampling periods. However, due to logistical constraints, we were only able to sample during a single week in spring 2021 and released fish were released unmarked. Instead, to estimate the abundance of Northern Pikeminnow in the spring, we used the ratio of total CPUE in the fall sampling events to the total CPUE in the spring sampling event, and multiplied that ratio by the abundance of Northern Pikeminnow in the fall. This assumes the same capture probability in the fall as in the spring. If that assumption is not true and capture probability did differ, we believe that the capture probability to be lower in the spring due to higher flows, which would lead to our spring abundance estimate to be biased low. Therefore, we consider this a conservative estimate of the number of Northern Pikeminnow present in the Deadwater Slough during the spring emigration of NRR Chinook Salmon. 
+
+Lastly, we calculated the proportional stock density (PSD) for Northern Pikeminnow captured during field efforts, which is a measure of species size structure. PSD is a ratio, typically expressed as a percentage, between the number of "quality-sized" individuals or larger individuals and "stock-sized" individuals. Stock and quality size definitions vary by species. PSD is expressed as:
+
 $$
 PSD_{i} = 100 * \frac{FQ_{i}}{FS_{i}}
 $$
-where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$.
 
-<!-- use ratio of CPUEs between fall and spring, and assume same capture probability in both periods to estimate abundance in the spring. Recognize that capture probability is probably smaller in the spring, so our estimate is a conservative one (the truth is probably higher). Then re-do the bioenergetics model to look at how many smolts are consumed in the spring. -->
-
-To estimate the abundance of Northern Pikeminnow in the spring, we used the ratio of total CPUE in a fall sampling event (total Northern Pikeminnow caught / effort) to the total CPUE in the spring, and multiply that ratio by the abundance of Northern Pikeminnow in the fall. This assumes the same capture probability in the fall as in the spring. If that does differ, we believe the capture probability to be lower in the spring due to higher flows, which would lead to our spring abundance estimate to be biased low. Therefore, we consider this a conservative estimate of the number of Northern Pikeminnow present in the Deadwater area during the spring Chinook smolt out migration.
+where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$. We calculated the PSD for Northern Pikeminnow in our study using 300 mm TL for stock-size and 400 mm TL for quality-size.
 
 
 ## Predation On Juvenile Chinook Salmon
@@ -934,7 +935,7 @@ length_freq_p
 
 \newpage
 
-```{r adult-imp-p}
+```{r adult-imp-p, fig.cap = "The adult impacts plot."}
 adult_impact %>%
   mutate(stage = "Smolt") %>%
   select(event_name, model,
