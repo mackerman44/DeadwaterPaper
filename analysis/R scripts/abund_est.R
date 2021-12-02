@@ -32,7 +32,13 @@ raw_df = readxl::read_excel(here("analysis/data/raw_data/Deadwater_predation_mar
 cmr_df = raw_df %>%
   filter(count > 0) %>%
   # pull out only Northern Pikeminnow
-  filter(species == "Northern Pikeminnow")
+  filter(species == "Northern Pikeminnow") %>%
+  mutate(mark_release = if_else(fish_status == "Live" &
+                                  capture_type == "Mark",
+                                T, F),
+         recap = if_else(capture_type == "Recapture",
+                         T, F))
+
 
 #------------------------------------------------------------
 # CPUE
@@ -54,23 +60,29 @@ effort_df = raw_df %>%
                 ~ . * crew_count)) %>%
   group_by(event_name,
            date) %>%
-  summarise(across(total_effort,
+  summarise(across(c(total_effort,
+                     crew_count),
                    sum),
             .groups = "drop")
 
-# calculate CPUE
 cpue_df = effort_df %>%
   # add how many pikeminnow were caught
   left_join(cmr_df %>%
               group_by(event_name, species, date) %>%
               summarise(n_fish = n(),
+                        n_large_fish = sum(length>=228,
+                                           na.rm = T),
                         .groups = "drop")) %>%
-  mutate(cpue = n_fish / total_effort)
+  mutate(cpue = n_fish / total_effort,
+         cpue_per_day = n_fish / crew_count,
+         cpue_large_per_day = n_large_fish / crew_count)
+
+
 
 #------------------------------------------------------------
 # Abundance
 #------------------------------------------------------------
-# using Schnabel and Schumacher-Eschmeyer models
+# using Schnabel and Schumacher-Eschmeyer estimators
 N_mods = cmr_df %>%
   # filter out spring 2021 (no recapture)
   filter(event_name != "Spring_2021") %>%
@@ -81,6 +93,9 @@ N_mods = cmr_df %>%
             R = sum(fish_status == "Live", na.rm = T),
             .groups = "drop") %>%
   group_by(event_name, species) %>%
+  mutate(M = lag(R - m),
+         M = replace_na(M, 0),
+         M = cumsum(M)) %>%
   nest() %>%
   crossing(model = c("Schnabel",
                      "SchumacherEschmeyer")) %>%
@@ -167,28 +182,28 @@ LP_mod = cmr_df %>%
   nest(data = -c(event_name, species)) %>%
   crossing(model = c("Petersen",
                      "Chapman")) %>%
-  mutate(mr_mod = map2(data,
-                       model,
-                       .f = function(x, y) {
-                         with(x,
-                              mrClosed(M = M,
-                                       n = n,
-                                       m = m,
-                                       method = y))
-                       }),
-         N_summ = map(mr_mod,
+  mutate(mr_model = map2(data,
+                         model,
+                         .f = function(x, y) {
+                           with(x,
+                                mrClosed(M = M,
+                                         n = n,
+                                         m = m,
+                                         method = y))
+                         }),
+         N_summ = map(mr_model,
                       .f = summary,
                       incl.SE = T),
-         CI = map(mr_mod,
+         CI = map(mr_model,
                   .f = confint)) %>%
   mutate(N = map_dbl(N_summ,
                      .f = function(x) x[1]),
          SE = map_dbl(N_summ,
                       .f = function(x) x[2]),
          Lci = map_dbl(CI,
-                         .f = function(x) x[1]),
+                       .f = function(x) x[1]),
          Uci = map_dbl(CI,
-                         .f = function(x) x[2])) %>%
+                       .f = function(x) x[2])) %>%
   select(-N_summ, -CI)
 
 #-----------------------------------------------------------------
@@ -196,15 +211,13 @@ LP_mod = cmr_df %>%
 all_est = LP_mod %>%
   select(event_name, species, model, N:Uci) %>%
   bind_rows(N_mods %>%
-              mutate(model = "Schnabel") %>%
-              select(event_name, species, model, N, CI) %>%
-              mutate(Lci = map_dbl(CI,
-                                     .f = function(x) x[1]),
-                     Uci = map_dbl(CI,
-                                     .f = function(x) x[2])) %>%
-              select(-CI)) %>%
+              select(event_name, species, model, N:Uci)) %>%
   mutate(range = Uci - Lci,
          prop_range = range / N) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  mutate(model = fct_recode(model,
+                            "Schumacher-Eschmeyer" = "SchumacherEschmeyer")) %>%
   arrange(event_name, model)
 
 all_est
@@ -221,6 +234,49 @@ all_est %>%
   labs(x = "Estimator",
        y = "Pikeminnow Abundance") +
   theme(legend.position = "none")
+
+
+
+#-----------------------------------------------------------------
+# generate estimate of spring abundance based on CPUE
+#-----------------------------------------------------------------
+total_cpue = cpue_df %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  group_by(species, event_name) %>%
+  summarise(across(c(total_effort,
+                     n_fish,
+                     n_large_fish,
+                     angler_days = crew_count),
+                   sum),
+            .groups = "drop") %>%
+  mutate(across(total_effort,
+                ~ . / 60)) %>%
+  mutate(cpue = n_fish / total_effort,
+         cpue_per_day = n_fish / angler_days,
+         cpue_large_per_day = n_large_fish / angler_days)
+
+
+spring_abund = all_est %>%
+  select(-range, -prop_range) %>%
+  inner_join(total_cpue,
+             by = c("event_name", "species")) %>%
+  select(species, model,
+         model_event = event_name,
+         N_F = N,
+         Lci_F = Lci,
+         Uci_F = Uci,
+         cpue_F = cpue) %>%
+  full_join(total_cpue %>%
+              filter(str_detect(event_name, "Spring")) %>%
+              select(species,
+                     cpue_S = cpue),
+            by = "species") %>%
+  mutate(N_S = N_F * (cpue_S / cpue_F),
+         Lci_S = Lci_F * (cpue_S / cpue_F),
+         Uci_S = Uci_F * (cpue_S / cpue_F))
+
+
 
 #-----------------------------------------------------------------
 # CPUE

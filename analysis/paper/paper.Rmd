@@ -324,15 +324,20 @@ all_est = LP_mod %>%
 
 ```{r spring-abund}
 total_cpue = cpue_df %>%
-              mutate(across(event_name,
-                            ~ str_replace(., "_", " "))) %>%
-              group_by(species, event_name) %>%
-              summarise(across(c(total_effort, n_fish),
-                               sum),
-                        .groups = "drop") %>%
-              mutate(across(total_effort,
-                            ~ . / 60)) %>%
-              mutate(cpue = n_fish / total_effort)
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  group_by(species, event_name) %>%
+  summarise(across(c(total_effort, 
+                     n_fish,
+                     n_large_fish,
+                     angler_days = crew_count),
+                   sum),
+            .groups = "drop") %>%
+  mutate(across(total_effort,
+                ~ . / 60)) %>%
+  mutate(cpue = n_fish / total_effort,
+         cpue_per_day = n_fish / angler_days,
+         cpue_large_per_day = n_large_fish / angler_days)
 
 
 spring_abund = all_est %>%
@@ -769,24 +774,15 @@ all_est %>%
 \newpage
 
 ```{r cpue-fig, fig.cap = "Total catch per unit effort across entire sampling event."}
-cpue_df %>%
-  mutate(across(event_name,
-                ~ str_replace(., "_", " "))) %>%
-  group_by(species, event_name) %>%
-  summarise(across(c(total_effort, n_fish),
-                   sum),
-            .groups = "drop") %>%
-  mutate(across(total_effort,
-                ~ . / 60)) %>%
-  mutate(cpue = n_fish / total_effort) %>%
+total_cpue %>%
   ggplot(aes(x = event_name,
-             y = cpue,
+             y = cpue_large_per_day,
              fill = event_name)) +
   geom_col() +
   scale_fill_brewer(palette = "Set1",
                     name = "Event") +
   labs(x = "Event",
-       y = "CPUE (Pikeminnow caught per hour)") +
+       y = "CPUE (Large Pikeminnow caught per angler day)") +
   theme(legend.position = "none")
 
 ```
