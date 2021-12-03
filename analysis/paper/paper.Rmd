@@ -418,6 +418,8 @@ where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $
 
 ## Predation On Juvenile Chinook Salmon
 
+Gastric lavage [@Foster1977] was used to examine the stomach contents of Northern Pikeminnow for the presence of juvenile Chinook Salmon, other fishes (e.g., juvenile steelhead, juvenile Sockeye Salmon, Redside Shiner, etc.), and non-targets (e.g., macroinvertebrates, organic matter, etc.). Stomach contents were preserved with 99% isopropyl alcohol in whirl-paks and analyzed in a laboratory. For each sample, wet weight (grams) was recorded for the combined stomach content and for the fish content. Fish and fish remnants were identified to the lowest taxonomic unit, when possible, or were categorized as unknown. A subset of Northern Pikeminnow captures were euthanized for dissection after gastric lavage to validate the efficacy of the methodology.
+
 ```{r gastric-data}
 gastric_df = raw_df %>%
   filter(species == "Northern Pikeminnow") %>%
@@ -470,22 +472,8 @@ fish_wt_summ = gastric_df2 %>%
 
 ```
 
-Gastric lavage [@Foster1977] was used to examine the stomach contents of Northern Pikeminnow for the presence of juvenile Chinook Salmon, other fishes (e.g., juvenile steelhead, juvenile Sockeye Salmon, Redside Shiner, etc.), and non-targets (e.g., macroinvertebrates, organic matter, etc.). Stomach contents were preserved with 99% isopropyl alcohol in whirl-paks and analyzed in a laboratory. For each sample, wet weight (grams) was recorded for the combined stomach content and for the fish content. Fish and fish remnants were identified to the lowest taxonomic unit, when possible, or were categorized as unknown. A subset of Northern Pikeminnow captures were euthanized for dissection after gastric lavage to validate the efficacy of the methodology.
-
 
 ## Bioenergetics
-
-<!--
-A few things that need to be clarified in this section:
-* Why were the dates Sept 1 - Nov 17 chosen? They make sense, but we should include our rationale
-* Where did the temperature data come from? Hobo? Stream gauge? The methods say temperature data from 2019 was used, but the results seem to use 2020? 
-* Why does it look like we only ran it for dates in 2020? Is that the only year we had temperature data for? Would the results look different if we used temperature data from a different year?
-* The lengths of pikeminnow: did we only use pikeminnow we caught in the fall to get average length? Is there a difference in lengths between 2019 and 2020? 
-* There needs to be more explanation of the inverts vs. fish. What proportion went to each and why? Did it change through time? Based on literature at all? 
-* Where is the data that was used to get a weight of 12 g for Chinook emigrant? Was that for Chinook presmolts, or a combination of smolts and presmolts? If the latter, can we filter it to look at the average weight for presmolts only? And maybe smolts only for a different analysis? 
-* Could we run a similar model for the spring emigration period? Figure out the dates, look at lengths of pikeminnow from the spring, convert to average weight, use average size of Chinook smolts (not presmolts) from all the Upper Salmon traps? Kevin can work on converting the spring catch into some kind of estimate of pikeminnow at Deadwater in the spring
--->
-
 
 ```{r shoup-temp-data}
 shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
@@ -535,9 +523,14 @@ To estimate the consumption of juvenile Chinook Salmon outmigrants by Northern P
 We ran three bioenergetic models for this study. For the first model, we chose a 78-day period from September 1 through November 17 when DSR emigrants are known to enter the mainstem Salmon River from natal tributaries (e.g., Lemhi River) and begin their downstream migration. During this time, water temperatures exceed the range (0-7$^\circ$C) that would illicit concealment behavior or torpor from juvenile Chinook Salmon. This model assumed no growth for Northern Pikeminnow. The second model was run for one-year and assumed no growth for Northern Pikeminnow. The assumption of no growth for pikeminnow was included to show what may be occurring if the population of Northern Pikeminnow is stable. If growth of the population is occurring, the alternative model shows how an increase of 10% body weight changes the estimates of consumption over a full year period. To estimate the number of possible Chinook Salmon that could be consumed, we assumed a weight of 12 g per individual Chinook Salmon. This weight was an average from juvenile Chinook Salmon emigrating past six rotary screw traps operating in the Upper Salmon above Deadwater Slough including traps in the Lemhi, Pahsimeroi, and North Fork Salmon rivers and one trap operating near the Sawtooth hatchery.
 
 <!--
-To estimate the impacts from northern pikeminnow on juvenile Chinook Salmon outmigrants in Deadwater Slough, we used an R-based application of Fish Bioenergetics v4.0 developed by @Deslauriers2017. We estimated a daily rate of consumption for an individual northern pikeminnow based on predator and prey energy densities, water temperatures, and predator start and end weights. We also ran two alternative models one with a year of temperature inputs from 2019, and another with the same temperature inputs but a 10% growth in weight of the average pikeminnow at the end of the model. The average length of northern pikeminnow captured at the Deadwater Slough during our study was 370.6 mm which calculates to an average starting weight of 847 g using the FSA package (@Ogle2021) in R which provides a weight-length formula for northern pikeminnow sourced from @Parker1995. Predator energy density for northern pikeminnow was available in the Bioenergetics v4.0 application and was fixed at 6,703 Joules(J)/g. Prey energy densities was taken from @Moss2016 where they estimated juvenile Chinook Salmon at 21,500 J/g. Using these temperatures, weights, and energy inputs, we estimated a total consumption in grams for an individual norther pikeminnow within Deadwater Slough.
-
-We ran three bioenergetic models for this study. First, we chose a 78-day period from September 1 through November 17 where we know Chinook Salmon DSR emigrants begin to enter the mainstem Salmon River from natal tributaries (e.g., Lemhi River) and begin to migrate downstream, but when temperatures are still high enough that juveniles are not yet exhibiting concealment behavior or torpor. The second model was still assuming no growth but taking the entire year into account for the model rather than the 78-day fall period. The assumption of no growth for pikeminnow was included to show what may be occurring if the population of northern pikeminnow is stable. If growther of the population is occurring, the alternative model shows how an increase of 10% body weight changes the estimates of consumption over a full year period. To estimate the number of possible Chinook Salmon that could be consumed, we assumed a weight of 12 g per individual chinook Salmon. This weight was an average from juvenile Chinook salmon emigrating past six rotary screw traps operating in the Upper Salmon above Deadwater Slough including traps in the Lemhi, Pahsimeroi, and North Fork Salmon rivers and one trap operating near the Sawtooth hatchery.
+A few things that need to be clarified in this section:
+* Why were the dates Sept 1 - Nov 17 chosen? They make sense, but we should include our rationale
+* Where did the temperature data come from? Hobo? Stream gauge? The methods say temperature data from 2019 was used, but the results seem to use 2020? 
+* Why does it look like we only ran it for dates in 2020? Is that the only year we had temperature data for? Would the results look different if we used temperature data from a different year?
+* The lengths of pikeminnow: did we only use pikeminnow we caught in the fall to get average length? Is there a difference in lengths between 2019 and 2020? 
+* There needs to be more explanation of the inverts vs. fish. What proportion went to each and why? Did it change through time? Based on literature at all? 
+* Where is the data that was used to get a weight of 12 g for Chinook emigrant? Was that for Chinook presmolts, or a combination of smolts and presmolts? If the latter, can we filter it to look at the average weight for presmolts only? And maybe smolts only for a different analysis? 
+* Could we run a similar model for the spring emigration period? Figure out the dates, look at lengths of pikeminnow from the spring, convert to average weight, use average size of Chinook smolts (not presmolts) from all the Upper Salmon traps? Kevin can work on converting the spring catch into some kind of estimate of pikeminnow at Deadwater in the spring
 -->
 
 
@@ -545,16 +538,13 @@ We ran three bioenergetic models for this study. First, we chose a 78-day period
 
 ## Abundance of Piscivorous Fishes
 
+Abundance estimates for Northern Pikeminnow in the Deadwater Slough during the fall 2019 and 2020 sampling events ranges from `r prettyNum(min(all_est$N), big.mark = ",")` to `r prettyNum(max(all_est$N), big.mark = ",")`. The multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied (Figure \@ref(fig:abund-fig)). <!-- Need to fill in these fall results more -->
 
-<!--
-* Total population estimates of Pike Minnow. Chart or table, but likely a chart.
-* What is that equate to as a density? e.g., how many pikeminnow per 10 square meters? Is that a reasonable number?
-* To calculate density, need the area of the extent surveyed each year. Was that area consistent year-to-year?
--->
+<!-- Add spring abundance results here -->
 
-Abundance estimates for northern pikeminnow during the fall sampling events ranged from `r prettyNum(min(all_est$N), big.mark = ",")` to `r prettyNum(max(all_est$N), big.mark = ",")`. The multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied. 
+The PSD for Northern Pikeminnow in our study and across all three years was 42.3%. In other words, 42.3% of captured fish were over the quality size classification of 400 mm TL, demonstrating that a high percentage of Northern Pikeminnow within Deadwater Slough are above average size classes defined for the species <!-- Is this useful? And if useful, does it make sense to calculate PSD separately for the fall and spring periods? I'd expect PSD to vary between seasons. -->
 
-PSD for northern pikeminnow across all three years was 42.26% or 42.26% of fish were over the quality size classification 400 mm TL we denoted in the Methods, demonstrating a high percentage of above average size classes present within Deadwater Slough.
+<!-- Include some results for density e.g., pikeminnow per 100 linear meters or pikeminnow per acre. -->
 
 
 ## Predation On Juvenile Chinook Salmon
