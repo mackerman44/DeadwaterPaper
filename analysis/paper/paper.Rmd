@@ -407,13 +407,33 @@ $$
 
 The mark-recapture estimators allowed us to estimate the abundance of Northern Pikeminnow during the fall 2019 and fall 2020 sampling periods. However, due to logistical constraints, we were only able to sample during a single week in spring 2021 and released fish were released unmarked. Instead, to estimate the abundance of Northern Pikeminnow in the spring, we used the ratio of total CPUE in the fall sampling events to the total CPUE in the spring sampling event, and multiplied that ratio by the abundance of Northern Pikeminnow in the fall. This assumes the same capture probability in the fall as in the spring. If that assumption is not true and capture probability did differ, we believe that the capture probability to be lower in the spring due to higher flows, which would lead to our spring abundance estimate to be biased low. Therefore, we consider this a conservative estimate of the number of Northern Pikeminnow present in the Deadwater Slough during the spring emigration of NRR Chinook Salmon. 
 
+```{r psd}
+s_size = 300
+q_size = 400
+
+psd_df = cmr_df %>%
+  select(species, count, length, recap, event_name) %>%
+  filter(recap  != TRUE)
+
+fs = psd_df %>%
+  filter(length >= s_size) %>%
+  nrow()
+
+fq = psd_df %>%
+  filter(length >= q_size) %>%
+  nrow()
+
+psd = 100 * (fq/fs)
+
+```
+
 Lastly, we calculated the proportional stock density (PSD) for Northern Pikeminnow captured during field efforts, which is a measure of species size structure. PSD is a ratio, typically expressed as a percentage, between the number of "quality-sized" individuals or larger individuals and "stock-sized" individuals. Stock and quality size definitions vary by species. PSD is expressed as:
 
 $$
 PSD_{i} = 100 * \frac{FQ_{i}}{FS_{i}}
 $$
 
-where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$. We calculated the PSD for Northern Pikeminnow in our study using 300 mm TL for stock-size and 400 mm TL for quality-size.
+where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$. We calculated the PSD for Northern Pikeminnow in our study using `r prettyNum(s_size, digits = 0)` mm TL for stock-size and `r prettyNum(q_size, digits = 0)` mm TL for quality-size.
 
 
 ## Predation On Juvenile Chinook Salmon
@@ -542,7 +562,7 @@ Abundance estimates for Northern Pikeminnow in the Deadwater Slough during the f
 
 <!-- Add spring abundance results here -->
 
-The PSD for Northern Pikeminnow in our study and across all three years was 42.3%. In other words, 42.3% of captured fish were over the quality size classification of 400 mm TL, demonstrating that a high percentage of Northern Pikeminnow within Deadwater Slough are above average size classes defined for the species <!-- Is this useful? And if useful, does it make sense to calculate PSD separately for the fall and spring periods? I'd expect PSD to vary between seasons. -->
+The PSD for Northern Pikeminnow in our study and across all three years was `r prettyNum(psd, digits = 1)`%. In other words, `r prettyNum(psd, digits = 1)`% of captured fish were over the quality size classification of `r prettyNum(q_size, digits = 0)` mm TL, demonstrating that a high percentage of Northern Pikeminnow within Deadwater Slough are above average size classes defined for the species <!-- Is this useful? And if useful, does it make sense to calculate PSD separately for the fall and spring periods? I'd expect PSD to vary between seasons. -->
 
 <!-- Include some results for density e.g., pikeminnow per 100 linear meters or pikeminnow per acre. -->
 
