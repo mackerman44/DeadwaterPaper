@@ -368,7 +368,6 @@ spring_abund = all_est %>%
 
 ```
 
-
 We used several mark-recapture abundance estimators that each rely on meeting several assumptions:
 
 1. The population in closed (no immigration, emigration, births or deaths during the sampling period)
@@ -402,8 +401,6 @@ Finally, we explored one additional estimator for multiple census surveys, calle
 $$
 \hat{N} = \frac{\sum\limits_{i = 1}^k n_i M^2_i}{\sum\limits_{i = 1}^k m_i M_i}
 $$
-
-<!-- Here, let's attempt to use the ratio of CPUEs between the fall and spring to estimate abundance in the spring. We'll assume equal capture probability in both periods. We recognize that capture probability is probably smaller in the spring (higher flows, more turbidity, perhaps cooler?), so we think our estimate is a conservative one (i.e., the truth is probably higher). Then we'll re-do the bioenergetics model to explore how many NFF smolts might be consumed in the spring -->
 
 The mark-recapture estimators allowed us to estimate the abundance of Northern Pikeminnow during the fall 2019 and fall 2020 sampling periods. However, due to logistical constraints, we were only able to sample during a single week in spring 2021 and released fish were released unmarked. Instead, to estimate the abundance of Northern Pikeminnow in the spring, we used the ratio of total CPUE in the fall sampling events to the total CPUE in the spring sampling event, and multiplied that ratio by the abundance of Northern Pikeminnow in the fall. This assumes the same capture probability in the fall as in the spring. If that assumption is not true and capture probability did differ, we believe that the capture probability to be lower in the spring due to higher flows, which would lead to our spring abundance estimate to be biased low. Therefore, we consider this a conservative estimate of the number of Northern Pikeminnow present in the Deadwater Slough during the spring emigration of NRR Chinook Salmon. 
 
