@@ -139,25 +139,25 @@ This research is an essential first step in characterizing conditions through th
 
 ## Abundance of Piscivorous Fishes
 
-The first objective was to estimate the population size of piscine predators in the Deadwater Slough to begin to their potential impacts on juvenile Chinook Salmon. Our initial intent was to estimate predator abundances using mark-recapture methods during fall 2019 and spring 2020 during the emigration of the 2018 brood year. We attempted to sample near the peaks of the juvenile DSR (fall) and NRR (spring) emigrations. However, due to logistical concerns during the onset of the Covid-19 pandemic, the spring 2020 sampling event was delayed until fall 2020. Although this provided the benefit of an additional abundance estimate during the DSR emigration, estimates during the NRR emigration were still lacking, and so an additional sampling event was added for spring 2021. The study design was such that the fall 2019 and fall 2020 sampling efforts included both a "mark week" and "recapture week" intended for mark-recapture models. However, due to budget constraints the spring 2021 effort only included a single "mark week"; instead, we calculated the catch-per-unit-effort (CPUE; fish per hour) for the spring 2021 sampling event for comparison to the fall efforts. In the end, sampling dates were as follows: fall 2019 (mark = November 12-14; recapture = November 19-21), fall 2020 (mark = October 20-23; recapture = October 27-30); spring 2021 (mark = May 18-21). The recapture events were held just one week following the mark events to reduce opportunity for immigration/emigration of predators between events i.e., to avoid violation of a closed population for mark-recapture models.
+Our first objective was to estimate the population size of piscine predators in the Deadwater Slough to begin to understand their potential impacts on juvenile Chinook Salmon. The intent was to estimate predator abundances using mark-recapture methods during fall 2019 and spring 2020 during emigration of the 2018 brood year. We attempted to sample near the peaks of the juvenile DSR (fall) and NRR (spring) emigrations. However, due to logistical concerns during the onset of the Covid-19 pandemic, the spring 2020 sampling event was delayed until fall 2020. Although this provided the benefit of an additional abundance estimate during the DSR emigration, estimates during the NRR emigration were still lacking, and so an additional sampling event was added for spring 2021. The study design was such that the fall 2019 and fall 2020 sampling efforts included both a "mark week" and "recapture week" intended for mark-recapture models. However, due to budget constraints the spring 2021 effort only included a single "mark week"; instead, we calculated the catch-per-unit-effort (CPUE; fish per hour) for the spring 2021 sampling event for comparison to the fall efforts. In the end, sampling dates were as follows: fall 2019 (mark = November 12-14; recapture = November 19-21), fall 2020 (mark = October 20-23; recapture = October 27-30); spring 2021 (mark = May 18-21). The recapture events were held just one week following the mark events to reduce opportunity for immigration/emigration of predators between events i.e., to avoid violation of a closed population for mark-recapture models.
 
 We attempted a multiple of capture methods during the first year including raft electrofishing, fyke netting, snorkeling, and angling to reduce selectivity, both for species and size classes. Unfortunately, some methods proved ineffective during initial efforts. For example, fish were able to elude the electrical field of the raft electrofisher due to 1) the lack of flow in Deadwater Slough and 2) our inability to "chase" fish downstream as they evaded the electricity. Snorkeling was ineffective due to the high turbidity of the mainstem Salmon River and Deadwater Slough area. And due to debris floating in the water column, there were concerns with fyke nets being pulled from their anchored locations and becoming entangled. Additionally, there were concerns with raft electrofishers and fyke nets incidentally capturing ESA-listed adult steelhead that are present in the mainstem Salmon River during fall and spring. Eventually, angling proved to be the most effective method for capturing piscine predators while minimizing potential impacts to steelhead but recognizing that angling can have both species and size selectivity (bias). From here on, we focus on fish captured by angling, unless otherwise noted.
 
 Our study relied heavily on volunteer anglers who were allowed to fish anywhere within Deadwater Slough; periodically or upon filling a livewell anglers would boat or hike their catch to a processing station located at the boat ramp approximately 500 m downstream from the top of the slough. For each fish, processors would record the date of capture, species, total length (TL; mm), and whether the fish was previously marked. If not previously marked, each fish was provided a physical mark (e.g., hole punch of lower caudal, upper caudal, left pelvic, right pelvic) unique for each marking day. We also recorded whether marked individuals were released back to be captured again. For release, processors attempted to distribute released individuals throughout Deadwater Slough to facilitate mixing back into the population. We also recorded the crew (person or combination of persons) that captured each fish and the start and end times for each crew to estimate total effort.    
 
-```{r cmr-effort-data}
+```{r capture-data, eval = T}
 raw_df = readxl::read_excel(here("analysis/data/raw_data/Deadwater_predation_mark_recapture_11.09.21.xlsx")) %>%
   clean_names() %>%
   mutate(across(date,
                 ymd)) %>%
   mutate(across(c(start_time, end_time),
                 ~ ymd_hms(paste(year(date), month(date), day(date), hour(.), minute(.), second(.))))) %>%
-  # split into sampling periods
+  # break days into "sampling events"
   mutate(event_name = if_else(month(date) > 8,
                               paste("Fall", year(date), sep = "_"),
                               paste("Spring", year(date), sep = "_")))
 
-# focus on pikeminnow
+# focus on pikeminnow, to be used for mark-recap models
 cmr_df = raw_df %>%
   filter(count > 0) %>%
   # pull out only Northern Pikeminnow
@@ -168,6 +168,9 @@ cmr_df = raw_df %>%
          recap = if_else(capture_type == "Recapture",
                          T, F))
 
+```
+
+```{r effort, eval = T}
 effort_df = raw_df %>%
   select(event_name,
          site,
@@ -179,31 +182,38 @@ effort_df = raw_df %>%
          start_time:total_effort,
          total_day_effort) %>%
   distinct() %>%
+  filter(method == "Angling") %>%
   mutate(across(total_effort,
                 ~ . * crew_count)) %>%
+  rename(total_effort_min = total_effort) %>%
   group_by(event_name,
            date) %>%
-  summarise(across(c(total_effort,
+  summarise(across(c(total_effort_min,
                      crew_count),
                    sum),
             .groups = "drop")
 
+# What size (mm) is considered a large pikeminnow?
+large_size = 228
+
+# catch per unit effort
 cpue_df = effort_df %>%
-  # add how many pikeminnow were caught
+  # add back in the number of pikeminnow caught
   left_join(cmr_df %>%
               group_by(event_name, species, date) %>%
               summarise(n_fish = n(),
-                        n_large_fish = sum(length>=228,
+                        n_large_fish = sum(length >= large_size,
                                            na.rm = T),
                         .groups = "drop")) %>%
   # calculate CPUE a few different ways
-  mutate(cpue = n_fish / total_effort,
-         cpue_per_day = n_fish / crew_count,
-         cpue_large_per_day = n_large_fish / crew_count)
-
+  mutate(catch_per_min = n_fish / total_effort_min,
+         catch_per_hr  = n_fish / (total_effort_min / 60),
+         catch_per_angler_day = n_fish / crew_count,
+         catch_lg_per_angler_day = n_large_fish / crew_count)
+ 
 ```
 
-```{r lincoln-petersen-estimator}
+```{r lincoln-petersen-estimator, eval = T}
 # using Lincoln-Petersen model, combining first 4 and last four days
 # define mark and recapture periods
 cap_periods = tibble(event_name = "Fall_2019",
@@ -223,14 +233,16 @@ cap_periods = tibble(event_name = "Fall_2019",
                    int = interval(start = ymd('20201027'),
                                   end = ymd('20201030'))))
 
+# add cap_period column, fill w/ NA
 cmr_df$cap_period = NA_character_
+# fill cap_period w/ Mark or Recapture
 for(i in 1:nrow(cap_periods)) {
   my_int = cap_periods$int[i]
   index = which(cmr_df$date %within% my_int)
   cmr_df$cap_period[index] = cap_periods$cap_period[i]
 }
 
-
+# Lincoln-Peterson Model
 LP_mod = cmr_df %>%
   # filter out spring 2021 (no recapture)
   filter(event_name != "Spring_2021") %>%
@@ -246,11 +258,11 @@ LP_mod = cmr_df %>%
                        model,
                       .f = function(x, y) {
                         with(x,
-                             mrClosed(M = M,
-                                      n = n,
-                                      m = m,
-                                      method = y))
-                      }),
+                             FSA::mrClosed(M = M,
+                                          n = n,
+                                          m = m,
+                                          method = y))
+                        }),
          N_summ = map(mr_model,
                       .f = summary,
                       incl.SE = T),
@@ -328,39 +340,38 @@ all_est = LP_mod %>%
 total_cpue = cpue_df %>%
   mutate(across(event_name,
                 ~ str_replace(., "_", " "))) %>%
-  group_by(species, event_name) %>%
-  summarise(across(c(total_effort, 
+  group_by(species,
+           event_name) %>%
+  summarise(across(c(total_effort_min,
                      n_fish,
                      n_large_fish,
                      angler_days = crew_count),
                    sum),
             .groups = "drop") %>%
-  mutate(across(total_effort,
-                ~ . / 60)) %>%
-  mutate(cpue = n_fish / total_effort,
-         cpue_per_day = n_fish / angler_days,
-         cpue_large_per_day = n_large_fish / angler_days)
-
+  mutate(catch_per_min = n_fish / total_effort_min,
+         catch_per_hr = n_fish / (total_effort_min / 60),
+         catch_per_angler_day = n_fish / angler_days,
+         catch_lg_per_angler_day = n_large_fish / angler_days)
 
 spring_abund = all_est %>%
   select(-range, -prop_range) %>%
   inner_join(total_cpue,
              by = c("event_name", "species")) %>%
-  select(species, model, 
+  select(species,
+         model,
          model_event = event_name,
-         N_F = N, 
+         N_F = N,
          Lci_F = Lci,
          Uci_F = Uci,
-         cpue_F = cpue) %>%
+         cpue_F = catch_per_hr) %>%
   full_join(total_cpue %>%
               filter(str_detect(event_name, "Spring")) %>%
               select(species,
-                     cpue_S = cpue),
+                     cpue_S = catch_per_hr),
             by = "species") %>%
   mutate(N_S = N_F * (cpue_S / cpue_F),
          Lci_S = Lci_F * (cpue_S / cpue_F),
          Uci_S = Uci_F * (cpue_S / cpue_F))
-
 
 ```
 
@@ -788,7 +799,7 @@ all_est %>%
 ```{r cpue-fig, fig.cap = "Total catch per unit effort across entire sampling event."}
 total_cpue %>%
   ggplot(aes(x = event_name,
-             y = cpue_large_per_day,
+             y = catch_lg_per_angler_day,
              fill = event_name)) +
   geom_col() +
   scale_fill_brewer(palette = "Set1",
