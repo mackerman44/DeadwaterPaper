@@ -564,13 +564,13 @@ A few things that need to be clarified in this section:
 
 ## Abundance of Piscivorous Fishes
 
-Abundance estimates for Northern Pikeminnow in the Deadwater Slough during the fall 2019 and 2020 sampling events ranges from `r prettyNum(min(all_est$N), big.mark = ",")` to `r prettyNum(max(all_est$N), big.mark = ",")`. The multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied (Figure \@ref(fig:abund-fig)). <!-- Need to fill in these fall results more -->
+We caught `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2019", "n_fish"])` and `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2020", "n_fish"])` Northern Pikeminnow during Fall 2019 and Fall 2020, respectively. The catch per unit effort, measured as number of Northern Pikeminnow captured per angler hour, for each was `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2019", "catch_per_hr"], digits = 3)` for Fall 2019 and `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2020", "catch_per_hr"], digits = 3)` for Fall 2020 (Figure \@ref(fig:cpue-fig)). During Fall 2019 we had a total of `r sum(N_mods[[3]][[1]]$m)` recaptures which included `r LP_mod[[3]][[1]]$m` unique individuals i.e. `r sum(N_mods[[3]][[1]]$m) - LP_mod[[3]][[1]]$m` was captured more than once. There were `r sum(N_mods[[3]][[3]]$m)` recaptures in Fall 2020 which included `r LP_mod[[3]][[3]]$m` unique individuals. Summaries of parameters for both the single-census and multiple-census mark-recapture estimators are provided in Table \@ref(tab:abund-data-lp) and Table \@ref(tab:abund-data-schn), respectively.
 
-<!-- Add spring abundance results here -->
+Abundance estimates for Northern Pikeminnow in the Deadwater Slough during Fall 2019 ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` and for Fall 2020 ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")`. In both cases, the multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied (Figure \@ref(fig:abund-fig)). Table \@ref(tab:abund-tab) provides point estimates and confidence intervals for each estimator for the fall mark-recapture sampling events.
 
-The PSD for Northern Pikeminnow in our study and across all three years was `r prettyNum(psd, digits = 1)`%. In other words, `r prettyNum(psd, digits = 1)`% of captured fish were over the quality size classification of `r prettyNum(q_size, digits = 0)` mm TL, demonstrating that a high percentage of Northern Pikeminnow within Deadwater Slough are above average size classes defined for the species <!-- Is this useful? And if useful, does it make sense to calculate PSD separately for the fall and spring periods? I'd expect PSD to vary between seasons. -->
+We captured an additional `r prettyNum(total_cpue[total_cpue$event_name == "Spring 2021", "n_fish"])` Northern Pikeminnow during Spring 2021 and CPUE was `r prettyNum(total_cpue[total_cpue$event_name == "Spring 2021", "catch_per_hr"], digits = 2)` fish per angler hour. ***Finish spring abundance results.*** <!-- Can we assume equal capture probability and perhaps using the ratio of the average fall CPUE and spring CPUE. Then multiply the average fall abundance estimate by the ratio. Does that seem appropriate? -->
 
-<!-- Include some results for density e.g., pikeminnow per 100 linear meters or pikeminnow per acre. -->
+The PSD for Northern Pikeminnow in our study and across all three years was `r prettyNum(psd, digits = 1)`%. In other words, `r prettyNum(psd, digits = 1)`% of captured fish were over the quality size classification of `r prettyNum(q_size, digits = 0)` mm TL, demonstrating that a high percentage of Northern Pikeminnow within Deadwater Slough are above average size classes defined for the species
 
 
 ## Predation On Juvenile Chinook Salmon
@@ -721,7 +721,7 @@ LP_mod %>%
          Species = species) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Data summary for single census estimators. M is the number of fish caught in the first sample, marked and returned to the population. n is the number of fish caught in the second sample, and m is the number of marked fish caught in the second sample.") %>%
+        caption = "Data summary for single-census mark-recapture estimators. M is the total number of fish caught in the first sample event, marked and returned to the population; n is the total number of fish caught in the second sample, and m is the number of previously marked fish caught in the second sample event.") %>%
   kable_styling()
 
 ```
@@ -740,7 +740,7 @@ N_mods %>%
          Date = date) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Data summary for multiple census estimators. n is number of fish caught, m is the number of marked fish caught, u is the number of unmarked fish caught, and R is the number of marked fish returned to the population.") %>%
+        caption = "Data summary for multiple-census mark-recapture estimators. M is the total number of fish caught in previous events, marked and returned to the population; n is the total number of fish caught in the current event; m is the number of marked fish caught in that event; u is the number of unmarked fish caught, and R is the number of marked fish returned to the population.") %>%
   kable_styling()
 
 ```
@@ -754,7 +754,7 @@ all_est %>%
          Estimator = model) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Temporary caption.") %>%
+        caption = "Point estimates, standard errors, and confidence intervals for each of the mark-recapture estimators and for the fall sampling events. Standard errors are not available for the multiple-census estimators.") %>%
   kable_styling()
 
 ```
@@ -772,41 +772,69 @@ knitr::include_graphics("../figures/deadwater_map_low_res.png")
 
 \newpage
 
-```{r abund-fig, fig.cap = "Estimates of abundance of northern pikeminnow using different estimators."}
-all_est %>%
-  mutate(across(c(N, Lci, Uci),
-                 ~ . / 1000)) %>%
-  ggplot(aes(x = model,
-             y = N,
-             color = model)) +
-  geom_errorbar(aes(ymin = Lci,
-                    ymax = Uci),
-                width = 0.1) +
-  geom_point(size = 4) +
-  facet_wrap(~ event_name) +
-  scale_color_brewer(palette = "Set1") +
-  coord_cartesian(ylim = c(0, 100)) +
-  labs(x = "Estimator",
-       y = "Pikeminnow Abundance (x 1,000)") +
-  theme(legend.position = "none",
-        axis.text.x = element_text(angle = 45,
-                                   hjust = 1))
+```{r cpue-fig, fig.cap = "The number of Northern Pikeminnow caught per angler effort for each sampling event."}
+total_cpue %>%
+  ggplot(aes(x = event_name,
+             y = catch_per_hr)) +
+  geom_col(fill = "black") +
+  labs(y = "Catch Per Angler Hour") +
+  theme(axis.title.x = element_blank()) +
+  theme_classic()
+
+# total_cpue %>%
+#   ggplot(aes(x = event_name,
+#              y = catch_lg_per_angler_day,
+#              fill = event_name)) +
+#   geom_col() +
+#   scale_fill_brewer(palette = "Set1",
+#                     name = "Event") +
+#   labs(x = "Event",
+#        y = "CPUE (Large Pikeminnow caught per angler day)") +
+#   theme(legend.position = "none")
 
 ```
 
 \newpage
 
-```{r cpue-fig, fig.cap = "Total catch per unit effort across entire sampling event."}
-total_cpue %>%
-  ggplot(aes(x = event_name,
-             y = catch_lg_per_angler_day,
-             fill = event_name)) +
-  geom_col() +
-  scale_fill_brewer(palette = "Set1",
-                    name = "Event") +
-  labs(x = "Event",
-       y = "CPUE (Large Pikeminnow caught per angler day)") +
-  theme(legend.position = "none")
+```{r abund-fig, fig.cap = "Estimates of abundance of Northern Pikeminnow using different mark-recapture estimators and for the fall sampling events. Note the y-axis is truncated at 100."}
+all_est %>%
+  mutate(across(c(N, Lci, Uci),
+                ~ . / 1000)) %>%
+  ggplot(aes(x = model,
+             y = N,
+             color = model)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = Lci,
+                    ymax = Uci),
+                width = 0.1) +
+  facet_wrap(~ event_name) +
+  coord_cartesian(ylim = c(0, 100)) +
+  labs(x = "Estimator",
+       y = "Abundance (x 1,000)") +
+  theme_bw() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 45,
+                                   hjust = 1)) +
+  scale_color_brewer(palette = "Dark2")
+
+# all_est %>%
+#   mutate(across(c(N, Lci, Uci),
+#                  ~ . / 1000)) %>%
+#   ggplot(aes(x = model,
+#              y = N,
+#              color = model)) +
+#   geom_errorbar(aes(ymin = Lci,
+#                     ymax = Uci),
+#                 width = 0.1) +
+#   geom_point(size = 4) +
+#   facet_wrap(~ event_name) +
+#   scale_color_brewer(palette = "Set1") +
+#   coord_cartesian(ylim = c(0, 100)) +
+#   labs(x = "Estimator",
+#        y = "Abundance (x 1,000)") +
+#   theme(legend.position = "none",
+#         axis.text.x = element_text(angle = 45,
+#                                    hjust = 1)) 
 
 ```
 
