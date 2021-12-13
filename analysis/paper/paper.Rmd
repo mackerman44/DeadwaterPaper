@@ -94,6 +94,7 @@ library(FSA)
 library(knitr)
 library(kableExtra)
 library(stringi)
+library(english)
 
 # format NA values in tables
 options(knitr.kable.NA = '-')
@@ -599,7 +600,7 @@ A few things that need to be clarified in this section:
 
 ## Abundance of Piscivorous Fishes
 
-We caught `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2019", "n_fish"])` and `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2020", "n_fish"])` Northern Pikeminnow during Fall 2019 and Fall 2020, respectively. The catch per unit effort, measured as number of Northern Pikeminnow captured per angler hour, for each was `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2019", "catch_per_hr"], digits = 3)` for Fall 2019 and `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2020", "catch_per_hr"], digits = 3)` for Fall 2020 (Figure \@ref(fig:cpue-fig)). During Fall 2019 we had a total of `r sum(N_mods[[3]][[1]]$m)` recaptures which included `r LP_mod[[3]][[1]]$m` unique individuals i.e. `r sum(N_mods[[3]][[1]]$m) - LP_mod[[3]][[1]]$m` was captured more than once. There were `r sum(N_mods[[3]][[3]]$m)` recaptures in Fall 2020 which included `r LP_mod[[3]][[3]]$m` unique individuals. Summaries of parameters for both the single-census and multiple-census mark-recapture estimators are provided in Table \@ref(tab:abund-data-lp) and Table \@ref(tab:abund-data-schn), respectively.
+We caught `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2019", "n_fish"])` and `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2020", "n_fish"])` Northern Pikeminnow during Fall 2019 and Fall 2020, respectively. The catch per unit effort, measured as number of Northern Pikeminnow captured per angler hour, for each was `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2019", "catch_per_hr"], digits = 3)` for Fall 2019 and `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2020", "catch_per_hr"], digits = 3)` for Fall 2020 (Figure \@ref(fig:cpue-fig)). During Fall 2019 we had a total of `r as.english(sum(N_mods[[3]][[1]]$m))` recaptures which included `r as.english(LP_mod[[3]][[1]]$m)` unique individuals i.e. `r as.english(sum(N_mods[[3]][[1]]$m) - LP_mod[[3]][[1]]$m)` was captured more than once. There were `r as.english(sum(N_mods[[3]][[3]]$m))` recaptures in Fall 2020 which included `r as.english(LP_mod[[3]][[3]]$m)` unique individuals. Summaries of parameters for both the single-census and multiple-census mark-recapture estimators are provided in Table \@ref(tab:abund-data-lp) and Table \@ref(tab:abund-data-schn), respectively.
 
 Abundance estimates for Northern Pikeminnow in the Deadwater Slough during Fall 2019 ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` and for Fall 2020 ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")`. In both cases, the multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied (Figure \@ref(fig:abund-fig)). Table \@ref(tab:abund-tab) provides point estimates and confidence intervals for each estimator for the fall mark-recapture sampling events.
 
