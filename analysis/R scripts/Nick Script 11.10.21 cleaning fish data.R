@@ -49,6 +49,17 @@ Stomach_content_DF = Clean_NPM %>%
   drop_na(StomachContents)
 
 
+Spring_Avg_length = Clean_NPM %>%
+  filter(Date > "2021-05-17") %>%
+  summarise(avg_TL = mean(Length))
+
+Fall_Avg_length = Clean_NPM %>%
+  filter(Date < "2021-05-17") %>%
+  summarise(avg_TL = mean(Length))
+
+
+
+
 #Read in the Bioenergetics
 
 bioenergetics<- read_csv("analysis/data/raw_data/2020 Bioenergetics 1 year.csv") %>%
