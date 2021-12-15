@@ -1,9 +1,9 @@
 ---
 title: "Northern Pikeminnow Predation on Juvenile Chinook Salmon and Potential Impacts to Local Populations"
 author:
-  - Richard A. Carmichael:
-      email: Richard.Carmichael@merck.com
-      institute: [biomark]
+  - Michael W. Ackerman:
+      email: mike.ackerman@mthoodenvironmental.com
+      institute: [mhe_mccall, biomark]
       correspondence: true
   - Nicholas J. Porter:
       email: Nicholas.Porter@merck.com
@@ -21,14 +21,14 @@ author:
       email: tara.blackman@mthoodenvironmental.com
       institute: [mhe_sandy]
       correspondence: false
-  - Michael W. Ackerman:
-      email: mike.ackerman@mthoodenvironmental.com
-      institute: [biomark, mhe_mccall]
+  - Richard A. Carmichael:
+      email: Richard.Carmichael@merck.com
+      institute: [biomark]
       correspondence: false
 institute:
+  - mhe_mccall: Mount Hood Environmental, PO Box 4282, McCall, Idaho, 83638, USA
   - biomark: Biomark, Inc., 705 South 8th Street, Boise, Idaho, 83702, USA
   - wdfw: Washington Department of Fish and Wildife, Fish Program, Science Division, 1111 Washington Street NE, Olympia, Washington, 98501, USA
-  - mhe_mccall: Mount Hood Environmental, PO Box 4282, McCall, Idaho, 83638, USA
   - mhe_sandy: Mount Hood Environmental, 39085 Pioneer Boulevard \#100 Mezzanine, Sandy, Oregon, 97055, USA 
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 always_allow_html: true
