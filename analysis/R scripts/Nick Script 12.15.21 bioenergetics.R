@@ -1,6 +1,6 @@
 # working to clean up and provide summaries for Deadwater Data
 # Nick Porter
-# 11/2/20201
+# 12/15/20201
 rm(list = ls()) # clear the working environment
 
 require(tidyverse)
@@ -59,106 +59,172 @@ Fall_Avg_length = Clean_NPM %>%
 
 #Read in the Bioenergetics
 
-bioenergetics<- read_csv("analysis/data/raw_data/2020 Bioenergetics 1 year.csv") %>%
-  mutate(Date = as.Date(Date, format = "%m/%d/%y")) %>%
-  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
+Fall_I10_F90<- read_csv("analysis/data/raw_data/Bioenergetics_Fall_I10_F90.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
-bioenergetics_10percet <- read_csv("analysis/data/raw_data/2020 Bioenergetics 1 year 10% growth.csv") %>%
-  mutate(Date = as.Date(Date, format = "%m/%d/%y")) %>%
-  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
+Fall_I20_F80<- read_csv("analysis/data/raw_data/Bioenergetics_Fall_I20_F80.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
-Alternative_bioenergetics <- read_csv("analysis/data/raw_data/Bioenergetics 32 fish 68 inverts.csv") %>%
-  mutate(Date = as.Date(Date, format = "%m/%d/%y")) %>%
-  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
+Fall_I30_F70<- read_csv("analysis/data/raw_data/Bioenergetics_Fall_I30_F70.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
-sevendyeight_bioenergetics <- read_csv("analysis/data/raw_data/78_day_bioenergetics.csv") %>%
-  mutate(Date = as.Date(Date, format = "%m/%d/%y")) %>%
-  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
+Fall_I40_F60<- read_csv("analysis/data/raw_data/Bioenergetics_Fall_I40_F60.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
   mutate(Date = as.Date(Date)) %>%
   mutate(month = month(Date))
 
-#Fall bioenergetics looking at 78 days
-Fall_bioenergetics = Alternative_bioenergetics %>%
-  filter(Date >= "2020-09-01" & Date <= "2020-11-17") %>%
-  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
-  mutate(Date = as.Date(Date))
+Fall_I50_F50<- read_csv("analysis/data/raw_data/Bioenergetics_Fall_I50_F50.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
 
-#Fall bioenergetics looking at 78 days
-Fall_bioenergetics_2 = sevendyeight_bioenergetics %>%
-  mutate(Cumu_fish_eatten = cumsum(Cons_fish_g)) %>%
-  mutate(Date = as.Date(Date))
+Fall_I60_F40<- read_csv("analysis/data/raw_data/Bioenergetics_Fall_I60_F40.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
 
-#Plot of fish eatten
-fall_bioenergetics = Fall_bioenergetics_2 %>%
-  ggplot() +
-  aes(x = Date, y = Cumu_fish_eatten, colour = Temperature_C) +
-  geom_line(size = 2.5) +
-  scale_color_distiller(palette = "Spectral", direction = -1) +
+Fall_I70_F30<- read_csv("analysis/data/raw_data/Bioenergetics_Fall_I70_F30.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Fall_I80_F20<- read_csv("analysis/data/raw_data/Bioenergetics_Fall_I80_F20.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Fall_I90_F10<- read_csv("analysis/data/raw_data/Bioenergetics_Fall_I90_F10.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+#########################################################################
+##    SPRING BIOENERGETICS   ###############3
+
+Spring_I10_F90<- read_csv("analysis/data/raw_data/Bioenergetics_Spring_I10_F90.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Spring_I20_F80<- read_csv("analysis/data/raw_data/Bioenergetics_Spring_I20_F80.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Spring_I30_F70<- read_csv("analysis/data/raw_data/Bioenergetics_Spring_I30_F70.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Spring_I40_F60<- read_csv("analysis/data/raw_data/Bioenergetics_Spring_I40_F60.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Spring_I50_F50<- read_csv("analysis/data/raw_data/Bioenergetics_Spring_I50_F50.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Spring_I60_F40<- read_csv("analysis/data/raw_data/Bioenergetics_Spring_I60_F40.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Spring_I70_F30<- read_csv("analysis/data/raw_data/Bioenergetics_Spring_I70_F30.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Spring_I80_F20<- read_csv("analysis/data/raw_data/Bioenergetics_Spring_I80_F20.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+Spring_I90_F10<- read_csv("analysis/data/raw_data/Bioenergetics_Spring_I90_F10.csv") %>%
+  mutate(Date = as.Date(Date, format = "%m/%d")) %>%
+  mutate(Cumu_fish_eatten = cumsum(Cons.fish.g)) %>%
+  mutate(Date = as.Date(Date)) %>%
+  mutate(month = month(Date))
+
+fall_weeks = c("9/13", "9/20", "9/27", "10/4", "10/11", "10/18", "10/25", "11/1", "11/8", "11/15", "11/22", "11/29")
+
+
+spring_week = c("3/1", "3/8", "3/15", "3/22", "3/29", "4/5", "4/19", "4/26", "5/3", "5/10", "5/17", "5/24", "5/31")
+
+#######################################################################
+#Spring_bioenergetics %>%
+ Spring_Graph = ggplot() +
+    geom_line(aes(y = Spring_I10_F90$Cumu_fish_eatten, x =Spring_I10_F90$Date, colour = "blue")) +
+    geom_line(aes(y = Spring_I20_F80$Cumu_fish_eatten, x =Spring_I20_F80$Date, colour = "darkred")) +
+    geom_line(aes(y = Spring_I30_F70$Cumu_fish_eatten, x =Spring_I30_F70$Date, colour = "blue")) +
+    geom_line(aes(y = Spring_I40_F60$Cumu_fish_eatten, x =Spring_I40_F60$Date, colour = "blue")) +
+    geom_line(aes(y = Spring_I50_F50$Cumu_fish_eatten, x =Spring_I50_F50$Date, colour = "blue")) +
+    geom_line(aes(y = Spring_I60_F40$Cumu_fish_eatten, x =Spring_I60_F40$Date, colour = "blue")) +
+    geom_line(aes(y = Spring_I70_F30$Cumu_fish_eatten, x =Spring_I70_F30$Date, colour = "blue")) +
+    geom_line(aes(y = Spring_I80_F20$Cumu_fish_eatten, x =Spring_I80_F20$Date, colour = "blue")) +
+    geom_line(aes(y = Spring_I90_F10$Cumu_fish_eatten, x =Spring_I90_F10$Date, colour = "blue")) +
+              geom_line(size = 2.5) +
+  #scale_color_distiller(palette = "Spectral", direction = -1) +
   #labs(y = "Cumulative fish eatten (g)") +
-  scale_x_date(breaks = "2 week") +
-  scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,200, by = 10),
+  scale_x_date(breaks = "2 weeks") +
+  #scale_x_continuous(breaks = seq(1,13, by = 1), labels = c("3/1", "3/8", "3/15", "3/22", "3/29", "4/5", "4/19", "4/26", "5/3", "5/10", "5/17", "5/24", "5/31")) +
+  scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 5),
                      sec.axis = sec_axis(~. /12, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
-  #theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
   theme_classic() +
-  theme(legend.position = "top") +
-  labs(color = "Temperature (C)")
+  #theme(legend.position = "top") +
+  labs(x = "weeks")
 
-fall_bioenergetics
-#Plot of fish eatten for 1 year and no growth for NPM
-Bioenergetics_plot <- bioenergetics %>%
-  ggplot() +
-  aes(x = Date, y = Cumu_fish_eatten, colour = Temperature_C) +
-  geom_line(size = 2.5) +
-  scale_color_distiller(palette = "Spectral", direction = -1) +
-  #labs(y = "Cumulative fish eatten (g)") +
-  #scale_x_date(breaks = "1 month") +
-  scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 50),
-                     sec.axis = sec_axis(~. /12, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 2))) +
-  #theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
-  theme_classic() +
-  theme(legend.position = "top") +
-  labs(color = "Temperature (C)", x = "Month")
+Spring_Graph
 
-Bioenergetics_plot
+ #Fall ###################################################################
+ Fall_Graph= ggplot() +
+    geom_line(aes(y = Fall_I10_F90$Cumu_fish_eatten, x =Fall_I10_F90$Date, colour = "blue")) +
+    geom_line(aes(y = Fall_I20_F80$Cumu_fish_eatten, x =Fall_I20_F80$Date, colour = "darkred")) +
+    geom_line(aes(y = Fall_I30_F70$Cumu_fish_eatten, x =Fall_I30_F70$Date, colour = "blue")) +
+    geom_line(aes(y = Fall_I40_F60$Cumu_fish_eatten, x =Fall_I40_F60$Date, colour = "blue")) +
+    geom_line(aes(y = Fall_I50_F50$Cumu_fish_eatten, x =Fall_I50_F50$Date, colour = "blue")) +
+    geom_line(aes(y = Fall_I60_F40$Cumu_fish_eatten, x =Fall_I60_F40$Date, colour = "blue")) +
+    geom_line(aes(y = Fall_I70_F30$Cumu_fish_eatten, x =Fall_I70_F30$Date, colour = "blue")) +
+    geom_line(aes(y = Fall_I80_F20$Cumu_fish_eatten, x =Fall_I80_F20$Date, colour = "blue")) +
+    geom_line(aes(y = Fall_I90_F10$Cumu_fish_eatten, x =Fall_I90_F10$Date, colour = "blue")) +
+    geom_line(size = 2.5) +
+    #scale_color_distiller(palette = "Spectral", direction = -1) +
+    #labs(y = "Cumulative fish eatten (g)") +
+    scale_x_date(breaks = "1 weeks") +
+    scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 5),
+                       sec.axis = sec_axis(~. /12, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
+    theme_classic() +
+    #theme(legend.position = "top") +
+    labs(x = "Month") #+
 
-#bioenergetics plot with 10% growth in NPM
-Bioenergetics_plot_10percent <- bioenergetics_10percet %>%
-  ggplot() +
-  aes(x = Date, y = Cumu_fish_eatten, colour = Temperature_C) +
-  geom_line(size = 2.5) +
-  scale_color_distiller(palette = "Spectral", direction = -1) +
-  #labs(y = "Cumulative fish eatten (g)") +
-  #scale_x_date(breaks = "1 month") +
-  scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 50),
-                     sec.axis = sec_axis(~. /12, name = "Potential number of Chinook smolts", breaks = seq(0,40, by = 2))) +
-  #theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
-  theme_classic() +
-  theme(legend.position = "top") +
-  labs(color = "Temperature (C)", x = "Month")
 
-Bioenergetics_plot_10percent
-
-Alt_Bioenergetics_plot <- Alternative_bioenergetics %>%
-  ggplot() +
-  aes(x = Date, y = Cumu_fish_eatten, colour = Temperature_C) +
-  geom_line(size = 2.5) +
-  scale_color_distiller(palette = "Spectral", direction = -1) +
-  #labs(y = "Cumulative fish eatten (g)") +
-  #scale_x_date(breaks = "1 month") +
-  scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 50),
-                     sec.axis = sec_axis(~. /12, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 2))) +
-  #theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
-  theme_classic() +
-  theme(legend.position = "top") +
-  labs(color = "Temperature (C)", x = "Month")
-
-Alt_Bioenergetics_plot
+Fall_Graph
 
 #esquisse::esquisser(Fall_bioenergetics)
 
@@ -261,19 +327,16 @@ ggsave('analysis/paper/figures/stomach content per sizeclass.jpg',
        width = 8,
        height = 4)
 
-ggsave('analysis/paper/figures/Alternative_Bioenergetics.jpg',
-       Alt_Bioenergetics_plot,
+ggsave('analysis/paper/figures/Fall_Bioenergetics.jpg',
+       Fall_Graph,
        width = 8,
        height = 4)
 
-ggsave('analysis/paper/figures/bioenergetics 10 percent.jpg',
-       Bioenergetics_plot_10percent,
+ggsave('analysis/paper/figures/Spring_Bioenergetics.jpg',
+       Spring_Graph,
        width = 8,
        height = 4)
 
-ggsave('analysis/paper/figures/fall bioenergetics.jpg',
-       fall_bioenergetics,
-       width = 8,
-       height = 4)
+
 
 
