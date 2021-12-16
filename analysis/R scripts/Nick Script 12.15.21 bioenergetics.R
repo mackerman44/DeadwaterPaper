@@ -179,7 +179,7 @@ spring_week = c("3/1", "3/8", "3/15", "3/22", "3/29", "4/5", "4/19", "4/26", "5/
 #Spring_bioenergetics %>%
  Spring_Graph = ggplot() +
     geom_line(aes(y = Spring_I10_F90$Cumu_fish_eatten, x =Spring_I10_F90$Date, colour = "blue")) +
-    geom_line(aes(y = Spring_I20_F80$Cumu_fish_eatten, x =Spring_I20_F80$Date, colour = "darkred")) +
+    geom_line(aes(y = Spring_I20_F80$Cumu_fish_eatten, x =Spring_I20_F80$Date, colour = "blue")) +
     geom_line(aes(y = Spring_I30_F70$Cumu_fish_eatten, x =Spring_I30_F70$Date, colour = "blue")) +
     geom_line(aes(y = Spring_I40_F60$Cumu_fish_eatten, x =Spring_I40_F60$Date, colour = "blue")) +
     geom_line(aes(y = Spring_I50_F50$Cumu_fish_eatten, x =Spring_I50_F50$Date, colour = "blue")) +
@@ -190,21 +190,19 @@ spring_week = c("3/1", "3/8", "3/15", "3/22", "3/29", "4/5", "4/19", "4/26", "5/
               geom_line(size = 2.5) +
   #scale_color_distiller(palette = "Spectral", direction = -1) +
   #labs(y = "Cumulative fish eatten (g)") +
-  scale_x_date(breaks = "2 weeks") +
-  #scale_x_continuous(breaks = seq(1,13, by = 1), labels = c("3/1", "3/8", "3/15", "3/22", "3/29", "4/5", "4/19", "4/26", "5/3", "5/10", "5/17", "5/24", "5/31")) +
+  scale_x_date(breaks = "1 weeks") +
   scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 5),
-                     sec.axis = sec_axis(~. /12, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
+                     sec.axis = sec_axis(~. /9.5, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
   theme_classic() +
-  #theme(legend.position = "top") +
-  labs(x = "weeks")
-
+  theme(legend.position = "none") +
+  labs(x = "Week")
 Spring_Graph
 
  #Fall ###################################################################
  Fall_Graph= ggplot() +
     geom_line(aes(y = Fall_I10_F90$Cumu_fish_eatten, x =Fall_I10_F90$Date, colour = "blue")) +
-    geom_line(aes(y = Fall_I20_F80$Cumu_fish_eatten, x =Fall_I20_F80$Date, colour = "darkred")) +
+    geom_line(aes(y = Fall_I20_F80$Cumu_fish_eatten, x =Fall_I20_F80$Date, colour = "blue")) +
     geom_line(aes(y = Fall_I30_F70$Cumu_fish_eatten, x =Fall_I30_F70$Date, colour = "blue")) +
     geom_line(aes(y = Fall_I40_F60$Cumu_fish_eatten, x =Fall_I40_F60$Date, colour = "blue")) +
     geom_line(aes(y = Fall_I50_F50$Cumu_fish_eatten, x =Fall_I50_F50$Date, colour = "blue")) +
@@ -217,11 +215,11 @@ Spring_Graph
     #labs(y = "Cumulative fish eatten (g)") +
     scale_x_date(breaks = "1 weeks") +
     scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 5),
-                       sec.axis = sec_axis(~. /12, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
+                       sec.axis = sec_axis(~. /9.5, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
     theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
     theme_classic() +
-    #theme(legend.position = "top") +
-    labs(x = "Month") #+
+    theme(legend.position = "none") +
+    labs(x = "Week")
 
 
 Fall_Graph
