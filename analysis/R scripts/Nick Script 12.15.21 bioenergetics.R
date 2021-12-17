@@ -192,7 +192,7 @@ spring_week = c("3/1", "3/8", "3/15", "3/22", "3/29", "4/5", "4/19", "4/26", "5/
   #labs(y = "Cumulative fish eatten (g)") +
   scale_x_date(breaks = "1 weeks") +
   scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 5),
-                     sec.axis = sec_axis(~. /9.5, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
+                     sec.axis = sec_axis(~. /10.9, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
   theme_classic() +
   theme(legend.position = "none") +
@@ -215,7 +215,7 @@ Spring_Graph
     #labs(y = "Cumulative fish eatten (g)") +
     scale_x_date(breaks = "1 weeks") +
     scale_y_continuous(name = "Cumulative fish eatten (g)", breaks = seq(0,600, by = 5),
-                       sec.axis = sec_axis(~. /9.5, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
+                       sec.axis = sec_axis(~. /10.3, name = "Potential number of Chinook smolts", breaks = seq(0,30, by = 1))) +
     theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1)) +
     theme_classic() +
     theme(legend.position = "none") +
