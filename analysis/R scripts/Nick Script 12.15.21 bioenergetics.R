@@ -228,12 +228,13 @@ Fall_Graph
 
 # Stomach contents and length frequency ############################################################
 
-Clean_NPM$NPM_50=lencat(Clean_NPM$Length, w = 50)
+Clean_NPM$NPM_10=lencat(Clean_NPM$Length, w = 10)
 
 PSD_DF = Clean_NPM %>%
-  group_by(NPM_50) %>%
+  group_by(NPM_10) %>%
   summarise(n = n())
 
+#54.2  S = 250mm P= 380mm
 
 Stomach_catagories_sum = Stomach_content_DF %>%
   drop_na(StomachContentsWeight) %>%
