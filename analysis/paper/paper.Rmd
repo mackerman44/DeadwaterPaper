@@ -159,6 +159,11 @@ This research is an essential first step in characterizing conditions through th
 
 # Methods
 
+## Study Site
+
+The Deadwater Slough is an approximately 1.5-kilometer section of the mainstem Salmon River located roughly 5.8 river kilometers downstream from the town of North Fork, Idaho (Figure \@ref(fig:map)). The downstream end of the slough is located at the confluence of Dump Creek and the Salmon River. Around 1897, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River [@Emerson1973], thereby creating a slow, deep section in the river, spanning approximately 30 acres and averaging 68 m width.
+
+
 ## Northern Pikeminnow Abundance
 
 Our first objective was to estimate the population size of piscine predators in the Deadwater Slough using mark-recapture methods. We attempted to sample predators near the peaks of the juvenile DSR and NRR emigrations for the 2018 brood year (fall 2019 and spring 2020, respectively). However, due to logistical concerns during the onset of the Covid-19 pandemic, the spring 2020 effort was moved to fall 2020. Although this provided the benefit of an additional abundance estimate during the DSR emigration, estimates during the NRR emigration were still lacking, and so an additional effort was added in spring 2021. Each of the fall efforts included sampling across a two-week span; however, due to budget constraints the spring 2021 effort only included a single week. For the fall efforts, the first week was considered a "mark event" and the second week a "recapture event" for single-census mark-recapture estimators (described below); therefore, the "recapture week" occurred the week following the "mark week" to minimize predator emigration/immigration and constrain the population for the mark-recapture models.
