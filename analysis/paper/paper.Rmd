@@ -161,7 +161,7 @@ This research is an essential first step in characterizing conditions through th
 
 ## Study Site
 
-The Deadwater Slough is an approximately 1.5-kilometer section of the mainstem Salmon River located roughly 5.8 river kilometers downstream from the town of North Fork, Idaho (Figure \@ref(fig:map)). The downstream end of the slough is located at the confluence of Dump Creek and the Salmon River. Around 1897, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River [@Emerson1973], thereby creating a slow, deep section in the river, spanning approximately 30 acres and averaging 68 m width.
+The Deadwater Slough is an approximately 1.5-kilometer section of the mainstem Salmon River located roughly 5.8 river kilometers downstream from the town of North Fork, Idaho (Figure \@ref(fig:map)). The downstream end of the slough is located at the confluence of Dump Creek and the Salmon River. Around 1897, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River [@Emerson1973], thereby creating a slow, deep section in the river, spanning approximately 30 acres, and averaging 68 m width.
 
 
 ## Northern Pikeminnow Abundance
