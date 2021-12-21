@@ -427,7 +427,7 @@ $$
 \hat{N} = \frac{\sum\limits_{i = 1}^k n_i M^2_i}{\sum\limits_{i = 1}^k m_i M_i}
 $$
 
-The mark-recapture estimators allowed us to estimate the abundance of Northern Pikeminnow during the fall 2019 and fall 2020 sampling periods. However, to estimate the abundance of Northern Pikeminnow during spring 2021, which was not a mark-recapture design, we used the ratio of total CPUE in the fall sampling events to the total CPUE in the spring sampling event, then multiplied that ratio by the average abundance from the fall sampling events.<!-- Kevin, is this previous statement accurate? --> This approach assumes equal capture probabilities between the fall and spring capture events. <!--If that assumption is not true and capture probability did differ, we believe that the capture probability  in the spring would be lower due to higher flows, which would lead to our spring abundance estimate to be biased low. Therefore, we presume our abundance estimate of Northern Pikeminnow for the spring 2021 sampling event to be a conservative estimate.-->
+The mark-recapture estimators allowed us to estimate the abundance of Northern Pikeminnow during the fall 2019 and fall 2020 sampling periods. However, to estimate the abundance of Northern Pikeminnow during spring 2021, which was not a mark-recapture design, we used the ratio of total CPUE in the fall sampling events to the total CPUE in the spring sampling event, then multiplied that ratio by the average abundance from the fall sampling events.<!-- Kevin, is this previous statement accurate? --> This approach assumes equal capture probabilities between the fall and spring capture events.
 
 All mark-recapture abundance estimators assumed: (1) the population is closed (no immigration, emigration, births or deaths during the sampling period), (2) marking a fish does not affect its chances of recapture, (3) no loss of marks, (4) marks are not missed or mistaken, and (5) all fish have equal chance of being caught in the second (and subsequent) sample(s).
 
@@ -459,10 +459,6 @@ PSD_{i} = 100 * \frac{FQ_{i}}{FS_{i}}
 $$
 
 where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$. We calculated the PSD for Northern Pikeminnow in our study using `r prettyNum(s_size, digits = 0)` mm TL for stock-size and `r prettyNum(q_size, digits = 0)` mm TL for quality-size [@Winther2020].
--->
-
-<!--
-Juvenile Chinook Salmon abundances were estimated at 5 rotary screw traps in the upper Salmon River basin: Sawtooth, Pahsimeroi, Hayden Creek, Upper Lemhi, and Lower Lemhi. Abundances were calculated by Idaho Department of Fish and Game at each trap which made up the production estimate for juvenile Chinook Salmon in the Upper Salmon Basin (Table X) (McClure et al. 2020).
 -->
 
 
@@ -650,6 +646,12 @@ To estimate the total biomass of fish potentially consumed by Northern Pikeminno
 
 <!-- Sawtooth Hatchery, East Fork Salmon, Pahsimeroi, Upper Lemhi, Hayden Creek, Lower Lemhi, North Fork Salmon -->
 
+<!--
+## Juvenile Chinook Salmon Abundance
+
+Juvenile Chinook Salmon abundances were estimated at 5 rotary screw traps in the upper Salmon River basin: Sawtooth, Pahsimeroi, Hayden Creek, Upper Lemhi, and Lower Lemhi. Abundances were calculated by Idaho Department of Fish and Game at each trap which made up the production estimate for juvenile Chinook Salmon in the Upper Salmon Basin (Table X) (McClure et al. 2020).
+-->
+
 
 # Results
 
@@ -661,32 +663,28 @@ Abundance estimates for Northern Pikeminnow in the Deadwater Slough during Fall 
 
 ***Finish spring abundance results.*** <!-- Can we assume equal capture probability and perhaps using the ratio of the average fall CPUE and spring CPUE. Then multiply the average fall abundance estimate by the ratio. Does that seem appropriate? -->
 
-The PSD for Northern Pikeminnow in our study and across all three years was `r prettyNum(psd, digits = 1)`%. In other words, `r prettyNum(psd, digits = 1)`% of captured fish were over the quality size classification of `r prettyNum(q_size, digits = 0)` mm TL, demonstrating that a high percentage of Northern Pikeminnow within Deadwater Slough are above average size classes defined for the species
-
 
 ## Gastric Lavage
 
-We examined the stomach contents of `r prettyNum(gastric_tbl$lavaged[gastric_tbl$event_name == "Total"], big.mark = ",")` Northern Pikeminnow over the course of the study using gastric lavage methods. Of those, we documented some form of stomach contents in `r prettyNum(gastric_tbl$stmch_contents[gastric_tbl$event_name == "Total"], big.mark = ",")` of fish of which we were able to confirm fish or fish remnants in `r prettyNum(gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"], big.mark = ",")`. Expressed as a percentage, `r prettyNum((gastric_tbl$stmch_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$lavaged[gastric_tbl$event_name == "Total"]) * 100, digits = 3)`% of lavaged Northern Pikeminnow had stomach contents of which `r prettyNum((gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$stmch_contents[gastric_tbl$event_name == "Total"]) * 100, digits = 3)`% we identified containing fish or fish remnants. Table \@ref(tab:gastric-tab) provides a further breakdown of gastric lavage results for each sampling event. 
+We examined the stomach contents of `r prettyNum(gastric_tbl$lavaged[gastric_tbl$event_name == "Total"], big.mark = ",")` Northern Pikeminnow over the course of the study using gastric lavage methods. Of those, we documented some form of stomach contents in `r prettyNum(gastric_tbl$stmch_contents[gastric_tbl$event_name == "Total"], big.mark = ",")` of the fish and we were able to confirm fish or fish remnants in `r prettyNum(gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"], big.mark = ",")`. Expressed as a percentage, `r prettyNum((gastric_tbl$stmch_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$lavaged[gastric_tbl$event_name == "Total"]) * 100, digits = 3)`% of lavaged Northern Pikeminnow had stomach contents of which `r prettyNum((gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$stmch_contents[gastric_tbl$event_name == "Total"]) * 100, digits = 3)`% we identified containing fish or fish remnants. Table \@ref(tab:gastric-tab) provides a further breakdown of gastric lavage results for each sampling event. 
 
-For Northern Pikeminnow with some form of stomach contents, the average wet weight of total contents was `r prettyNum(mean(stmch_df$stomach_contents_weight), digits = 2)` g (median = `r prettyNum(median(stmch_df$stomach_contents_weight), digits = 3)` g; range = `r prettyNum(min(stmch_df$stomach_contents_weight), digits = 3)`-`r prettyNum(max(stmch_df$stomach_contents_weight), digits = 3)` g). Overall, fish or fish remnants were `r prettyNum(mean(stmch_df$p_fish) * 100, digits = 3)`% of the overall weighted weight among all stomach contents examined.
+For Northern Pikeminnow with some form of stomach contents, the average wet weight of total contents was `r prettyNum(mean(stmch_df$stomach_contents_weight), digits = 2)` g (median = `r prettyNum(median(stmch_df$stomach_contents_weight), digits = 3)` g; range = `r prettyNum(min(stmch_df$stomach_contents_weight), digits = 3)`-`r prettyNum(max(stmch_df$stomach_contents_weight), digits = 3)` g). Overall, fish or fish remnants were `r prettyNum(mean(stmch_df$p_fish) * 100, digits = 3)`% of the overall weight among all stomach contents examined.
 
 
 ## Bioenergetics
 
-We estimated a single average-sized Northern Pikeminnow to consume 61 g of ***fish*** during the modeled fall time period (September 1 - November 17). Given an estimated population size of ***xx,xxx***, we'd estimate that ***xxx,xxx*** g of fish are consumed each fall during the emigration of juvenile DSR Chinook Salmon. The average weight of a DSR Chinook Salmon is ***xx.x*** taken from ***yyy*** rotary screw traps
-
-If we further assume an average weight of ***xx g*** for DSR Chinook Salmon
-
-Over the fall time period a single average-sized Northern Pikeminnow is modeled to eat 61 g of fish. For the estimated population of ***xx,xxx***, then ***xxx,xxx*** g of fish are being eaten each fall during the migration of juvenile Chinook Salmon. Therefore, Northern Pikeminnow in the Deadwater Slough can potentially consume ***xx,xxx*** juvenile Chinook Salmon as a discrete population.
-
-Over an entire year, we estimate that a single Northern Pikeminnow will eat 283 g of fish and 613 g of other food types.
+We estimated a single average-sized Northern Pikeminnow to consume xx.x g of fish during the modeled fall time period (September 15 - November 30) and an additional xx.x g of fish during the modeled spring time period (March 1 - June 31). Given estimated population sizes of xx,xxx Northern Pikeminnow during fall and xx,xxx during spring, that would convert to xxx,xxx - xxx,xxx g during fall and xxx,xxx g during spring. Given average weights of 10.3 g for DSR Chinook salmon and 10.9 g for NRR Chinook salmon, we would estimate that xx,xxx and xx,xxx juvenile Chinook salmon could be consumed during the fall and spring emigrations in Deadwater Slough, respectively. 
 
 <!--
-* Water Temperature measurements.
-    *	Hobo tidbit placed at site. 
-    *	Calculated daily average water temperature for 365 days of the year.
-*	Water temperature plot for the 365 average.
-*	Bioenergetics results. Total mass consumed over a 365 day period. Plot of daily consumption with day of year on x and mass on y.
+For context, throughout the migration periods of DSR and NRR life histories it is estimated that 113,976 individuals are produced and therefore available within the upper Salmon River basin (Table x).
+
+Given an estimated population size of xx,xxx, we’d estimate that xxx,xxx g of NRR fish are consumed each spring during the emigration, and xxxxx.xx g of DSR fish are consumed in the fall during the emigration of juvenile Chinook Salmon. Therefore, Northern Pikeminnow in the Deadwater Slough can potentially consume xx,xxx juvenile Chinook Salmon as a discrete population.
+-->
+
+<!--
+## Juvenile Chinook Salmon Abundance
+
+The abundance of juvenile Chinook Salmon for the upper Salmon River basin was estimated at 6 rotary screw traps [@McClure2020]. Overall, in 2020, there were an estimated 59,289 DSR, 22,264 NRR, and 10,159 parr estimated among all these traps in the upper Salmon River basin (Table X.)
 -->
 
 
@@ -694,6 +692,9 @@ Over an entire year, we estimate that a single Northern Pikeminnow will eat 283 
 
 We estimated the population size of Northern Pikeminnow in the Deadwater Slough to be greater than ***xx,xxx*** during the fall emigration period for DSR Chinook Salmon. That estimate translates to a density of ***xxx*** Northern Pikeminnow per 100 m or ***xxx*** per 100 m^2^ which is ***similar/more/less*** than estimates from elsewhere in the Columbia River ***(citation)*** where substantial Northern Pikeminnow predation impacts on salmonids have led to bounty programs aimed at reducing Northern Pikeminnow abundance. The population size of Northern Pikeminnow was not directly estimated during the spring NRR Chinook salmon emigration period; however, the relative abundance measured at CPUE was comparable to the fall sampling periods ***(update statement later)***. The population of Northern Pikeminnow in Deadwater Slough was estimated to consume between ***xx,xxx*** and ***xx,xxx*** juvenile Chinook Salmon during the ***x*** sampling periods and result in an estimated reduction of returning adults between ***xxx*** and ***x,xxx***. We suggest that the habitat modifications that created the Deadwater Slough have resulted in favorable conditions for Northern Pikeminnow, including improved conditions for predation upon juvenile Chinook Salmon ***(add detail here)***. Therefore, predation by Northern Pikeminnow in the Deadwater Slough likely has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon River MPG.
 
+<!--
+The PSD for Northern Pikeminnow in our study and across all three years was `r prettyNum(psd, digits = 1)`% i.e., `r prettyNum(psd, digits = 1)` of captured fish were over the quality size classification of `r prettyNum(q_size, digits = 0)` mm TL defined by @Winther2020. For comparison, @Winther2020 reported a PSD for Northern Pikeminnow captured below Bonneville Dam of 41% and 18% in Bonneville Reservoir, suggesting that a larger fraction of Northern Pikeminnow in Deadwater Slough are of a quality size relative to population reported elsewhere in the Columbia River. 
+-->
 
 ## Mark-Recapture Model
 
@@ -701,6 +702,7 @@ We estimated the population size of Northern Pikeminnow in the Deadwater Slough 
 Re-hash out our assumptions? What assumptions were most likely violated e.g., the closed population assumption? If we assumed an open population with varying immigration/emigration rates how might that affect our estimate? In the end, how good do we think our estimate is and is the bottom-line that we belive there still to be a shit-ton of pikeminnow even if our assumptions were violated?
 -->
 
+<!--If that assumption is not true and capture probability did differ, we believe that the capture probability  in the spring would be lower due to higher flows, which would lead to our spring abundance estimate to be biased low. Therefore, we presume our abundance estimate of Northern Pikeminnow for the spring 2021 sampling event to be a conservative estimate.-->
 
 ## Gastric Lavage
 
@@ -718,7 +720,7 @@ What assumptions did we make during the bioenergetics assessment? And how might 
 
 ## Impacts to Adult Returns
 
-```{r}
+```{r, eval = F}
 # pull in SAR numbers
 sar = read_csv(here("analysis/data/raw_data", 
                     "WSSCh_sar_4See.csv")) %>%
@@ -858,6 +860,15 @@ all_est %>%
 
 ```{r gastric-tab}
 gastric_tbl %>%
+  rename(Effort = event_name,
+         Captured = captured,
+         Lavaged = lavaged,
+         'Stomach Contents' = stmch_contents,
+         'Fish Contents' = fish_contents) %>%
+  mutate(Effort = recode(Effort,
+                         `Fall_2019` = "Fall 2019",
+                         `Fall_2020` = "Fall 2020",
+                         `Spring_2021` = "Spring 2021")) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
         caption = "Summary of gastric lavage results including the total number of fish captured and gastric lavaged. For Northern Pikeminnow that were gastric lavaged, we show the number containing stomach contents, and of those, the number containing fish contents.") %>%
@@ -946,7 +957,7 @@ all_est %>%
 
 \newpage
 
-```{r fall-bio-fig, fig.cap = "First bioenergetics plot."}
+```{r fall-bio-fig, eval = F, fig.cap = "First bioenergetics plot."}
 fall_bio_p = fall_only_no_growth %>%
   ggplot() +
   aes(x = date,
@@ -971,7 +982,7 @@ fall_bio_p
 
 \newpage
 
-```{r full-yr-ng-fig, fig.cap = "Next bioenergetics plot."}
+```{r full-yr-ng-fig, eval = F, fig.cap = "Next bioenergetics plot."}
 full_yr_ng_p = full_yr_no_growth %>%
   ggplot() +
   aes(x = date,
@@ -1085,7 +1096,7 @@ length_freq_p
 
 \newpage
 
-```{r adult-imp-p, fig.cap = "The adult impacts plot."}
+```{r adult-imp-p, eval = F, fig.cap = "The adult impacts plot."}
 adult_impact %>%
   mutate(stage = "Smolt") %>%
   select(event_name, model,
