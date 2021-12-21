@@ -554,7 +554,7 @@ psd_df = gastric_df %>%
 
 ## Bioenergetics
 
-```{r shoup-temp-data}
+```{r shoup-temp-data, eval = F}
 shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
                    comment = "#") %>%
   rename(discharge_cfs = `47768_00060`,
@@ -567,33 +567,76 @@ shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River
 ```
 
 ```{r read-bio-outputs}
-# full year, no growth
-full_yr_no_growth = read_csv(here("analysis/data/raw_data/2020 Bioenergetics 1 year.csv")) %>%
-  clean_names() %>%
-  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
-  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
-  mutate(month = month(date))
+fmt_bio_out = function(x) {
+  x = x %>%
+    clean_names() %>%
+    mutate(date = as.Date(date, "%m/%d")) %>%
+    mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>% 
+    mutate(month = month(date))
+  return(x)
+}
 
-# full year, 10% growth
-full_yr_10p_growth = read_csv(here("analysis/data/raw_data/2020 Bioenergetics 1 year 10% growth.csv")) %>%
-  clean_names() %>%
-  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
-  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
-  mutate(month = month(date))
+# fall, fish 10% - 90%
+fall_f10 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I90_F10.csv")) %>% fmt_bio_out()
+fall_f20 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I80_F20.csv")) %>% fmt_bio_out()
+fall_f30 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I70_F30.csv")) %>% fmt_bio_out()
+fall_f40 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I60_F40.csv")) %>% fmt_bio_out()
+fall_f50 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I50_F50.csv")) %>% fmt_bio_out()
+fall_f60 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I40_F60.csv")) %>% fmt_bio_out()
+fall_f70 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I30_F70.csv")) %>% fmt_bio_out()
+fall_f80 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I20_F80.csv")) %>% fmt_bio_out()
+fall_f90 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I10_F90.csv")) %>% fmt_bio_out()
 
-# an alternative model
-alternative_mod = read_csv(here("analysis/data/raw_data/Bioenergetics 32 fish 68 inverts.csv")) %>%
-  clean_names() %>%
-  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
-  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
-  mutate(month = month(date))
+# spring, fish 10% - 90%
+spring_f10 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I90_F10.csv")) %>% fmt_bio_out()
+spring_f20 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I80_F20.csv")) %>% fmt_bio_out()
+spring_f30 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I70_F30.csv")) %>% fmt_bio_out()
+spring_f40 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I60_F40.csv")) %>% fmt_bio_out()
+spring_f50 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I50_F50.csv")) %>% fmt_bio_out()
+spring_f60 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I40_F60.csv")) %>% fmt_bio_out()
+spring_f70 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I30_F70.csv")) %>% fmt_bio_out()
+spring_f80 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I20_F80.csv")) %>% fmt_bio_out()
+spring_f90 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I10_F90.csv")) %>% fmt_bio_out()
 
-# Fall emigration period (9/1 - 11/17), no growth
-fall_only_no_growth = read_csv(here("analysis/data/raw_data/78_day_bioenergetics.csv")) %>%
-  clean_names() %>%
-  mutate(date = as.Date(date, format = "%m/%d/%y")) %>%
-  mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>%
-  mutate(month = month(date))
+# average size of DSR and NRR juveniles
+avg_DSR_g = 10.3
+avg_NRR_g = 10.9
+
+# compile fall results
+fall_results = fall_f10 %>%
+  select(date, temperature_c, cum_cons_fish_g) %>%
+  rename(f10_g = cum_cons_fish_g) %>%
+  mutate(f20_g = fall_f20$cum_cons_fish_g,
+         f30_g = fall_f30$cum_cons_fish_g,
+         f40_g = fall_f40$cum_cons_fish_g,
+         f50_g = fall_f50$cum_cons_fish_g,
+         f60_g = fall_f60$cum_cons_fish_g,
+         f70_g = fall_f70$cum_cons_fish_g,
+         f80_g = fall_f80$cum_cons_fish_g,
+         f90_g = fall_f90$cum_cons_fish_g) %>%
+  mutate( across(contains('_g'),
+                 .fns = list(n = ~./avg_DSR_g),
+                 .names = "{col}_{fn}") )
+
+rm(fall_f10, fall_f20, fall_f30, fall_f40, fall_f50, fall_f60, fall_f70, fall_f80, fall_f90)
+
+# compile spring results
+spring_results = spring_f10 %>%
+  select(date, temperature_c, cum_cons_fish_g) %>%
+  rename(f10_g = cum_cons_fish_g) %>%
+  mutate(f20_g = spring_f20$cum_cons_fish_g,
+         f30_g = spring_f30$cum_cons_fish_g,
+         f40_g = spring_f40$cum_cons_fish_g,
+         f50_g = spring_f50$cum_cons_fish_g,
+         f60_g = spring_f60$cum_cons_fish_g,
+         f70_g = spring_f70$cum_cons_fish_g,
+         f80_g = spring_f80$cum_cons_fish_g,
+         f90_g = spring_f90$cum_cons_fish_g) %>%
+  mutate( across(contains('_g'),
+                 .fns = list(n = ~./avg_NRR_g),
+                 .names = "{col}_{fn}") )
+
+rm(spring_f10, spring_f20, spring_f30, spring_f40, spring_f50, spring_f60, spring_f70, spring_f80, spring_f90)
 
 ```
 
