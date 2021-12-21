@@ -100,7 +100,8 @@ library(english)
 options(knitr.kable.NA = '-')
 
 # set default theme for figures
-theme_set(theme_bw())
+#theme_set(theme_bw())
+theme_set(theme_classic())
 
 # when knitting to Word, use this
 doc.type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
@@ -341,7 +342,8 @@ N_mods = cmr_df %>%
          N = map_dbl(mr_model,
                      .f = summary),
          CI = map(mr_model,
-                  .f = confint),
+                  .f = confint,
+                  conf.level = 0.95),
          Lci = map_dbl(CI,
                        .f = function(x) x[1]), 
          Uci = map_dbl(CI,
@@ -384,6 +386,7 @@ total_cpue = cpue_df %>%
          catch_lg_per_angler_day = n_large_fish / angler_days)
 
 spring_abund = all_est %>%
+  filter(model == "Schnabel") %>%
   select(-range, -prop_range) %>%
   inner_join(total_cpue,
              by = c("event_name", "species")) %>%
@@ -394,6 +397,10 @@ spring_abund = all_est %>%
          Lci_F = Lci,
          Uci_F = Uci,
          cpue_F = catch_per_hr) %>%
+  group_by(species, model) %>%
+  summarise(across(c(N_F:cpue_F),
+                   mean),
+            .groups = "drop") %>%
   full_join(total_cpue %>%
               filter(str_detect(event_name, "Spring")) %>%
               select(species,
@@ -405,7 +412,9 @@ spring_abund = all_est %>%
 
 ```
 
-Four different mark-recapture abundance estimators were employed to explore variation in estimates. Estimators fell into two broad categories: single-census and multiple-census. For the single-census estimators, we used the Lincoln-Peterson estimator:
+Four different mark-recapture abundance estimators were employed to explore variation in estimates among them. Estimators fell into two broad categories: single-census and multiple-census. For the single census estimators, we treated the first week of sampling as the mark event, and the following (second) week as the recapture week, pooling data within each of those weeks. Alternatively, the multiple census estimators treat each day as a sampling occassion, and use information about the total marked fish from all previous occassions to infer the total abundance. 
+
+For the single-census estimators, we first used the Lincoln-Peterson estimator:
 
 $$
 \hat{N} = \frac{(M)(n)}{(m)}
@@ -415,7 +424,7 @@ where $M$ is the number is the total number of fish marked and returned to the p
 $$
 \hat{N} = \frac{(M + 1)(n + 1)}{(m + 1)} - 1
 $$
-For a multiple-census estimator, we first utilized the Schnabel estimator:
+For a multiple-census estimator, we first utilized the Schnabel method:
 
 $$
 \hat{N} = \frac{\sum\limits_{i = 1}^k n_i M_i}{\left(\sum\limits_{i = 1}^k m_i \right) + 1}
@@ -429,7 +438,7 @@ $$
 
 The mark-recapture estimators allowed us to estimate the abundance of Northern Pikeminnow during the fall 2019 and fall 2020 sampling periods. However, to estimate the abundance of Northern Pikeminnow during spring 2021, which was not a mark-recapture design, we used the ratio of total CPUE in the fall sampling events to the total CPUE in the spring sampling event, then multiplied that ratio by the average abundance from the fall sampling events.<!-- Kevin, is this previous statement accurate? --> This approach assumes equal capture probabilities between the fall and spring capture events.
 
-All mark-recapture abundance estimators assumed: (1) the population is closed (no immigration, emigration, births or deaths during the sampling period), (2) marking a fish does not affect its chances of recapture, (3) no loss of marks, (4) marks are not missed or mistaken, and (5) all fish have equal chance of being caught in the second (and subsequent) sample(s).
+All mark-recapture abundance estimators assumed: (1) the population is closed (no immigration, emigration, births or deaths during the sampling period), (2) all fish have equal chance of being caught in the second (and subsequent) sample(s), (3) marking a fish does not affect its chances of recapture, (4) no loss of marks, (5) marks are not missed or mistaken.
 
 ```{r psd}
 s_size = 250
@@ -562,7 +571,7 @@ shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River
 
 ```
 
-```{r read-bio-outputs}
+```{r read-bio-outputs, message=FALSE, warning=FALSE}
 fmt_bio_out = function(x) {
   x = x %>%
     clean_names() %>%
@@ -570,6 +579,7 @@ fmt_bio_out = function(x) {
     mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>% 
     mutate(month = month(date))
   return(x)
+  
 }
 
 # fall, fish 10% - 90%
@@ -642,7 +652,7 @@ Our largest uncertainty for model parameters was the proportion of the Northern 
 
 <!-- During this time, water temperatures typically exceed the range (0-7$^\circ$C) that would illicit concealment behavior or torpor from juvenile Chinook Salmon. -->
 
-To estimate the total biomass of fish potentially consumed by Northern Pikeminnow in Deadwater Slough, we then multiplied the biomass consumed by an individual Northern Pikeminnow for the time period by the estimated population size for that time period. <!-- from which estimator? -->The total biomass was further converted to an estimate of the total number of Chinook Salmon consumed by dividing by a weight of 10.9 g for the spring and 10.3 g for the fall, an average from juvenile Chinook Salmon captured during those date ranges at seven rotary screw traps located throughout the Upper Salmon upstream of Deadwater Slough.
+To estimate the total biomass of fish potentially consumed by Northern Pikeminnow in Deadwater Slough, we then multiplied the biomass consumed by an individual Northern Pikeminnow for the timer period by the estimated population size for that time period (mean Schnabel estimates in the fall, CPUE ratio generated estimate in the spring). The total biomass was further converted to an estimate of the total number of Chinook salmon consumed by dividing by a weight of `r avg_DSR_g` for the fall and `r avg_NRR_g` for the spring, an average from juvenile Chinook Salmon captured during those date ranges at seven rotary screw traps located throughout the Upper Salmon upstream of Deadwater Slough.
 
 <!-- Sawtooth Hatchery, East Fork Salmon, Pahsimeroi, Upper Lemhi, Hayden Creek, Lower Lemhi, North Fork Salmon -->
 
@@ -651,6 +661,65 @@ To estimate the total biomass of fish potentially consumed by Northern Pikeminno
 
 Juvenile Chinook Salmon abundances were estimated at 5 rotary screw traps in the upper Salmon River basin: Sawtooth, Pahsimeroi, Hayden Creek, Upper Lemhi, and Lower Lemhi. Abundances were calculated by Idaho Department of Fish and Game at each trap which made up the production estimate for juvenile Chinook Salmon in the Upper Salmon Basin (Table X) (McClure et al. 2020).
 -->
+
+```{r adult-impacts}
+# pull in SAR numbers
+sar = read_csv(here("analysis/data/raw_data", 
+                    "WSSCh_sar_4See.csv")) %>%
+  summarise(across(c(medsar, sdsar),
+                   median)) %>%
+  summarise(across(c(medsar, sdsar),
+               ~ . / 100))
+
+# summarize potential Chinook eaten for each time period by one pikeminnow
+adult_impact = fall_results %>%
+  summarise(across(ends_with("g_n"), max)) %>%
+  add_column(season = "Fall",
+             .before = 0) %>%
+  bind_rows(spring_results %>%
+              summarise(across(ends_with("g_n"), max)) %>%
+              add_column(season = "Spring",
+                         .before = 0)) %>%
+  pivot_longer(cols = ends_with("g_n"),
+               names_to = "perc_diet",
+               values_to = "juv_chnk") %>%
+  mutate(across(perc_diet,
+                str_extract,
+                "[:digit:]+"),
+         across(perc_diet,
+                as.integer)) %>%
+  left_join(spring_abund %>%
+              select(N_F:Uci_F,
+                     N_S:Uci_S) %>%
+              pivot_longer(everything()) %>%
+              mutate(season = if_else(str_detect(name, "_F$"),
+                                      "Fall",
+                                      "Spring")) %>%
+              mutate(across(name,
+                            str_remove,
+                            "_F$"),
+                     across(name,
+                            str_remove,
+                            "_S$")) %>%
+              pivot_wider(names_from = name,
+                          values_from = value)) %>%
+  mutate(smolt_N = N * juv_chnk,
+         smolt_Lci = Lci * juv_chnk,
+         smolt_Uci = Uci * juv_chnk) %>%
+  bind_cols(sar) %>%
+  mutate(adult_N = smolt_N * medsar,
+         adult_Lci = smolt_Lci * qnorm(0.025, medsar, sdsar),
+         adult_Uci = smolt_Uci * qnorm(0.975, medsar, sdsar))
+
+# sum fall and spring impacts
+total_impacts = adult_impact %>%
+  group_by(perc_diet) %>%
+  summarise(across(c(ends_with("_N"),
+                     ends_with("_Lci"),
+                     ends_with("_Uci")),
+                   sum))
+
+```
 
 
 # Results
@@ -661,7 +730,9 @@ We caught `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2019", "n_fish"
 
 Abundance estimates for Northern Pikeminnow in the Deadwater Slough during Fall 2019 ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` and for Fall 2020 ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")`. In both cases, the multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied (Figure \@ref(fig:abund-fig)). Table \@ref(tab:abund-tab) provides point estimates and confidence intervals for each estimator for the fall mark-recapture sampling events.
 
-***Finish spring abundance results.*** <!-- Can we assume equal capture probability and perhaps using the ratio of the average fall CPUE and spring CPUE. Then multiply the average fall abundance estimate by the ratio. Does that seem appropriate? -->
+All the estimators yielded estimates with overlapping confidence intervals. Because the sampling design most closely matched a multiple census estimator, we feel the Schnabel estimator is the most appropriate. We examined diagnostic plots for that estimator (number of marks vs. proportion of recaptures) and they suggested that we were meeting the assumptions of the Schnabel estimator. Therefore, further results will be based on the Schnabel estimates of abundance. 
+
+Using the mean of the Schnabel estimates of Northern Pikeminnow abundance across two fall sampling events, and the mean of the CPUE from those events as well, we estimated there to be `r prettyNum(round(spring_abund$N_S), big.mark = ",")` (95%CI: `r paste(prettyNum(round(c(spring_abund$Lci_S, spring_abund$Uci_S)), big.mark = ","), collapse = " - ")`) Northern Pikeminnow in Deadwater Slough during spring of 2020. 
 
 
 ## Gastric Lavage
@@ -674,6 +745,8 @@ For Northern Pikeminnow with some form of stomach contents, the average wet weig
 ## Bioenergetics
 
 We estimated a single average-sized Northern Pikeminnow to consume xx.x g of fish during the modeled fall time period (September 15 - November 30) and an additional xx.x g of fish during the modeled spring time period (March 1 - June 31). Given estimated population sizes of xx,xxx Northern Pikeminnow during fall and xx,xxx during spring, that would convert to xxx,xxx - xxx,xxx g during fall and xxx,xxx g during spring. Given average weights of 10.3 g for DSR Chinook salmon and 10.9 g for NRR Chinook salmon, we would estimate that xx,xxx and xx,xxx juvenile Chinook salmon could be consumed during the fall and spring emigrations in Deadwater Slough, respectively. 
+
+The estimated number of Chinook Salmon consumed by Northern Pikeminnow begins to taper off between 30-90% of Pikeminnow diet. So although we are uncertain of that diet proportion, the impact of that uncertainty is somewhat constrained. We estimated the total juvenile outmigrants consumed (fall and spring) to be between `r paste(prettyNum(round(range(total_impacts$smolt_N)), big.mark = ","), collapse = " and ")`. This translates to adult Chinook equivalents between `r paste(prettyNum(round(range(total_impacts$adult_N)), big.mark = ","), collapse = " and ")` (Figure \@ref(fig:adult-imp-p)).
 
 <!--
 For context, throughout the migration periods of DSR and NRR life histories it is estimated that 113,976 individuals are produced and therefore available within the upper Salmon River basin (Table x).
@@ -702,7 +775,15 @@ The PSD for Northern Pikeminnow in our study and across all three years was `r p
 Re-hash out our assumptions? What assumptions were most likely violated e.g., the closed population assumption? If we assumed an open population with varying immigration/emigration rates how might that affect our estimate? In the end, how good do we think our estimate is and is the bottom-line that we belive there still to be a shit-ton of pikeminnow even if our assumptions were violated?
 -->
 
-<!--If that assumption is not true and capture probability did differ, we believe that the capture probability  in the spring would be lower due to higher flows, which would lead to our spring abundance estimate to be biased low. Therefore, we presume our abundance estimate of Northern Pikeminnow for the spring 2021 sampling event to be a conservative estimate.-->
+All estimators suggest a large number of Northern Pikeminnow occupying Deadwater Slough. <!-- This might be a good place to bring in some comparisons with Northern Pikeminnow densities from elsewhere to put our numbers in context.-->
+
+If the first mark-recapture assumption was violated and the population is actually open (potential immigration and emigration during the survey period), as long as the immigration and emigration rates are equal between marked and unmarked fsih, our estimators should still provide unbiased estimates of abundance. Given the size of the sampling area, and the length of the sampling period (two weeks).
+
+We are comfortable with assumptions 4 and 5 (no loss of marks and no mistaken or missed marks). Assumptions 2 and 3 indicate whether the second (and subsequent) surveys are random samples of the population. Angling methods may provide a size selection bias, but that may only affect the interpretation of the abundance estimates (i.e., our estimate are the abundance of Northern Pikeminnow above some size threshold). Unequal catchability between individual fish is very difficult to assess, especially if that heterogeneity arises from being caught once.
+
+<!-- If catching and marking fish makes them want to leve the Deadwater area (more than unmarked fish), that could be making our estimates biased high (due to fewer recaptures). I don't imagine this is happening, but does anyone else have concerns about that? -->
+
+The spring abundance estimate is smaller than either fall sampling event. However, our approach assumes equal capture probabilities betwee the fall and spring sampling events. If it does differ, we believe that the capture probability in the spring could be lower due to higher flows, which would lead to our spring abundance estimate being biased low. Therefore, we presume our abundance estimate of Northern Pikeminnow for the spring 2021 sampling event to be a conservative estimate.
 
 ## Gastric Lavage
 
@@ -720,37 +801,10 @@ What assumptions did we make during the bioenergetics assessment? And how might 
 
 ## Impacts to Adult Returns
 
-```{r, eval = F}
-# pull in SAR numbers
-sar = read_csv(here("analysis/data/raw_data", 
-                    "WSSCh_sar_4See.csv")) %>%
-  summarise(across(c(medsar, sdsar),
-                   median)) %>%
-  summarise(across(c(medsar, sdsar),
-               ~ . / 100))
-
-adult_impact = fall_only_no_growth %>%
-  filter(cum_cons_fish_g == max(cum_cons_fish_g)) %>%
-  select(cum_cons_fish_g) %>%
-  mutate(n_chnk_smolts = cum_cons_fish_g / 12) %>%
-  bind_cols(all_est %>%
-              select(event_name, 
-                     model,
-                     N,
-                     Lci,
-                     Uci)) %>%
-  mutate(across(c(smolt_N = N, 
-                  smolt_Lci = Lci, 
-                  smolt_Uci = Uci),
-                ~ . * n_chnk_smolts)) %>%
-  bind_cols(sar) %>%
-  mutate(adult_N = smolt_N * medsar,
-         adult_Lci = smolt_Lci * qnorm(0.025, medsar, sdsar),
-         adult_Uci = smolt_Uci * qnorm(0.975, medsar, sdsar))
-
-```
 
 To estimate the number of possible Chinook salmon that could be consumed, we divided the cumulative fish consumption in grams for an individual pikeminnow by the average weight of a Chinook emigrant to come up with a presmolt equivalency and then multiplied this by our abundance estimate of northern pikeminnow in Deadwater Slough, resulting in an estimate of the equivalent total number of Chinook salmon presmolts consumed. Finally, we estimated the number of additional adult Chinook salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough reach was reduced or eliminated. We multiplied the total estimated consumed juvenile Chinook salmon by an estimate of Granite-to-Granite SARs [@McCann2019].
+
+Finally, we estimated the number of additional adult Chinook Salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough reach was reduced or eliminated by multiplying the total estimated consumed Chinook Salmon by an estimate of Granite-to-Granite smolt-to-adult survival rates (SARs) (`r round(sar$medsar, 5)`, SE: `r round(sar$sdsar, 5)`) [@McCann2019]. 
 
 <!-- 
 After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach)
@@ -760,8 +814,9 @@ Currently only using one bioenergetics model run. Could incorporate more bioener
 
 Again, what assumptions did we make here and how might violations of those assumptions change our estimate of impacts to adult returns.
 
-*	SAR results. Maybe a plot of multiple scenarios depending on gastric lavage results? And pop estimates if they vary in time.
-
+*	SAR results. Those results are GRA - GRA SARs, estimated from multiple years of PIT tag data. Seem pretty good to me.
+* Maybe a plot of multiple scenarios depending on gastric lavage results? And pop estimates if they vary in time.
+* Maybe pop estimates if they vary in time.
 
 ## Avian Predation
 
@@ -858,6 +913,32 @@ all_est %>%
 
 \newpage
 
+```{r spring-N}
+spring_abund %>%
+  rowwise() %>%
+  mutate(`Avg. Fall N (CI)` = paste0(prettyNum(round(N_F), big.mark = ","),
+                                     " (",
+                                     paste0(prettyNum(round(c(Lci_F, Uci_F)), big.mark = ","),
+                                            collapse = ", "),
+                                     ")"),
+         `Spring N (CI)` = paste0(prettyNum(round(N_S), big.mark = ","),
+                                     " (",
+                                     paste0(prettyNum(round(c(Lci_S, Uci_S)), big.mark = ","),
+                                            collapse = ", "),
+                                     ")")) %>%
+  ungroup() %>%
+  select(Species = species,
+         `Avg Fall CPUE` = cpue_F,
+         `Spring CPUE` = cpue_S,
+         ends_with("(CI)")) %>%
+  kable(booktabs = T,
+        caption = "Average CPUE and abundance in the fall (95% confidence interval), and CPUE and estimates of spring abundance (95% confidence interval) for Northern Pikeminnow in Deadwater Slough.") %>%
+  kable_styling()
+
+```
+
+\newpage
+
 ```{r gastric-tab}
 gastric_tbl %>%
   rename(Effort = event_name,
@@ -878,6 +959,35 @@ gastric_tbl %>%
 
 \newpage
 
+```{r adult-imp}
+adult_impact %>%
+  mutate(stage = "Smolt") %>%
+  select(#event_name, 
+         #model,
+         stage,
+         starts_with("smolt")) %>%
+  rename_with(.fn = ~ str_remove(., "smolt_"),
+              .cols = starts_with("smolt")) %>%
+  bind_rows(adult_impact %>%
+              mutate(stage = "Adult Equivalent") %>%
+              select(#event_name, model,
+                     stage,
+                     starts_with("adult")) %>%
+              rename_with(.fn = ~ str_remove(., "adult_"),
+                          .cols = starts_with("adult"))) %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        col.names = c("Stage",
+                      "N",
+                      "Lower 95% CI",
+                      "Upper 95% CI"),
+        digits = 0,
+        caption = "Estimates of smolts consumed during fall migration by Northern Pikeminnow, and the adult equivalent of those smolts based on SARs.") %>%
+  kable_styling()
+```
+
+\newpage
+
 # Figures
 
 <div id="figures"></div>
@@ -893,21 +1003,9 @@ knitr::include_graphics("../figures/deadwater_map_low_res.png")
 total_cpue %>%
   ggplot(aes(x = event_name,
              y = catch_per_hr)) +
-  geom_col(fill = "black") +
+  geom_col(fill = "gray30") +
   labs(y = "Catch Per Angler Hour") +
-  theme(axis.title.x = element_blank()) +
-  theme_classic()
-
-# total_cpue %>%
-#   ggplot(aes(x = event_name,
-#              y = catch_lg_per_angler_day,
-#              fill = event_name)) +
-#   geom_col() +
-#   scale_fill_brewer(palette = "Set1",
-#                     name = "Event") +
-#   labs(x = "Event",
-#        y = "CPUE (Large Pikeminnow caught per angler day)") +
-#   theme(legend.position = "none")
+  theme(axis.title.x = element_blank())
 
 ```
 
@@ -928,131 +1026,15 @@ all_est %>%
   coord_cartesian(ylim = c(0, 100)) +
   labs(x = "Estimator",
        y = "Abundance (x 1,000)") +
-  theme_bw() +
+  #theme_bw() +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45,
                                    hjust = 1)) +
   scale_color_brewer(palette = "Dark2")
 
-# all_est %>%
-#   mutate(across(c(N, Lci, Uci),
-#                  ~ . / 1000)) %>%
-#   ggplot(aes(x = model,
-#              y = N,
-#              color = model)) +
-#   geom_errorbar(aes(ymin = Lci,
-#                     ymax = Uci),
-#                 width = 0.1) +
-#   geom_point(size = 4) +
-#   facet_wrap(~ event_name) +
-#   scale_color_brewer(palette = "Set1") +
-#   coord_cartesian(ylim = c(0, 100)) +
-#   labs(x = "Estimator",
-#        y = "Abundance (x 1,000)") +
-#   theme(legend.position = "none",
-#         axis.text.x = element_text(angle = 45,
-#                                    hjust = 1)) 
-
 ```
 
 \newpage
-
-```{r fall-bio-fig, eval = F, fig.cap = "First bioenergetics plot."}
-fall_bio_p = fall_only_no_growth %>%
-  ggplot() +
-  aes(x = date,
-      y = cum_cons_fish_g,
-      colour = temperature_c) +
-  geom_line(size = 2.5) +
-  scale_color_distiller(palette = "Spectral",
-                        direction = -1) +
-  scale_x_date(breaks = "2 week") +
-  scale_y_continuous(name = "Scumulative fish eaten (g)",
-                     breaks = seq(0, 200, by = 10),
-                     sec.axis = sec_axis(~. / 12, 
-                                         name = "Potential number of Chinook Salmon smolts",
-                                         breaks = seq(0, 20, by = 1))) +
-  theme_classic() +
-  theme(legend.position = "top") +
-  labs(color = "Temperature (C)")
-
-fall_bio_p
-
-```
-
-\newpage
-
-```{r full-yr-ng-fig, eval = F, fig.cap = "Next bioenergetics plot."}
-full_yr_ng_p = full_yr_no_growth %>%
-  ggplot() +
-  aes(x = date,
-      y = cum_cons_fish_g,
-      colour = temperature_c) +
-  geom_line(size = 2.5) +
-  scale_color_distiller(palette = "Spectral",
-                        direction = -1) +
-  #scale_x_date(breaks = "2 week") +
-  scale_y_continuous(name = "Cumulative fish eaten (g)",
-                     breaks = seq(0, 600, by = 50),
-                     sec.axis = sec_axis(~. / 12,
-                                         name = "Potential number of Chinook Salmon smolts",
-                                         breaks = seq(0, 30, by = 2))) +
-  theme_classic() +
-  theme(legend.position = "top") +
-  labs(color = "Temperature (C)",
-       x = "Month")
-
-full_yr_ng_p
-
-```
-
-```{r full-yr-10p-fig, eval = F, fig.cap = "Another bioenergetics plot."}
-full_yr_10p_p = full_yr_10p_growth %>%
-  ggplot() +
-  aes(x = date,
-      y = cum_cons_fish_g,
-      colour = temperature_c) +
-  geom_line(size = 2.5) +
-  scale_color_distiller(palette = "Spectral",
-                        direction = -1) +
-  #scale_x_date(breaks = "2 week") +
-  scale_y_continuous(name = "Cumulative fish eaten (g)",
-                     breaks = seq(0, 600, by = 50),
-                     sec.axis = sec_axis(~. / 12,
-                                         name = "Potential number of Chinook Salmon smolts",
-                                         breaks = seq(0, 40, by = 2))) +
-  theme_classic() +
-  theme(legend.position = "top") +
-  labs(color = "Temperature (C)",
-       x = "Month")
-
-full_yr_10p_p
-
-```
-
-```{r alt-mod-fig, eval = F, fig.cap = "Another bioenergetics plot, again."}
-alt_mod_p = alternative_mod %>%
-  ggplot() +
-  aes(x = date,
-      y = cum_cons_fish_g,
-      colour = temperature_c) +
-  geom_line(size = 2.5) +
-  scale_color_distiller(palette = "Spectral",
-                        direction = -1) +
-  #scale_x_date(breaks = "2 week") +
-  scale_y_continuous(name = "Cumulative fish eaten (g)",
-                     breaks = seq(0, 600, by = 50),
-                     sec.axis = sec_axis(~. / 12,
-                                         name = "Potential number of Chinook Salmon smolts",
-                                         breaks = seq(0, 30, by = 2))) +
-  theme_classic() +
-  theme(legend.position = "top") +
-  labs(color = "Temperature (C)",
-       x = "Month")
-
-alt_mod_p
-
-```
 
 ```{r stmch-cont-p, eval = F, fig.cap = "A stomach contents plot."}
 stmch_cont_per_sz_p = gastric_df %>%
@@ -1096,38 +1078,40 @@ length_freq_p
 
 \newpage
 
-```{r adult-imp-p, eval = F, fig.cap = "The adult impacts plot."}
+```{r adult-imp-p, fig.cap = "How many Chinook Salmon are consumed by Northern Pikeminnow, depending on what percent of diet is Chinook. Faceted by migration season and life-stage."}
 adult_impact %>%
-  mutate(stage = "Smolt") %>%
-  select(event_name, model,
-         stage,
+  mutate(stage = "Juv. Emigrant") %>%
+  select(stage,
+         season,
+         perc_diet,
          starts_with("smolt")) %>%
   rename_with(.fn = ~ str_remove(., "smolt_"),
               .cols = starts_with("smolt")) %>%
   bind_rows(adult_impact %>%
               mutate(stage = "Adult Equivalent") %>%
-              select(event_name, model,
-                     stage,
+              select(stage,
+                     season,
+                     perc_diet,
                      starts_with("adult")) %>%
               rename_with(.fn = ~ str_remove(., "adult_"),
                           .cols = starts_with("adult"))) %>%
-  filter(str_detect(model, "Schuma", negate = T)) %>%
-  ggplot(aes(x = model,
+  ggplot(aes(x = perc_diet,
              y = N,
-             color = model)) +
+             color = as.factor(perc_diet))) +
   geom_errorbar(aes(ymin = Lci,
                     ymax = Uci),
-                width = 0.5) +
+                width = 0.1) +
   geom_point(size = 4) +
-  facet_grid(stage ~ event_name,
+  facet_grid(fct_rev(stage) ~ season,
              scales = "free_y") +
-  scale_color_brewer(palette = "Set1",
-                     name = "Model") +
+  scale_color_viridis_d(name = "Percent Chinook\nin Diet") +
   theme(axis.text.x = element_blank(),
-        legend.position = "bottom") +
-  labs(x = "N. Pikeminnow Abundance Model")
-```
+        legend.position = "bottom",
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  labs(y = "Number Chinook Consumed")
 
+```
 
 \newpage
 
