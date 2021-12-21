@@ -1,0 +1,1105 @@
+---
+title: "Northern Pikeminnow Predation on Juvenile Chinook Salmon and Potential Impacts to Local Populations in the Upper Salmon River, Idaho"
+author:
+  - Michael W. Ackerman:
+      email: mike.ackerman@mthoodenvironmental.com
+      institute: [mhe_mccall, biomark]
+      correspondence: true
+  - Nicholas J. Porter:
+      email: Nicholas.Porter@merck.com
+      institute: [biomark]
+      correspondence: false
+  - Kevin E. See:
+      email: Kevin.See@dfw.wa.gov
+      institute: [biomark, wdfw]
+      correspondence: false
+  - Michael S. Hall:
+      email: Mike.Hall1@merck.com
+      institute: [biomark]
+      correspondence: false
+  - Tara E. Blackman:
+      email: tara.blackman@mthoodenvironmental.com
+      institute: [mhe_sandy]
+      correspondence: false
+  - Richard A. Carmichael:
+      email: Richard.Carmichael@merck.com
+      institute: [biomark]
+      correspondence: false
+institute:
+  - mhe_mccall: Mount Hood Environmental, PO Box 4282, McCall, Idaho, 83638, USA
+  - biomark: Biomark, Inc., 705 South 8th Street, Boise, Idaho, 83702, USA
+  - wdfw: Washington Department of Fish and Wildife, Fish Program, Science Division, 1111 Washington Street NE, Olympia, Washington, 98501, USA
+  - mhe_sandy: Mount Hood Environmental, 39085 Pioneer Boulevard \#100 Mezzanine, Sandy, Oregon, 97055, USA 
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+always_allow_html: true
+output: 
+    bookdown::html_document2:
+      fig_caption: yes
+      number_sections: FALSE
+      toc: no
+      fig_width: 6
+      pandoc_args:
+      - --lua-filter=../templates/scholarly-metadata.lua
+      - --lua-filter=../templates/author-info-blocks.lua
+      - --lua-filter=../templates/pagebreak.lua      
+    bookdown::word_document2:
+      fig_caption: yes
+      reference_docx: "../templates/template.docx" # Insert path for the DOCX file
+      number_sections: FALSE
+      toc: no
+      always_allow_html: true
+      fig_width: 6
+      pandoc_args:
+      - --lua-filter=../templates/scholarly-metadata.lua
+      - --lua-filter=../templates/author-info-blocks.lua
+      - --lua-filter=../templates/pagebreak.lua
+fontsize: 12pt
+mainfont: Times New Roman
+bibliography: 
+- references.bib      # Kevin's library
+- AckermanLibrary.bib # Mike's library
+csl: "../templates/american-fisheries-society.csl" # Insert path for the bib-style
+abstract: |
+  Abstract text here. 
+keywords: |
+  northern pikeminnow; Chinook salmon; predation; mark-recapture; bioenergetics
+highlights: |
+  These are the highlights. 
+---
+
+Keywords: `r rmarkdown::metadata$keywords`
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  echo = FALSE,
+  comment = "#>",
+  fig.path = "../figures/",
+  dpi = 300
+)
+
+```
+
+```{r load-libraries}
+library(tidyverse)
+library(magrittr)
+library(lubridate)
+library(tidytable)
+library(janitor)
+library(purrr)
+library(here)
+library(FSA)
+library(knitr)
+library(kableExtra)
+library(stringi)
+library(english)
+
+# format NA values in tables
+options(knitr.kable.NA = '-')
+
+# set default theme for figures
+# theme_set(theme_bw())
+theme_set(theme_classic())
+
+# when knitting to Word, use this
+doc.type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
+
+if(doc.type == 'docx') {
+  options(knitr.table.format = "pandoc")
+}
+
+```
+
+\newpage
+
+# Introduction
+
+The Upper Salmon River major population group (MPG) supports eight independent, extant spring/summer Chinook Salmon *Oncorhynchus tshawytscha* populations, each providing important ecological, social, and economic benefits to the region. The distinct populations include Salmon River (above Redfish Lake Creek), Valley Creek, Yankee Fork Salmon River, East Fork Salmon River, Salmon River (mainstem below Redfish Lake Creek), Pahsimeroi River, Lemhi River, and North Fork Salmon River [@NOAA2017], all of which have become depleted in recent decades. Reduction in overall population size, and more specifically, declines in survival of juvenile Chinook Salmon have been associated with hydrosystem passage [@Schaller2014], ocean conditions, regional climate [@Welch2021; @Gosselin2021], and downstream predation by native and non-native piscivorous fishes [@Poe1991; @Friesen1999; @Harvey2004]. Anthropogenic changes to freshwater habitat including removal of beavers, river channel simplification, water withdrawals, and the proliferation of non-native species (e.g., non-native coastal rainbow trout *O. mykiss irideus* and brook trout *Salvelinus fontinalis*) have also been attributed to reductions in population size [@IdahoOSCTeam2019]. Moreover, the abundance of returning adults is impacted by ocean and mainstem harvests, poor ocean conditions, and changes to the spawning migration corridor [@NMFS2020BiOp]. Each of these factors have contributed, to varying extents, to reduced adult escapement, the primary metric used to assess population viability. In response to the decline in Upper Salmon Chinook Salmon abundance from the myriad of human activities and associated habitat degradation, action agencies have attempted to improve juvenile survival and adult spawning conditions by investing in rehabilitation of tributary ecosystems as well as investing in the study and evaluation of many factors attributed to the species decline [@Roni2018]. 
+
+One potentially important, but perhaps under-appreciated source of mortality for Upper Salmon River Chinook Salmon is predation on emigrating juveniles by piscivorous fishes. In the lower mainstem Snake and Columbia rivers it is estimated that predation on out-migrating salmonids during peak emigration has a significant negative impact on the overall population and success of population recovery, most notably in the presence of non-native piscivores [@Fresh2003; @Winther2019]. However, these studies have focused on large rivers and reservoirs of the Snake and Columbia rivers whereas very little is known about the interaction between upstream, river-dwelling piscivorous fishes and their impacts on salmonid recovery above the reservoir systems of the Columbia and Snake river [@Rubenson2020], including the Salmon River. Adding to this, there is little consensus within the literature about the magnitude of predation on salmonids in less altered, free flowing systems, with some suggesting lower rates of predation [@Brown1981; @Buchanan1981] while others suggest more impactful rates of predation [@Tabor1993; @Ward1995; @Shively1996; @Zimmerman1999] that may hinder recovery.
+
+Dams and reservoirs in the Columbia River basin are the primary locations associated with high rates of piscine predation on salmonids [@Petersen1994; @Ward1995]. There are generally two mechanisms that explain these high predation zones. First, movement (swimming) rates of juvenile Chinook Salmon are reduced during reservoir passage [@Venditti2000], thereby increasing the time migrating smolts are vulnerable to predation. Second, reservoirs and downstream tailraces resulting from dams on the Columbia and Snake rivers have created favorable slow-water habitat for several fishes known to consume juvenile Chinook Salmon including both non-native (e.g., Smallmouth Bass *Micropterus dolomieu*, Walleye *Sander vitreus*) and native (e.g., Northern Pikeminnow *Ptychocheilus oregonensis*) species. In Lower Granite Reservoir on the Snake River, juvenile Chinook Salmon are common prey items of Smallmouth Bass during some seasons [@Erhardt2018]. Similarly, non-native Walleye are considered a potentially important source for juvenile Chinook Salmon mortality in the Snake River [@Widener2021], particularly as their abundance has significantly increased surrounding Snake River dam facilities between 2008 and 2020. 
+
+Along with non-native species, the Columbia and Salmon rivers support native Northern Pikeminnow, a piscivorous fish tolerating and thriving in relatively warm, slow water habitats. Consequently, they too have benefited from dams on the Columbia River and become abundant predators on salmonid outmigrants [@Knutsen1999]. Indeed, Northern Pikeminnow are estimated to consume 8% (16.4 million) of the approximately 200 million juvenile salmonids emigrating through the lower Snake and Columbia rivers, annually [@Beamesderfer1996]. Predation by piscivorous fishes, including Northern Pikeminnow, may have been a factor in the below-average survival of wild Chinook Salmon in 2020 [@Widener2021]. 
+
+While significant effort has been devoted to understanding predation-related mortality throughout the hydropower systems of the lower Snake and Columbia rivers, there is a dearth of contemporary data on piscivorous predator populations and little is known about their movement, life history, or impacts upstream of the mainstem habitats [@Gadomski2001]. Consequently, the interaction between upstream, river-dwelling piscivorous fishes and emigrating juvenile salmonids, and its impact on salmonid recovery above reservoir systems of the Columbia and Snake rivers is unknown [@Rubenson2020].
+
+Habitats containing slower water velocities and other attributes that support piscivorous predators are not limited to areas near dams and reservoirs. One such example is the Deadwater Slough, an approximately 1.5 kilometers long reach of the Salmon River, Idaho (Figure \@ref(fig:map)). The slough is located approximately 6 kms downstream from the town of North Fork, Idah with the downstream end located at the confluence with Dump Creek. Around 1987, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River, forming an alluvial fan. The influx of sediment created an unnaturally slow and deep section of the river, resulting in "reservoir-like" conditions favorable to predators like Northern Pikeminnow and Smallmouth Bass [@Watkins2015]. Furthermore, the slough lacks hydrological and structureal features that would provide juvenile fishes essential refuge from predation (e.g., large wood or substrate, bank undercuts). As a result, predation of juvenile Chinook Salmon and other local ESA-listed salmonids (Sockeye Salmon *O. nerka*, redband steelhead *O. mykiss gairdneri*) has been cited as a concern for populations in the Upper Salmon River.
+
+The Deadwater Slough is in a reach of the Salmon River believed to be a historically important overwinter rearing and spring emigration area for Chinook Salmon juveniles. Spring/summer Chinook Salmon in the Upper Salmon MPG are stream-type and exhibit two distinct migration tactics; downstream rearing (DSR) and natal reach rearing (NRR) [@Copeland2014a]. The DSR migrants leave the natal spawning area as subyearlings between June and November and typically overwinter in downstream, mainstem habitats until the following spring when they emigrate to the ocean as smolts. Alternatively, NRR migrants remain in their natal spawning areas for approximately one year after emergence until emigration to the ocean as smolts. Diversity of migratory tactics provides a mechanism for coping with adverse conditions in freshwater rearing and migration environments and buffers against catastrophic events, thereby increasing population resiliency. Because the Deadwater Slough both supports rearing for DSR migrants and provides the migration pathway for NRR migrants, it represents a significant habitat for the Upper Salmon MPG.
+
+The slough is also part of the migratory pathway for the endangered Snake River Sockeye Salmon population [@Axel2015] and several populations of threatened Snake River steelhead. Accordingly, the mainstem Salmon River has been the target of recent radio telemetry studies to examine the downstream movement, distribution, and (apparent survival) of juvenile salmonid emigrants. For example, @Axel2015 examined the movement and survival of Sockeye Salmon released in Redfish Lake Creek downstream through the mainstem Salmon River during the spring migration and identified a substantial decrease in estimated survival in the reach spanning the Deadwater Slough. They estimated survival among release groups to be approximately 56% whereas survival through the majority of study reaches was greater than 80%. Further, recent telemetry studies of Chinook Salmon emigration during the fall and early winter months indicated a lower transition probability in the reach spanning the Deadwater Slough, approximately 10% less than surrounding reaches [@Ackerman2018; @Porter2019].
+
+In this study, we estimated the abundance of a piscivorous fish population (Northern Pikeminnow) in the Deadwater Slough and its potential impacts to juvenile salmon emigrants, focusing on DSR and NRR Chinook Salmon. We hypothesize that increased densities of piscivorous predators in the Deadwater Slough may explain the reduced survival (or apparent survival) observed for juvenile Chinook Salmon [@Ackerman2018] and Sockeye Salmon [@Axel2015]. To test this, our objectives for the study were three-fold:
+
+1. Estimate the abundance (or relative abundance) of potential predators in the Deadwater Slough during the peaks of fall (DSR) and spring (NRR) juvenile emigrations.
+2. Document predation on juvenile Chinook Salmon during the emigration periods using gastric lavage.
+3. Use a bioenergetics approach to estimate consumption potential (grams) of the Northern Pikeminnow population at Deadwater Slough and the percent of consumption consisting of juvenile DSR and NRR Chinook salmon during defined emigration periods.
+
+This research is an essential first step in characterizing conditions through the Deadwater Reach and providing data necessary to discuss potential predation mitigation strategies (if needed), where Northern Pikeminnow removal has proven fruitful in increasing survival through the reservoir systems [@Winther2019]. We follow with a discussion of the various assumptions that went into the mark-recapture and bioenergetics models and how violations of some assumptions may affect overall results and inferences from the study. We also consider how consumption of juvenile Chinook Salmon by predators at Deadwater Slough might impact adult returns, hindering recovery of populations in the Upper Salmon River MPG.
+
+
+# Methods
+
+## Northern Pikeminnow Abundance
+
+We estimated the population size of piscine predators in the Deadwater Slough using a mark-recapture study and a CPUE approach. Predators were sampled near the peaks of the juvenile DSR and NRR emigrations for brood years 2018 and 2019. However, due to logistical concerns during the Covid-19 pandemic, sampling occurred during fall 2019, fall 2020, and spring 2021. During the fall sampling, fish caught each day were marked and released, and any previously marked fish were noted as a recapture for that day. We limited sampling to a total two week period to minimize predator emigration/immigration and to constrain the population for the mark-recapture models. Due to budget constraints the spring 2021 effort was conducted over a single week.
+
+Multiple capture methods were employed during the fall 2019 effort to reduce selectivity and bias for species and size classes. Methods included raft electrofishing, fyke netting, snorkeling, and angling. After evaluating all methods, angling proved to be the most effective method for capturing piscine predators while minimizing potential impacts to steelhead. Therefore, the following analyses will focus only on fish captured by angling, unless otherwise noted.
+
+Our study relied heavily on volunteer anglers who were permitted to fish anywhere within Deadwater Slough. During a sample event, anglers would boat or hike their catch (periodically or upon filling a livewell) to a processing station located at the boat ramp approximately 500 m downstream from the top of the slough. For each fish, we recorded the date of capture, species, total length (TL; mm), and whether the fish was previously marked. Unmarked fish were given a physical mark (e.g., hole punch of lower caudal, upper caudal, left pelvic, right pelvic) unique to each day and released. Released individuals were distributed throughout Deadwater Slough to facilitate mixing back into the population. Finally, we recorded the angling start and end times for each crew (person or combinations of persons) to facilitate calculations of catch per unit effort (CPUE).
+
+```{r capture-data, eval = T}
+raw_df = readxl::read_excel(here("analysis/data/raw_data/Deadwater_predation_mark_recapture_11.09.21.xlsx")) %>%
+  clean_names() %>%
+  mutate(across(date,
+                ymd)) %>%
+  mutate(across(c(start_time, end_time),
+                ~ ymd_hms(paste(year(date), month(date), day(date), hour(.), minute(.), second(.))))) %>%
+  # break days into "sampling events"
+  mutate(event_name = if_else(month(date) > 8,
+                              paste("Fall", year(date), sep = "_"),
+                              paste("Spring", year(date), sep = "_")))
+
+# focus on pikeminnow, to be used for mark-recap models
+cmr_df = raw_df %>%
+  filter(count > 0) %>%
+  # pull out only Northern Pikeminnow
+  filter(species == "Northern Pikeminnow") %>%
+  mutate(mark_release = if_else(fish_status == "Live" &
+                                  capture_type == "Mark",
+                                T, F),
+         recap = if_else(capture_type == "Recapture",
+                         T, F))
+
+```
+
+```{r effort, eval = T}
+effort_df = raw_df %>%
+  select(event_name,
+         site,
+         date,
+         crew,
+         crew_count,
+         method,
+         equipment,
+         start_time:total_effort,
+         total_day_effort) %>%
+  distinct() %>%
+  filter(method == "Angling") %>%
+  mutate(across(total_effort,
+                ~ . * crew_count)) %>%
+  rename(total_effort_min = total_effort) %>%
+  group_by(event_name,
+           date) %>%
+  summarise(across(c(total_effort_min,
+                     crew_count),
+                   sum),
+            .groups = "drop")
+
+# What size (mm) is considered a large pikeminnow?
+large_size = 228
+
+# catch per unit effort
+cpue_df = effort_df %>%
+  # add back in the number of pikeminnow caught
+  left_join(cmr_df %>%
+              group_by(event_name, species, date) %>%
+              summarise(n_fish = n(),
+                        n_large_fish = sum(length >= large_size,
+                                           na.rm = T),
+                        .groups = "drop")) %>%
+  # calculate CPUE a few different ways
+  mutate(catch_per_min = n_fish / total_effort_min,
+         catch_per_hr  = n_fish / (total_effort_min / 60),
+         catch_per_angler_day = n_fish / crew_count,
+         catch_lg_per_angler_day = n_large_fish / crew_count)
+ 
+```
+
+```{r lincoln-petersen-estimator, eval = T}
+# using Lincoln-Petersen model, combining first 4 and last four days
+# define mark and recapture periods
+cap_periods = tibble(event_name = "Fall_2019",
+                     cap_period = "Mark",
+                     int = interval(start = ymd('20191112'),
+                                    end = ymd('20191114'))) %>%
+  bind_rows(tibble(event_name = "Fall_2019",
+                   cap_period = "Recapture",
+                   int = interval(start = ymd('20191119'),
+                                  end = ymd('20191121')))) %>%
+  bind_rows(tibble(event_name = "Fall_2020",
+                   cap_period = "Mark",
+                   int = interval(start = ymd('20201020'),
+                                  end = ymd('20201023')))) %>%
+  bind_rows(tibble(event_name = "Fall_2020",
+                   cap_period = "Recapture",
+                   int = interval(start = ymd('20201027'),
+                                  end = ymd('20201030'))))
+
+# add cap_period column, fill w/ NA
+cmr_df$cap_period = NA_character_
+# fill cap_period w/ Mark or Recapture
+for(i in 1:nrow(cap_periods)) {
+  my_int = cap_periods$int[i]
+  index = which(cmr_df$date %within% my_int)
+  cmr_df$cap_period[index] = cap_periods$cap_period[i]
+}
+
+# Lincoln-Peterson Model
+LP_mod = cmr_df %>%
+  # filter out spring 2021 (no recapture)
+  filter(event_name != "Spring_2021") %>%
+  group_by(event_name, species) %>%
+  summarise(M = sum(cap_period == "Mark" & fish_status == "Live", na.rm = T),
+            n = sum(cap_period == "Recapture"),
+            m = sum(cap_period == "Recapture" & capture_type == "Recapture", na.rm = T),
+            .groups = "drop") %>%
+  nest(data = -c(event_name, species)) %>%
+  crossing(model = c("Petersen",
+                     "Chapman")) %>%
+  mutate(mr_model = map2(data,
+                       model,
+                      .f = function(x, y) {
+                        with(x,
+                             FSA::mrClosed(M = M,
+                                          n = n,
+                                          m = m,
+                                          method = y))
+                        }),
+         N_summ = map(mr_model,
+                      .f = summary,
+                      incl.SE = T),
+         CI = map(mr_model,
+                  .f = confint)) %>%
+  mutate(N = map_dbl(N_summ,
+                     .f = function(x) x[1]),
+         SE = map_dbl(N_summ,
+                      .f = function(x) x[2]),
+         Lci = map_dbl(CI,
+                         .f = function(x) x[1]),
+         Uci = map_dbl(CI,
+                         .f = function(x) x[2])) %>%
+  select(-N_summ, -CI)
+
+```
+
+```{r schnabel-estimator, eval = T}
+# using Schnabel and Schumacher-Eschmeyer estimators
+N_mods = cmr_df %>%
+  # filter out spring 2021 (no recapture)
+  filter(event_name != "Spring_2021") %>%
+  group_by(event_name, species, date) %>%
+  summarise(n = n(),
+            m = sum(capture_type == "Recapture", na.rm = T),
+            u = sum(capture_type == "Mark" | is.na(capture_type)),
+            R = sum(fish_status == "Live", na.rm = T),
+            .groups = "drop") %>%
+  group_by(event_name, species) %>%
+  mutate(M = lag(R - m),
+         M = replace_na(M, 0),
+         M = cumsum(M)) %>%
+  nest() %>%
+  crossing(model = c("Schnabel",
+                     "SchumacherEschmeyer")) %>%
+  mutate(mr_model = map2(data,
+                         model,
+                         .f = function(x, y) {
+                           with(x,
+                                mrClosed(n = n,
+                                         m = m,
+                                         R = R,
+                                         method = y,
+                                         chapman.mod = TRUE))
+                         }),
+         N = map_dbl(mr_model,
+                     .f = summary),
+         CI = map(mr_model,
+                  .f = confint,
+                  conf.level = 0.95),
+         Lci = map_dbl(CI,
+                       .f = function(x) x[1]), 
+         Uci = map_dbl(CI,
+                       .f = function(x) x[2])) %>%
+  ungroup() %>%
+  select(-CI)
+
+```
+
+```{r abund-est}
+all_est = LP_mod %>%
+  select(event_name, species, model, N:Uci) %>%
+  bind_rows(N_mods %>%
+             select(event_name, species, model, N:Uci)) %>%
+  mutate(range = Uci - Lci,
+         prop_range = range / N) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  mutate(model = fct_recode(model,
+                            "Schumacher-Eschmeyer" = "SchumacherEschmeyer")) %>%
+  arrange(event_name, model)
+
+```
+
+```{r spring-abund}
+total_cpue = cpue_df %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  group_by(species,
+           event_name) %>%
+  summarise(across(c(total_effort_min,
+                     n_fish,
+                     n_large_fish,
+                     angler_days = crew_count),
+                   sum),
+            .groups = "drop") %>%
+  mutate(catch_per_min = n_fish / total_effort_min,
+         catch_per_hr = n_fish / (total_effort_min / 60),
+         catch_per_angler_day = n_fish / angler_days,
+         catch_lg_per_angler_day = n_large_fish / angler_days)
+
+spring_abund = all_est %>%
+  filter(model == "Schnabel") %>%
+  select(-range, -prop_range) %>%
+  inner_join(total_cpue,
+             by = c("event_name", "species")) %>%
+  select(species,
+         model,
+         model_event = event_name,
+         N_F = N,
+         Lci_F = Lci,
+         Uci_F = Uci,
+         cpue_F = catch_per_hr) %>%
+  group_by(species, model) %>%
+  summarise(across(c(N_F:cpue_F),
+                   mean),
+            .groups = "drop") %>%
+  full_join(total_cpue %>%
+              filter(str_detect(event_name, "Spring")) %>%
+              select(species,
+                     cpue_S = catch_per_hr),
+            by = "species") %>%
+  mutate(N_S = N_F * (cpue_S / cpue_F),
+         Lci_S = Lci_F * (cpue_S / cpue_F),
+         Uci_S = Uci_F * (cpue_S / cpue_F))
+
+```
+
+Estimators fell into two broad categories: single census and multiple census. For the single census estimators, we treated the first week of sampling as the mark event, and the following (second) week as the recapture event, pooling data within each of those weeks. Alternatively, the multiple census estimators treat each day as a survey, and use information about the total marked fish from all previous surveys to infer the total abundance.
+
+The Lincoln-Peterson estimator, a single-census estimator, is below, where $M$ is the number of fish marked and returned to the population, the $n$ is the number of fish caught in the second/recapture event, and $m$ is the number of marked fish in the second sample.
+
+$$
+\hat{N} = \frac{(M)(n)}{(m)}
+$$
+
+The Lincoln-Petersen estimator can be biased with small samples, so we also employed the Chapman-modified Lincoln-Petersen estimator:
+
+$$
+\hat{N} = \frac{(M + 1)(n + 1)}{(m + 1)} - 1
+$$
+
+The Schnabel estimator is a multiple census estimator where the $M$, $n$ and $m$ are indexed by the survey day, $i$. The Schnabel estimator does not have an associated standard error; however, the 95% confidence intervals can be calculated using a Poisson approximation. The Schnabel estimator is essentially a weighted average of a series of Lincoln-Peterson estimators (with a Chapman modification). The Schnabel estimator is shown here:
+
+$$
+\hat{N} = \frac{\sum\limits_{i = 1}^k n_i M_i}{\left(\sum\limits_{i = 1}^k m_i \right) + 1}
+$$
+
+Finally, we explored one additional multiple census estimator, the Schumacher-Eschmeyer estimator, which is based on minimizing the weighted sum of squares between the proportion of marked individuals in the sample and the unknown proportion of marked individuals in the population. The equation for the Schumacher-Eschmeyer estimator is:
+
+$$
+\hat{N} = \frac{\sum\limits_{i = 1}^k n_i M^2_i}{\sum\limits_{i = 1}^k m_i M_i}
+$$
+
+The mark-recapture estimators allowed us to estimate the abundance of Northern Pikeminnow during the fall 2019 and fall 2020 sampling periods. However, due to logistical constraints, we were only able to sample during a single week in spring 2021 and released fish were left unmarked. Instead, to estimate the abundance of Northern Pikeminnow during spring 2021, we used the ratio of total CPUE in the spring sampling events to the total CPUE in the fall sampling event, and multiplied that ratio by the average abundance of Northern Pikeminnow from the fall sampling events. 
+
+All mark-recapture abundance estimators assumed: (1) the population is closed (no immigration, emigration, births or deaths during the sampling period), (2) all fish have equal chance of being caught in the second (and subsequent) sample(s), (3) marking a fish does not affect its chances of recapture, (4) no loss of marks, (5) marks are not missed or mistaken.
+
+```{r psd}
+s_size = 300
+q_size = 400
+
+psd_df = cmr_df %>%
+  select(species, count, length, recap, event_name) %>%
+  filter(recap  != TRUE)
+
+fs = psd_df %>%
+  filter(length >= s_size) %>%
+  nrow()
+
+fq = psd_df %>%
+  filter(length >= q_size) %>%
+  nrow()
+
+psd = 100 * (fq/fs)
+
+```
+
+Finally, we calculated the proportional stock density (PSD) for Northern Pikeminnow captured during all field efforts, which is a measure of species size structure. PSD is a ratio, typically expressed as a percentage, between the number of "quality-sized" individuals or larger individuals and "stock-sized" individuals. Stock and quality size definitions vary by species. PSD is expressed as:
+
+$$
+PSD_{i} = 100 * \frac{FQ_{i}}{FS_{i}}
+$$
+
+where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$. We calculated the PSD for Northern Pikeminnow in our study using `r prettyNum(s_size, digits = 0)` mm TL for stock-size and `r prettyNum(q_size, digits = 0)` mm TL for quality-size.
+
+
+## Gastric Lavage
+
+Gastric lavage [@Foster1977] was used to examine the stomach contents of Northern Pikeminnow for the presence of juvenile Chinook Salmon and other fishes (e.g., juvenile steelhead, juvenile Sockeye Salmon, Redside Shiner *Richardsonius balteatus*, etc.). Immediately following lavage, stomach contents of individuals were preserved with 99% isopropyl alcohol in whirl-paks for later analysis in a controlled environment. For each sample, wet weight (grams) was recorded for the total combined stomach content, including all non-fish items (e.g., macroinvertebrates, organic matter), as well as the portion consisting of fish parts/matter. Fish and fish remnants were identified to the lowest taxonomic unit, when possible, or were categorized as unknown. A subset of Northern Pikeminnow captures (~ 5%) were euthanized for dissection after gastric lavage to validate the efficacy of the methodology.
+
+
+```{r gastric-data}
+gastric_df = raw_df %>%
+  select(event_name, date, species, method, lavage_id, length, stomach_contents, comments, stomach_contents_weight,                             fish_content_weight) %>%
+  mutate(bin_50 = lencat(length, w = 50)) %>%
+  filter(species == "Northern Pikeminnow") %>%
+  mutate(non_fish_wt = stomach_contents_weight - fish_content_weight) %>%
+  mutate(lavaged = case_when(
+    is.na(lavage_id) & is.na(stomach_contents) ~ FALSE,
+    stomach_contents == "Did Not Lavage" ~ FALSE,
+    stomach_contents == "Lost sample CG27-001" ~ FALSE,
+    TRUE ~ TRUE
+  )) %>%
+  mutate(had_contents = case_when(
+    lavaged == FALSE ~ FALSE,
+    is.na(stomach_contents) ~ FALSE,
+    stomach_contents == "Empty" ~ FALSE,
+    TRUE ~ TRUE
+  )) %>%
+  mutate(had_fish_contents = case_when(
+    fish_content_weight > 0 ~ TRUE,
+    stomach_contents == "MacroInvert-other/Detritus/Fish-Unk" ~ TRUE,
+    stomach_contents == "Fish-Unk (fish bone/cartilage)" ~ TRUE,
+    stomach_contents == "MacroInvert-other/Mountain Whitefish" ~ TRUE,
+    stomach_contents == "MacroInvert-other/Algae/Detritus/Fish-Unk" ~ TRUE,
+    stomach_contents == "Fish -Shiner" ~ TRUE,
+    stomach_contents == "Detritus/Fish-Unk" ~ TRUE,
+    stomach_contents == "Fish Unk" ~ TRUE,
+    stomach_contents == "Detritus/Fish -Shiner" ~ TRUE,
+    stomach_contents == "MacroInvert-other/Fish-Unk" ~ TRUE,
+    stomach_contents == "MacroInvert-other/Detritus/Fish -Shiner" ~ TRUE,
+    stomach_contents == "Fish-Unk" ~ TRUE,
+    stomach_contents == "MacroInvert-Other/Detritus/Fish-Unk" ~ TRUE,
+    stomach_contents == "MacroInvert-Other/Detritus/Fish-Unk/Other"  ~ TRUE,
+    stomach_contents == "Aquatic Veg/Fish-Sucker"  ~ TRUE,
+    stomach_contents == "MacroInvert-Worm/Fish-RedsideShiner"  ~ TRUE,
+    stomach_contents == "Aquatic Veg/Detritus/Fish-RedsideShiner"  ~ TRUE,
+    stomach_contents == "MacroInvert-Other/Fish-Unk" ~ TRUE,
+    stomach_contents == "Fish-Sucker/Other" ~ TRUE,
+    stomach_contents == "Fish-Unk/Other" ~ TRUE,
+    stomach_contents == "MacroInvert-Other/Aquatic Veg/Detritus/Fish-Sucker" ~ TRUE,
+    stomach_contents == "Fish-RedsideShiner" ~ TRUE,
+    stomach_contents == "Fish-Chinook/Other" ~ TRUE,
+    stomach_contents == "Detritus/Fish-RedsideShiner/Other" ~ TRUE,
+    stomach_contents == "MacroInvert-Other/Aquatic Veg/Detritus/Fish-RedsideShiner" ~ TRUE,
+    stomach_contents == "Detritus/Fish-Sucker/Other" ~ TRUE,
+    stomach_contents == "Invertebrates;FishParts"  ~ TRUE,
+    stomach_contents == "Invertebrates;Detritus;FishParts;IntestinalWorms"  ~ TRUE,
+    stomach_contents == "FishParts"  ~ TRUE,
+    stomach_contents == "FishParts;IntestinalWorms"  ~ TRUE,
+    TRUE ~ FALSE
+  )) %>%
+  mutate(had_chinook = case_when(
+    stomach_contents == "Fish-Chinook/Other" ~ TRUE,
+    TRUE ~ FALSE
+  ))
+
+gastric_tbl = gastric_df %>%
+  group_by(event_name) %>%
+  summarise(captured = n(),
+            lavaged = sum(lavaged),
+            stmch_contents = sum(had_contents),
+            fish_contents = sum(had_fish_contents)) %>%
+  adorn_totals("row")
+
+stmch_df = gastric_df %>%
+  filter(stomach_contents_weight > 0) %>%
+  select(event_name,
+         date,
+         length,
+         stomach_contents_weight,
+         fish_content_weight,
+         non_fish_wt) %>%
+  mutate(p_fish = fish_content_weight / stomach_contents_weight)
+
+psd_df = gastric_df %>%
+  group_by(bin_50) %>%
+  summarize(n = n())
+
+```
+
+
+## Bioenergetics
+
+```{r shoup-temp-data}
+shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River_Nr_Shoup.txt"),
+                   comment = "#") %>%
+  rename(discharge_cfs = `47768_00060`,
+         discharge_cfs_cd = `47768_00060_cd`,
+         gage_ht_ft = `47769_00065`,
+         gage_ht_ft_cd = `47769_00065_cd`,
+         water_temp_c = `47773_00010`,
+         water_temp_c_cd = `47773_00010_cd`)
+
+```
+
+```{r read-bio-outputs}
+fmt_bio_out = function(x) {
+  x = x %>%
+    clean_names() %>%
+    mutate(date = as.Date(date, "%m/%d")) %>%
+    mutate(cum_cons_fish_g = cumsum(cons_fish_g)) %>% 
+    mutate(month = month(date))
+  return(x)
+}
+
+# fall, fish 10% - 90%
+fall_f10 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I90_F10.csv")) %>% fmt_bio_out()
+fall_f20 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I80_F20.csv")) %>% fmt_bio_out()
+fall_f30 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I70_F30.csv")) %>% fmt_bio_out()
+fall_f40 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I60_F40.csv")) %>% fmt_bio_out()
+fall_f50 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I50_F50.csv")) %>% fmt_bio_out()
+fall_f60 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I40_F60.csv")) %>% fmt_bio_out()
+fall_f70 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I30_F70.csv")) %>% fmt_bio_out()
+fall_f80 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I20_F80.csv")) %>% fmt_bio_out()
+fall_f90 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I10_F90.csv")) %>% fmt_bio_out()
+
+# spring, fish 10% - 90%
+spring_f10 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I90_F10.csv")) %>% fmt_bio_out()
+spring_f20 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I80_F20.csv")) %>% fmt_bio_out()
+spring_f30 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I70_F30.csv")) %>% fmt_bio_out()
+spring_f40 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I60_F40.csv")) %>% fmt_bio_out()
+spring_f50 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I50_F50.csv")) %>% fmt_bio_out()
+spring_f60 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I40_F60.csv")) %>% fmt_bio_out()
+spring_f70 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I30_F70.csv")) %>% fmt_bio_out()
+spring_f80 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I20_F80.csv")) %>% fmt_bio_out()
+spring_f90 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I10_F90.csv")) %>% fmt_bio_out()
+
+# average size of DSR and NRR juveniles
+avg_DSR_g = 10.3
+avg_NRR_g = 10.9
+
+# compile fall results
+fall_results = fall_f10 %>%
+  select(date, temperature_c, cum_cons_fish_g) %>%
+  rename(f10_g = cum_cons_fish_g) %>%
+  mutate(f20_g = fall_f20$cum_cons_fish_g,
+         f30_g = fall_f30$cum_cons_fish_g,
+         f40_g = fall_f40$cum_cons_fish_g,
+         f50_g = fall_f50$cum_cons_fish_g,
+         f60_g = fall_f60$cum_cons_fish_g,
+         f70_g = fall_f70$cum_cons_fish_g,
+         f80_g = fall_f80$cum_cons_fish_g,
+         f90_g = fall_f90$cum_cons_fish_g) %>%
+  mutate( across(contains('_g'),
+                 .fns = list(n = ~./avg_DSR_g),
+                 .names = "{col}_{fn}") )
+
+rm(fall_f10, fall_f20, fall_f30, fall_f40, fall_f50, fall_f60, fall_f70, fall_f80, fall_f90)
+
+# compile spring results
+spring_results = spring_f10 %>%
+  select(date, temperature_c, cum_cons_fish_g) %>%
+  rename(f10_g = cum_cons_fish_g) %>%
+  mutate(f20_g = spring_f20$cum_cons_fish_g,
+         f30_g = spring_f30$cum_cons_fish_g,
+         f40_g = spring_f40$cum_cons_fish_g,
+         f50_g = spring_f50$cum_cons_fish_g,
+         f60_g = spring_f60$cum_cons_fish_g,
+         f70_g = spring_f70$cum_cons_fish_g,
+         f80_g = spring_f80$cum_cons_fish_g,
+         f90_g = spring_f90$cum_cons_fish_g) %>%
+  mutate( across(contains('_g'),
+                 .fns = list(n = ~./avg_NRR_g),
+                 .names = "{col}_{fn}") )
+
+rm(spring_f10, spring_f20, spring_f30, spring_f40, spring_f50, spring_f60, spring_f70, spring_f80, spring_f90)
+```
+
+To estimate the total consumption potential (i.e., number/amount of juvenile consumed during the peaks of DSR [fall] and NRR [spring] emigrations) of Northern Pikeminnow in Deadwater Slough, we used the Fish Bioenergetics v4.0 application developed by @Deslauriers2017 applied in the R statistical software [@RCoreTeam2021]. The daily rate of consumption in grams for an individual Northern Pikeminnow was estimated based on predator and prey energy densities, predator start and end weights, and water temperatures. Predator energy density for Northern Pikeminnow was fixed at 6,703 Joules(J)/g [@Deslauriers2017]. Prey energy densities were fixed at 21,500 J/g for juvenile Chinook Salmon based on an estimate from @Moss2016 and 3,000 J/g for invertebrates. Additional settings included 0% assumed indigestible prety, and a variation in the proportion of diet that was invertebrates or fish ranging from 10% to 90% for both categories. We used a weight-length formula [@Parker1995] to calculate the average predator start weight from the average length of Northern Pikeminnow captured during our study using the FSA package in R [@Ogle2021]. The average length of Northern Pikeminnow captured at the Deadwater Slough during the spring and fall were 352.9 and 393.7 mm, respectively, which calculates to average starting weights of 504.4 and 670.5 g. Continuous water temperature data from 2019 was used in two alternative models, one using the baseline start and end weights and the second with a 10% increase in average end weight on Northern Pikeminnow.
+
+We ran three separate bioenergetic models for this study. For the first model, we used temperature data from a 78-day period spanning September 1 through November 17 when DSR emigrants are known to enter the mainstem Salmon River from natal tributaries (e.g., Lemhi River) and begin their downstream migration.<!-- Did we just use data from Lemhi here? All tributaries? Was this subjective? --> During this time, water temperatures typically exceed the range (0-7$^\circ$C) that would illicit concealment behavior or torpor from juvenile Chinook Salmon<!--citation?-->. This first model assumed no growth for Northern Pikeminnow. The second model was instead run for one full year, but also assumed no growth for Northern Pikeminnow. The assumption of zero growth was included to estimate consumption if individual Northern Pikeminnow were not growing and/or the population is stable. Finally, the third model shows how an increase of 10% body weight or an increase in population size changes the estimates of consumption over a full year period. 
+
+To estimate the total biomass consumed, we then multiplied the biomass consumed by an individual Northern Pikeminnow for the given time period by the estimated population size for that time period. The total biomass was further converted to an estimate of the total number of Chinook Salmon consumed by dividing by a weight of 12 g per individual. This weight was an average from juvenile Chinook Salmon captured at six rotary screw traps throughout the operation season March to November in the Upper Salmon above Deadwater Slough including traps in the Lemhi, Pahsimeroi, and North Fork Salmon rivers and one trap operating near the Sawtooth hatchery.
+
+<!--
+A few things that need to be clarified in this section:
+* Why were the dates Sept 1 - Nov 17 chosen? They make sense, but we should include our rationale
+* Where did the temperature data come from? Hobo? Stream gauge? The methods say temperature data from 2019 was used, but the results seem to use 2020? 
+* Why does it look like we only ran it for dates in 2020? Is that the only year we had temperature data for? Would the results look different if we used temperature data from a different year?
+* The lengths of pikeminnow: did we only use pikeminnow we caught in the fall to get average length? Is there a difference in lengths between 2019 and 2020? 
+* There needs to be more explanation of the inverts vs. fish. What proportion went to each and why? Did it change through time? Based on literature at all? 
+* Where is the data that was used to get a weight of 12 g for Chinook emigrant? Was that for Chinook presmolts, or a combination of smolts and presmolts? If the latter, can we filter it to look at the average weight for presmolts only? And maybe smolts only for a different analysis? 
+* Could we run a similar model for the spring emigration period? Figure out the dates, look at lengths of pikeminnow from the spring, convert to average weight, use average size of Chinook smolts (not presmolts) from all the Upper Salmon traps? Kevin can work on converting the spring catch into some kind of estimate of pikeminnow at Deadwater in the spring
+-->
+
+
+# Results
+
+## Northern Pikeminnow Abundance
+
+We caught `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2019", "n_fish"])`, `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2020", "n_fish"])`, and `r prettyNum(total_cpue[total_cpue$event_name == "Spring 2021", "n_fish"])` Northern Pikeminnow during Fall 2019, Fall 2020, and Spring 2021, respectively. The catch per unit effort, measured as the number of Northern Pikeminnow captured per angler hour, for each was `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2019", "catch_per_hr"], digits = 3)` for Fall 2019, `r prettyNum(total_cpue[total_cpue$event_name == "Fall 2020", "catch_per_hr"], digits = 3)` for Fall 2020, and `r prettyNum(total_cpue[total_cpue$event_name == "Spring 2021", "catch_per_hr"], digits = 2)` for Spring 2021 (Figure \@ref(fig:cpue-fig)). During Fall 2019, we had a total of `r as.english(sum(N_mods[[3]][[1]]$m))` recaptures which included `r as.english(LP_mod[[3]][[1]]$m)` unique individuals (i.e., `r as.english(sum(N_mods[[3]][[1]]$m) - LP_mod[[3]][[1]]$m)` individual was captured more than once). There were `r as.english(sum(N_mods[[3]][[3]]$m))` recaptures in Fall 2020 which included `r as.english(LP_mod[[3]][[3]]$m)` unique individuals. Summaries of parameters for both the single-census and multiple-census mark-recapture estimators are provided in Table \@ref(tab:abund-data-lp) and Table \@ref(tab:abund-data-schn), respectively.
+
+Abundance estimates for Northern Pikeminnow in the Deadwater Slough during Fall 2019 ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` and for Fall 2020 ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")`. In both cases, the multiple census estimators were consistently larger than the single census estimators, although the size of the 95% confidence intervals were more varied (Figure \@ref(fig:abund-fig)). Table \@ref(tab:abund-tab) provides point estimates and confidence intervals for each estimator for the fall mark-recapture sampling events.
+
+All the estimators yielded estimates with overlapping confidence intervals. Because the sampling design most closely matched a multiple census estimator, we feel the Schnabel estimator is the most appropriate. We examined diagnostic plots for that estimator (number of marks vs. proportion of recaptures) and they suggested that we were meeting the assumptions of the Schnabel estimator. Therefore, further results will be based on the Schnabel estimates of abundance. 
+
+Using the mean of the Schnabel estimates of Northern Pikeminnow abundance across two fall sampling events, and the mean of the CPUE from those events as well, we estimated there to be `r prettyNum(round(spring_abund$N_S), big.mark = ",")` (95%CI: `r paste(prettyNum(round(c(spring_abund$Lci_S, spring_abund$Uci_S)), big.mark = ","), collapse = " - ")`) Northern Pikeminnow in Deadwater Slough during spring of 2020. 
+
+The PSD for Northern Pikeminnow in our study and across all three years was `r prettyNum(psd, digits = 1)`%. In other words, `r prettyNum(psd, digits = 1)`% of captured fish were over the quality size classification of `r prettyNum(q_size, digits = 0)` mm TL, demonstrating that a high percentage of Northern Pikeminnow within Deadwater Slough are above average size classes defined for the species
+
+
+## Gastric Lavage
+
+We examined the stomach contents of `r prettyNum(gastric_tbl$lavaged[gastric_tbl$event_name == "Total"], big.mark = ",")` Northern Pikeminnow over the course of the study using gastric lavage methods. Of those, we documented some form of stomach contents in `r prettyNum(gastric_tbl$stmch_contents[gastric_tbl$event_name == "Total"], big.mark = ",")` of fish of which we were able to confirm fish or fish remnants in `r prettyNum(gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"], big.mark = ",")`. Expressed as a percentage, `r prettyNum((gastric_tbl$stmch_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$lavaged[gastric_tbl$event_name == "Total"]) * 100, digits = 3)`% of lavaged Northern Pikeminnow had stomach contents of which `r prettyNum((gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$stmch_contents[gastric_tbl$event_name == "Total"]) * 100, digits = 3)`% we identified containing fish or fish remnants. Table \@ref(tab:gastric-tab) provides a further breakdown of gastric lavage results for each sampling event. 
+
+For Northern Pikeminnow with some form of stomach contents, the average wet weight of total contents was `r prettyNum(mean(stmch_df$stomach_contents_weight), digits = 2)` g (median = `r prettyNum(median(stmch_df$stomach_contents_weight), digits = 3)` g; range = `r prettyNum(min(stmch_df$stomach_contents_weight), digits = 3)`-`r prettyNum(max(stmch_df$stomach_contents_weight), digits = 3)` g). Overall, fish or fish remnants were `r prettyNum(mean(stmch_df$p_fish) * 100, digits = 3)`% of the overall weighted weight among all stomach contents examined.
+
+
+## Bioenergetics
+
+We estimated a single average-sized Northern Pikeminnow to consume 61 g of ***fish*** during the modeled fall time period (September 1 - November 17). Given an estimated population size of ***xx,xxx***, we'd estimate that ***xxx,xxx*** g of fish are consumed each fall during the emigration of juvenile DSR Chinook Salmon. The average weight of a DSR Chinook Salmon is ***xx.x*** taken from ***yyy*** rotary screw traps
+
+If we further assume an average weight of ***xx g*** for DSR Chinook Salmon
+
+Over the fall time period a single average-sized Northern Pikeminnow is modeled to eat 61 g of fish. For the estimated population of ***xx,xxx***, then ***xxx,xxx*** g of fish are being eaten each fall during the migration of juvenile Chinook Salmon. Therefore, Northern Pikeminnow in the Deadwater Slough can potentially consume ***xx,xxx*** juvenile Chinook Salmon as a discrete population.
+
+Over an entire year, we estimate that a single Northern Pikeminnow will eat 283 g of fish and 613 g of other food types.
+
+<!--
+* Water Temperature measurements.
+    *	Hobo tidbit placed at site. 
+    *	Calculated daily average water temperature for 365 days of the year.
+*	Water temperature plot for the 365 average.
+*	Bioenergetics results. Total mass consumed over a 365 day period. Plot of daily consumption with day of year on x and mass on y.
+-->
+
+
+# Discussion
+
+We estimated the population size of Northern Pikeminnow in the Deadwater Slough to be greater than ***xx,xxx*** during the fall emigration period for DSR Chinook Salmon. That estimate translates to a density of ***xxx*** Northern Pikeminnow per 100 m or ***xxx*** per 100 m^2^ which is ***similar/more/less*** than estimates from elsewhere in the Columbia River ***(citation)*** where substantial Northern Pikeminnow predation impacts on salmonids have led to bounty programs aimed at reducing Northern Pikeminnow abundance. The population size of Northern Pikeminnow was not directly estimated during the spring NRR Chinook salmon emigration period; however, the relative abundance measured at CPUE was comparable to the fall sampling periods ***(update statement later)***. The population of Northern Pikeminnow in Deadwater Slough was estimated to consume between ***xx,xxx*** and ***xx,xxx*** juvenile Chinook Salmon during the ***x*** sampling periods and result in an estimated reduction of returning adults between ***xxx*** and ***x,xxx***. We suggest that the habitat modifications that created the Deadwater Slough have resulted in favorable conditions for Northern Pikeminnow, including improved conditions for predation upon juvenile Chinook Salmon ***(add detail here)***. Therefore, predation by Northern Pikeminnow in the Deadwater Slough likely has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon River MPG.
+
+
+## Mark-Recapture Model
+
+All estimators suggest a large number of Northern Pikeminnow occupying Deadwater Slough. 
+
+<!-- This might be a good place to bring in some comparisons with pikeminnow densities from the Columbia, put our numbers in context. -->
+
+If the first mark-recapture assumption was violated and the population is actually open (potential immigration and emigration during the survey period), as long as the immigration and emigration rates are equal between marked and unmarked fish, our estimators should still provide unbiased estimates. Given the size of the sampling area, and the length of the sampling period (two weeks)
+
+We are comfortable with assumptions 4 and 5 (no loss of marks and no mistaken or missed marks). Assumptions 2 and 3 indicate whether the second (and subsequent) surveys are random samples of the population. Angling methods may have a size selection bias, but that may only affect the interpretation of the abundance estimates (i.e. our estimates are the abundance of Northern Pikeminnow above some size threshold). Unequal catchability between individual fish is very difficult to assess, especially if that heterogenity arises from being caught once. 
+
+<!-- If catching and marking fish makes them want to leave the Deadwater area (more than unmarked fish), that could be making our estimates biased high (due to fewer recaptures). I don't imagine that is happening, but does anyone else have concerns about that?  -->
+
+<!--
+Re-hash out our assumptions? What assumptions were most likely violated e.g., the closed population assumption? If we assumed an open population with varying immigration/emigration rates how might that affect our estimate? In the end, how good do we think our estimate is and is the bottom-line that we belive there still to be a shit-ton of pikeminnow even if our assumptions were violated?
+-->
+
+The spring abundance estimate is smaller than either fall sampling event. However, our approach assumes equal capture probabilities between the fall and spring sampling events. If it does differ, we believe that the capture probability in the spring could be lower due to higher flows, which would lead to our spring abundance estimate being biased low. Therefore, we presume our abundance estimate of Northern Pikeminnow for the spring 2021 sampling event to be a conservative estimate. 
+
+
+## Gastric Lavage
+
+The majority of fish collected during this study received gastric lavage, including some non-predatory species. To validate the efficacy of this method, we euthanized nine Northern Pikeminnow after gastric lavage was completed and removed the remaining stomach contents via dissection. Our results support previous findings that gastric lavage effectively removes stomach contents (@Lott2020). Additionally, we found that the fish captured in net-traps had a similar proportion of stomach content samples. Of those, 1,214 (76.2%) were completely empty, 345 (21.6%) had stomach contents, and 35 (2.2%) contained fish remnants. We were successfully able to identify Redside Shiners, a Largescale Sucker, sculpin, Mountain Whitefish, and one juvenile Chinook Salmon in the stomach contents. However, decomposition from digestion rendered most stomach contents unidentifiable.
+
+<!--
+Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or other fishes) in a very small number of stomach contents. However, we don't necessarily believe that to mean that pikeminnow in Deadwater Slough rarely consume juvenile Chinook salmon. Are there other cases where gastric lavage failed to document predation? How soon after consumption do you need to take a sample? So instead, we made some assumptions about the proportion of a pikeminnows diet consisting of Chinook salmon.
+-->
+
+
+## Bioenergetics
+
+What assumptions did we make during the bioenergetics assessment? And how might violations of those assumptions change our estimate of the number of juvenile Chinook salmon consumed and resulting impacts to adult returns?
+
+
+## Impacts to Adult Returns
+
+```{r}
+# pull in SAR numbers
+sar = read_csv(here("analysis/data/raw_data", 
+                    "WSSCh_sar_4See.csv")) %>%
+  summarise(across(c(medsar, sdsar),
+                   median)) %>%
+  summarise(across(c(medsar, sdsar),
+               ~ . / 100))
+
+# summarze potential Chinook eaten for each timeperiod by one pikeminnow
+adult_impact = fall_results %>% 
+  summarise(across(ends_with("g_n"), max)) %>%
+  add_column(season = "Fall",
+             .before = 0) %>%
+  bind_rows(spring_results %>% 
+              summarise(across(ends_with("g_n"), max)) %>%
+              add_column(season = "Spring",
+                         .before = 0)) %>%
+  pivot_longer(cols = ends_with("g_n"),
+               names_to = "perc_diet",
+               values_to = "juv_chnk") %>%
+  mutate(across(perc_diet,
+                str_extract,
+                "[:digit:]+"),
+         across(perc_diet,
+                as.integer)) %>%
+  left_join(spring_abund %>%
+              select(N_F:Uci_F,
+                     N_S:Uci_S) %>%
+              pivot_longer(everything()) %>%
+              mutate(season = if_else(str_detect(name, "_F$"),
+                                                 "Fall",
+                                                 "Spring")) %>%
+              mutate(across(name,
+                            str_remove,
+                            "_F$"),
+                     across(name,
+                            str_remove,
+                            "_S$")) %>%
+              pivot_wider(names_from = name,
+                          values_from = value)) %>%
+  mutate(smolt_N = N * juv_chnk,
+         smolt_Lci = Lci * juv_chnk,
+         smolt_Uci = Uci * juv_chnk) %>%
+  bind_cols(sar) %>%
+  mutate(adult_N = smolt_N * medsar,
+         adult_Lci = smolt_Lci * qnorm(0.025, medsar, sdsar),
+         adult_Uci = smolt_Uci * qnorm(0.975, medsar, sdsar))
+
+# sum fall and spring impacts
+total_impacts = adult_impact %>%
+  group_by(perc_diet) %>%
+  summarise(across(c(ends_with("_N"),
+                     ends_with("_Lci"),
+                     ends_with("_Uci")),
+                   sum))
+```
+
+To estimate the total consumption potential (i.e., the number or amount of juvenile Chinook Salmon consumed during the peaks of DSR [fall] and NRR [spring] emigrations) of Northern Pikeminnow in Deadwater Slough, we used the Fish Bioenergetics v4.0 application developed by @Deslauriers2017 and applied in the R statistical software [@RCoreTeam2021]. The daily rate of consumption in grams for an individual Northern Pikeminnow was estimated based on the following inputs: predator and prey energy densities, predator start and end weights, and water temperatures. Predator energy density for Northern Pikeminnow was fixed at 6,703 Joules(J)/g [@Deslauriers2017]. Prey energy densities were fixed at 21,500 J/g for juvenile Chinook Salmon [@Moss2016]. We used a weight-length formula [@Parker1995] to calculate the predator start weight using the average length of Northern Pikeminnow captured in Deadwater Slough during our study. The average length of Northern Pikeminnow during the fall and spring were 352.9 and 393.7 mm, respectively, which calculated to average starting weights of 504.4 and 670.5 g. The assumption of zero growth was included to estimate consumption if individual Northern Pikeminnow were not growing and/or the population is stable, and so start and end weights are equal. Mean daily water temperatures were summarized from 15-minute interval temperature readings available March 3, 2013 to June 14, 2021 from a gage station approximately 22 river kilometers downstream of Deadwater Slough near Shoup, Idaho [@USGS2016].
+
+Our largest uncertainty for model parameters was the proportion of the Northern Pikeminnow diet consisting of fishes (e.g., juvenile Chinook Salmon) versus other food items like invertebrates. Therefore, we varied the proportion of the diet that was fish or invertebrates ranging from 10-90%, in 10% intervals, for both categories. Energy densities for invertebrates was fixed at 3,000 J/g. Separate models were also run for a 77-day fall period from September 15 - November 30 and a 92-day period in the spring from March 1 - May 31 to coincide with peak emigrations of DSR and NRR juveniles from the Lemhi River, the largest Chinook Salmon population in the Upper Salmon MPG. This resulted in 18 separate model runs (2 seasons and 9 diet scenarios). Each model run provided an estimate of the amount (grams) of fish consumed by an individual Northern Pikeminnow during the fall or spring time periods.
+
+<!-- During this time, water temperatures typically exceed the range (0-7$^\circ$C) that would illicit concealment behavior or torpor from juvenile Chinook Salmon. -->
+
+To estimate the total biomass of fish potentially consumed by Northern Pikeminnow in Deadwater Slough, we then multiplied the biomass consumed by an individual Northern Pikeminnow for the time period by the estimated population size for that time period (mean Schnabel estimates in the fall, CPUE ratio generated estimate in the spring). The total biomass was further converted to an estimate of the total number of Chinook Salmon consumed by dividing by a weight of `r avg_NRR_g` g for the spring and `r avg_DSR_g` g for the fall, an average from juvenile Chinook Salmon captured during those date ranges at seven rotary screw traps located throughout the Upper Salmon upstream of Deadwater Slough. Finally, we estimated the number of additional adult Chinook salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough reach was reduced or eliminated by multiplying the total estimated consumed juvenile Chinook salmon by an estimate of Granite-to-Granite SARs (`r round(sar$medsar, 5)`, SE: `r round(sar$sdsar, 5)`) [@McCann2019].
+
+The estimated number of Chinook Salmon consumed by Northern Pikeminnow begins to taper off between 30-90% of Pikeminnow diet. So although we are uncertain of that diet proportion, the impact of that uncertainty is somewhat constrained. We estimated the total juvenile outmigrants consumed (fall and spring) to be between `r paste(prettyNum(round(range(total_impacts$smolt_N)), big.mark = ","), collapse = " and ")`. This translates to adult Chinook equivalents between `r paste(prettyNum(round(range(total_impacts$adult_N)), big.mark = ","), collapse = " and ")` (Figure \@ref(fig:adult-imp-p)).
+
+
+<!-- 
+After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach)
+
+Currently only using one bioenergetics model run. Could incorporate more bioenergetics models, but if so then maybe consider focusing on a single abundance estimator (e.g. Schnabel) to avoid too many combinations in the results 
+-->
+
+Again, what assumptions did we make here and how might violations of those assumptions change our estimate of impacts to adult returns.
+
+*	SAR results. Those results are GRA - GRA SARs, estimated from multiple years of PIT tag data. Seem pretty good to me.
+* Maybe a plot of multiple scenarios depending on gastric lavage results? 
+* Maybe pop estimates if they vary in time.
+
+
+## Avian Predation
+
+Although not formally assessed in this study, avian predators including Great Blue Herons *Ardea herodias* and Bald Eagles *Haliaeetus leucocephalus* are another potential source of mortality for juvenile salmon in the Deadwater Slough. The Deadwater Slough is recognized as an important bird watching and nesting area due to the associated riparian and backwater habitats [(Deadwater Slough - Audubon Important Bird Areas)](https://www.audubon.org/important-bird-areas/deadwater-slough#). Several piscivorous bird species have been documented using the Deadwater Slough that include the Common *Mergus merganser* and Hooded *Lophodytes cucullatus* mergansers, the Great Blue Heron, the Double-crested Cormorant *Phalacrocorax auritus*, and the Belted Kingfisher *Megaceryle alcyon* [@eBird2021]. During the initial sampling event in 2019, a two-person crew walked the entire reach and surrounding and upstream areas scanning for passive integrated transponder (PIT) tags. During that informal survey, nine PIT tags were recovered near active bird nests or in an upstream anastomizing reach where herons and eagles are prevalent, suggesting that mortality may have been a result of avian predation. The PIT tag histories in [PTAGIS](https://www.ptagis.org/) indicate these tags were implanted into a combination of juvenile Chinook Salmon (3), Sockeye Salmon (3), and steelhead (3). Avian predation contributes a major component of the total mortality for yearling Chinook Salmon in some locations in the lower Snake River and Columbia River, particularly at hydroelectric dams and within reservoirs [@Evans2012; -@Evans2016]; however, we did not observe large colonies of piscivorous birds within the study area. Although there is documentation of individual Double-crested Cormorants [@eBird2021] at the Deadwater Slough, the site is not within their breeding range, rather, it is part of a migration corridor. Given the current avian species known to occupy Deadwater Slough, it is unlikely that avian predation on juvenile salmonids is comparable to elsewhere in the Columbia River basin with large piscivorous bird colonies. Nevertheless, we hypothesize that the reservoir-like conditions at the Deadwater Slough may increase the probability of avian predation on juvenile Chinook Salmon from the many piscivorous birds known to use the site. Future estimates of predation would benefit from consideration of the contribution of piscivorous avian predators.
+
+
+## Management Implications
+
+At least five of the eight populations in the Upper Salmon MPG must meet criteria set forth by @McElhany2000 and @ICTRT2007 for the MPG to be considered viable and for the recovery of the Snake River Evolutionary Significant Unit. Populations with the ESU have substantial cultural value, support downriver mainstem Snake and Columbia River commercial and subsistence fisheries, and support local fisheries and economies in years with sufficient abundance.
+
+We estimated that consumption of juvenile Chinook Salmon by Northern Pikeminnow in the Deadwater Slough potentially reduces annual adult returns by ***xxx - x,xxx*** (perhaps express as percent, too) to upriver populations. Presumably, that reduction in adult returns impacts both the ESA-listed natural populations in the Upper Salmon River MPG and two hatchery populations in the Upper Salmon, Pahsimeroi and Sawtooth hatcheries, which provide for recrational fishing opportunities. Consequently, reducing juvenile Chinook Salmon predation mortalities at Deadwater Slough can potentially benefit multiple upriver natural and hatchery populations upriver. Because the Deadwater Slough is part of the migratory pathway for emigrating salmonids, including for multiple species and populations, the impact of that benefit would likely be higher than tributary habitat rehabilitation actions, which typically benefit a single population. Moreover, the deepened, slack water conditions that favor northern pikeminnow at Deadwater Slough are indirectly the result of manmade activities i.e., the failure of a manmade mining reservoir dam. Given these reasons, it seems that Deadwater Slough could be a candidate for management or restoration actions to benefit local Chinook Salmon populations.
+
+We see two potential management actions: 1) removing the Dump Creek delta to restore flow and 2) a local northern pikeminnow bounty program to encourage harvest of northern pikeminnow in Deadwater Slough. 
+
+<!--
+Is there anything in the literature that discusses habitat preferences for pike minnow? If we speed up velocities and add some cover potentially pike minnow predation success will be lowered. Will these fish just move elsewhere? 
+-->
+
+## Conclusions
+
+*	We have also presented a novel modeling framework for estimating predation on native, critically endangered anadromous species which can be applied to other areas of interest. John day? Others?
+*	The end. 
+
+
+# Acknowledgements
+
+<!-- Please feel free to add others that I missed or improve -->
+
+The authors extend much appreciation to the many volunteers who assisted with field efforts including collaborators from Bureau of Reclamation, Idaho Department of Fish and Game, and Lemhi Regional Land Trust, among others. This manuscript benefited from reviews and contributions from colleagues at the Idaho Governor's Office of Species Conservation, Rio Applied Science and Engineering, and from Sean Gibbs and Ben Briscoe at Mount Hood Environmental. Funding for this study was provided by the Bureau of Reclamation, Pacific Northwest Regional Office (contract No. 140R1021F0018). Special thanks to Caitlin Alcott and Inter-Fluve for their administrative support and guidance.
+
+
+\newpage
+
+# Literature Cited 
+
+<!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
+
+<div id="refs"></div>
+
+\newpage
+
+# Tables
+
+<div id="tables"></div>
+
+```{r abund-data-lp}
+LP_mod %>%
+  select(event_name, species, data) %>%
+  distinct() %>%
+  unnest(data) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  rename(`Sampling Event` = event_name,
+         Species = species) %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        caption = "Data summary for single-census mark-recapture estimators. M is the total number of fish caught in the first sample event, marked and returned to the population; n is the total number of fish caught in the second sample, and m is the number of previously marked fish caught in the second sample event.") %>%
+  kable_styling()
+
+```
+
+\newpage
+
+```{r abund-data-schn}
+N_mods %>%
+  select(event_name, species, data) %>%
+  distinct() %>%
+  unnest(data) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " "))) %>%
+  rename(`Sampling Event` = event_name,
+         Species = species,
+         Date = date) %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        caption = "Data summary for multiple-census mark-recapture estimators. M is the total number of fish caught in previous events, marked and returned to the population; n is the total number of fish caught in the current event; m is the number of marked fish caught in that event; u is the number of unmarked fish caught, and R is the number of marked fish returned to the population.") %>%
+  kable_styling()
+
+```
+
+\newpage
+
+```{r abund-tab}
+all_est %>%
+  select(-c(species, range:prop_range)) %>%
+  rename(`Sampling Event` = event_name,
+         Estimator = model) %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        caption = "Point estimates, standard errors, and confidence intervals for each of the mark-recapture estimators and for the fall sampling events. Standard errors are not available for the multiple-census estimators.") %>%
+  kable_styling()
+
+```
+
+\newpage
+
+```{r spring-N}
+spring_abund %>%
+  rowwise() %>%
+  mutate(`Avg. Fall N (CI)` = paste0(prettyNum(round(N_F), big.mark = ","),
+                                     " (",
+                                     paste0(prettyNum(round(c(Lci_F, Uci_F)), big.mark = ","),
+                                            collapse = ", "),
+                                     ")"),
+         `Spring N (CI)` = paste0(prettyNum(round(N_S), big.mark = ","),
+                                     " (",
+                                     paste0(prettyNum(round(c(Lci_S, Uci_S)), big.mark = ","),
+                                            collapse = ", "),
+                                     ")")) %>%
+  ungroup() %>%
+  select(Species = species,
+         `Avg Fall CPUE` = cpue_F,
+         `Spring CPUE` = cpue_S,
+         ends_with("(CI)")) %>%
+  kable(booktabs = T,
+        caption = "Average CPUE and abundance in the fall (95% confidence interval), and CPUE and estimates of spring abundance (95% confidence interval) for Northern Pikeminnow in Deadwater Slough.") %>%
+  kable_styling()
+```
+
+
+```{r gastric-tab}
+gastric_tbl %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        caption = "Summary of gastric lavage results including the total number of fish captured and gastric lavaged. For Northern Pikeminnow that were gastric lavaged, we show the number containing stomach contents, and of those, the number containing fish contents.") %>%
+  kable_styling()
+
+```
+
+\newpage
+
+```{r adult-imp}
+adult_impact %>%
+  mutate(stage = "Smolt") %>%
+  select(#event_name, 
+         #model,
+         stage,
+         starts_with("smolt")) %>%
+  rename_with(.fn = ~ str_remove(., "smolt_"),
+              .cols = starts_with("smolt")) %>%
+  bind_rows(adult_impact %>%
+              mutate(stage = "Adult Equivalent") %>%
+              select(#event_name, model,
+                     stage,
+                     starts_with("adult")) %>%
+              rename_with(.fn = ~ str_remove(., "adult_"),
+                          .cols = starts_with("adult"))) %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        col.names = c("Stage",
+                      "N",
+                      "Lower 95% CI",
+                      "Upper 95% CI"),
+        digits = 0,
+        caption = "Estimates of smolts consumed during fall migration by Northern Pikeminnow, and the adult equivalent of those smolts based on SARs.") %>%
+  kable_styling()
+```
+
+
+# Figures
+
+<div id="figures"></div>
+
+```{r map, out.width = "85%", fig.cap = "Map of the Deadwater Slough study area. The high-resolution orthoimage portion directly surrounding the Deadwater Slough was generated from aerial images taken by a drone. The red polygon indicates the reach characterized by unnaturally slow water velocities and a deepened channel. The location of the Dump Creek delta is indicated."}
+knitr::include_graphics("../figures/deadwater_map_low_res.png")
+
+```
+
+\newpage
+
+```{r cpue-fig, fig.cap = "The number of Northern Pikeminnow caught per angler effort for each sampling event."}
+total_cpue %>%
+  ggplot(aes(x = event_name,
+             y = catch_per_hr)) +
+  geom_col(fill = "gray30") +
+  labs(y = "Catch Per Angler Hour") +
+  theme(axis.title.x = element_blank())
+
+```
+
+\newpage
+
+```{r abund-fig, fig.cap = "Estimates of abundance of Northern Pikeminnow using different mark-recapture estimators and for the fall sampling events. Note the y-axis is truncated at 100."}
+all_est %>%
+  mutate(across(c(N, Lci, Uci),
+                ~ . / 1000)) %>%
+  ggplot(aes(x = model,
+             y = N,
+             color = model)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = Lci,
+                    ymax = Uci),
+                width = 0.1) +
+  facet_wrap(~ event_name) +
+  coord_cartesian(ylim = c(0, 100)) +
+  labs(x = "Estimator",
+       y = "Abundance (x 1,000)") +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 45,
+                                   hjust = 1)) +
+  scale_color_brewer(palette = "Dark2")
+
+```
+
+\newpage
+
+```{r stmch-cont-p, eval = F, fig.cap = "A stomach contents plot."}
+stmch_cont_per_sz_p = gastric_df %>%
+  filter(method %in% "Angling") %>%
+  ggplot() +
+  aes(x = fish_or_parts) +
+  geom_bar(fill = "#DB740E") +
+  labs(x = "Stomach Contents",
+       y = "Frequency") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90,
+                                   vjust = 0.5,
+                                   hjust = 1)) +
+  facet_wrap(vars(npm_50),
+             nrow = 2L)
+
+stmch_cont_per_sz_p
+
+```
+
+\newpage
+
+```{r length-freq-p, eval = T, fig.cap = "A length frequency plot."}
+length_freq_p = gastric_df %>%
+  ggplot(aes(length)) +
+  geom_histogram(breaks = seq(150, 650, by = 50),
+                 col = "#DB740E",
+                 fill = "#DB740E",
+                 alpha = .2) +
+  labs(x = "TL (mm)",
+       y = "Frequency") +
+  xlim(c(100, 700)) +
+  ylim(c(0, 800)) +
+  scale_x_continuous(breaks = seq(0, 650, by = 50)) +
+  scale_y_continuous(breaks = seq(0, 550, by = 50)) +
+  theme_classic()
+
+length_freq_p
+
+```
+
+\newpage
+
+```{r adult-imp-p, fig.cap = "How many Chinook Salmon are consumed by Northern Pikeminnow, depending on what percent of diet is Chinook. Faceted by migration season and life-stage."}
+adult_impact %>%
+  mutate(stage = "Juv. Emigrant") %>%
+  select(stage,
+         season,
+         perc_diet,
+         starts_with("smolt")) %>%
+  rename_with(.fn = ~ str_remove(., "smolt_"),
+              .cols = starts_with("smolt")) %>%
+  bind_rows(adult_impact %>%
+              mutate(stage = "Adult Equivalent") %>%
+              select(stage,
+                     season,
+                     perc_diet,
+                     starts_with("adult")) %>%
+              rename_with(.fn = ~ str_remove(., "adult_"),
+                          .cols = starts_with("adult"))) %>%
+  ggplot(aes(x = perc_diet,
+             y = N,
+             color = as.factor(perc_diet))) +
+  geom_errorbar(aes(ymin = Lci,
+                    ymax = Uci),
+                width = 0.1) +
+  geom_point(size = 4) +
+  facet_grid(fct_rev(stage) ~ season,
+             scales = "free_y") +
+  scale_color_viridis_d(name = "Percent Chinook\nin Diet") +
+  theme(axis.text.x = element_blank(),
+        legend.position = "bottom",
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  labs(y = "Number Chinook Consumed")
+```
+
+
+\newpage
+
+### Colophon
+
+This report was generated on `r Sys.time()` using the following computational environment and dependencies: 
+
+```{r colophon, cache = FALSE}
+# which R packages and versions?
+if ("devtools" %in% installed.packages()) devtools::session_info()
+
+```
+
+\newpage
+
+The current Git commit details are:
+
+```{r}
+# what commit is this file at? 
+if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())
+
+```
