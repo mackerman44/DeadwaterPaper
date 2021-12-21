@@ -122,7 +122,7 @@ N_mods = cmr_df %>%
 
 # diagnostic plots
 mod = N_mods %>%
-  slice(2) %>%
+  slice(1) %>%
   pull(mr_model) %>%
   magrittr::extract2(1)
 
@@ -142,6 +142,27 @@ tibble(m = mod$m,
               se = F,
               color = "red",
               linetype = 2)
+
+
+N_mods %>%
+  filter(model == "Schnabel") %>%
+  unnest(data) %>%
+  # filter(m > 0) %>%
+  ggplot(aes(x = M,
+             y = m/n)) +
+  geom_point(size = 4) +
+  facet_wrap(~ event_name,
+             scales = "free") +
+  labs(x = "Marked in Population",
+       y = "Prop. Recaptures in Sample") +
+  geom_smooth(method = 'loess',
+              se = F,
+              span = 2) +
+  geom_smooth(method = "lm",
+              se = F,
+              color = "red",
+              linetype = 2)
+
 
 #-----------------------------------------------------------------
 # using Lincoln-Petersen model, combining first 4 and last four days
