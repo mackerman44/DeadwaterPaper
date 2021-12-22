@@ -95,6 +95,8 @@ library(knitr)
 library(kableExtra)
 library(stringi)
 library(english)
+library(lemon)
+library(gridExtra)
 
 # format NA values in tables
 options(knitr.kable.NA = '-')
@@ -1055,8 +1057,6 @@ stmch_cont_per_sz_p
 
 ```
 
-\newpage
-
 ```{r length-freq-p, eval = T, fig.cap = "A length frequency plot."}
 length_freq_p = gastric_df %>%
   ggplot(aes(length)) +
@@ -1073,6 +1073,79 @@ length_freq_p = gastric_df %>%
   theme_classic()
 
 length_freq_p
+
+```
+
+\newpage
+
+```{r bio-p, fig.cap = "Temp."}
+spring_results$season = "Spring"
+fall_results$season = "Fall"
+bio_results = rbind(spring_results, fall_results)
+bio_results$ymd = (ymd(bio_results$date))
+
+pFish = bio_results %>%
+  ggplot(aes(ymd, f50_g)) +
+  geom_line(size = 1.15) +
+  geom_ribbon(data = bio_results,
+              aes(ymd,
+                  ymin = f10_g,
+                  ymax = f90_g),
+              color = "grey65",
+              alpha = 0.4) +
+  theme_bw() +
+  labs(y = "Cumulative fish consumed (g)",
+       x = "",
+       title = "") +
+  facet_rep_wrap(~season,
+                 scales = "free_x",
+                 repeat.tick.labels = F) +
+  theme(strip.background = element_rect(color = "white",
+                                        fill = "white"),
+        strip.text.x = element_text(size = 12),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 11,
+                                   color = "black"),
+        axis.title.y = element_text(vjust = 1,
+                                    size = 12),
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        plot.margin = unit(c(-.1, .3, -.3, .2), "cm"))
+
+pTemp = bio_results %>%
+  ggplot(aes(ymd, temperature_c)) +
+  geom_line(color = "navyblue",
+            size = 1.15) +
+  theme_bw() +
+  labs(y = expression("Water temperature"*~degree*C),
+       x = "Month",
+       title = "") +
+  facet_rep_wrap(~season,
+                 scales = "free_x",
+                 repeat.tick.labels = F) +
+  theme(strip.background = element_rect(color = "white",
+                                        fill = "white"),
+        strip.text.x = element_blank(),
+        axis.text.x = element_text(size = 11,
+                                   color = "black"),
+        axis.title.x = element_text(size = 12),
+        axis.text.y = element_text(size = 11,
+                                   color = "black"),
+        axis.title.y = element_text(vjust = 0.1,
+                                    size = 12),
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        plot.margin = unit(c(-.1, .3, .1, .1), "cm"))
+
+p_list = list(pFish, pTemp)
+n_col = floor(sqrt(length(p_list)))
+
+bio_p = do.call("grid.arrange",
+                c(p_list, ncol = n_col))
 
 ```
 
