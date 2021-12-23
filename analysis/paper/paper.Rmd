@@ -727,7 +727,7 @@ Mark-recapture abundance estimates for Northern Pikeminnow in Deadwater Slough d
 
 All mark-recapture estimators yielded estimates with overlapping confidence intervals. However, because our sampling design most closely matched a multiple census estimator (i.e., we released marked fish each day and recaptures from all previous days were recorded for each day), we fell those estimators most appropriate. Additionally, because the Schnabel estimator includes a small sample size modification, as in our case (i.e., few recaptures), we feel it is most appropriate. The Schnabel estimator has the added benefit of more precise confidence intervals and is more straightforward than the Schumacher-Eschmeyer estimate as it is essentially the weighted average among multiple Chapman-modified Lincoln-Peterson estimates. Therefore, further analyses and results will be based on the Schnabel estimates of abundance.
 
-Using the mean of the Schnabel estimates of Northern Pikeminnow abundance across the two fall sampling events (`r prettyNum(mean(all_est$N[all_est$model == "Schnabel"]), big.mark = ",")`) and multiplying the ratio (`r round(total_cpue$catch_per_hr[total_cpue$event_name == "Spring 2021"] / mean(total_cpue$catch_per_hr[total_cpue$event_name %like% "Fall"]), 2)`) between the spring CPUE (`r round(total_cpue$catch_per_hr[total_cpue$event_name == "Spring 2021"], 2)`) and mean of the fall CPUEs (`r round(mean(total_cpue$catch_per_hr[total_cpue$event_name %like% "Fall"]), 2)`), we estimated there to be `r prettyNum(round(spring_abund$N_S), big.mark = ",")` (95% CI: `r paste(prettyNum(round(c(spring_abund$Lci_S, spring_abund$Uci_S)), big.mark = ","), collapse = " - ")`) Northern Pikeminnow in Deadwater Slough during spring 2021.
+Using the mean of the Schnabel estimates of Northern Pikeminnow abundance across the two fall sampling events, `r prettyNum(mean(all_est$N[all_est$model == "Schnabel"]), big.mark = ",")` (95% CI: `r paste(prettyNum(round(c(spring_abund$Lci_F, spring_abund$Uci_F)), big.mark = ","), collapse = " - ")`), and multiplying the ratio (`r round(total_cpue$catch_per_hr[total_cpue$event_name == "Spring 2021"] / mean(total_cpue$catch_per_hr[total_cpue$event_name %like% "Fall"]), 2)`) between the spring CPUE (`r round(total_cpue$catch_per_hr[total_cpue$event_name == "Spring 2021"], 2)`) and mean of the fall CPUEs (`r round(mean(total_cpue$catch_per_hr[total_cpue$event_name %like% "Fall"]), 2)`), we estimated there to be `r prettyNum(round(spring_abund$N_S), big.mark = ",")` (95% CI: `r paste(prettyNum(round(c(spring_abund$Lci_S, spring_abund$Uci_S)), big.mark = ","), collapse = " - ")`) Northern Pikeminnow in Deadwater Slough during spring 2021.
 
 
 ## Gastric Lavage
@@ -744,13 +744,8 @@ Given a mean population size of `r prettyNum(unique(adult_impact$N[adult_impact$
 Across both seasons and all diet scenarios, we estimated the total juvenile outmigrants consumed to be between `r prettyNum(round(min(total_impacts$smolt_N), 0), big.mark = ",")` and `r prettyNum(round(max(total_impacts$smolt_N), 0), big.mark = ",")`. The estimated number of Chinook Salmon consumed by a Northern Pikeminnow begins to taper off betwen the 30-90% diet scenarios. So although we are uncertain of the diet proportions, the impact of that uncertainty is somewhat constrained.
 
 <!--
-For context, throughout the migration periods of DSR and NRR life histories it is estimated that 113,976 individuals are produced and therefore available within the upper Salmon River basin (Table x).
-
-Given an estimated population size of xx,xxx, we’d estimate that xxx,xxx g of NRR fish are consumed each spring during the emigration, and xxxxx.xx g of DSR fish are consumed in the fall during the emigration of juvenile Chinook Salmon. Therefore, Northern Pikeminnow in the Deadwater Slough can potentially consume xx,xxx juvenile Chinook Salmon as a discrete population.
--->
-
-<!--
 ## Juvenile Chinook Salmon Abundance
+For context, throughout the migration periods of DSR and NRR life histories it is estimated that 113,976 individuals are produced and therefore available within the upper Salmon River basin (Table x).
 
 The abundance of juvenile Chinook Salmon for the upper Salmon River basin was estimated at 6 rotary screw traps [@McClure2020]. Overall, in 2020, there were an estimated 59,289 DSR, 22,264 NRR, and 10,159 parr estimated among all these traps in the upper Salmon River basin (Table X.)
 -->
@@ -862,14 +857,14 @@ The authors extend much appreciation to the many volunteers who assisted with fi
 LP_mod %>%
   select(event_name, species, data) %>%
   distinct() %>%
+  select(-species) %>%
   unnest(data) %>%
   mutate(across(event_name,
                 ~ str_replace(., "_", " "))) %>%
-  rename(`Sampling Event` = event_name,
-         Species = species) %>%
+  rename(`Effort` = event_name) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Data summary for single-census mark-recapture estimators. M is the total number of fish caught in the first sample event, marked and returned to the population; n is the total number of fish caught in the second sample, and m is the number of previously marked fish caught in the second sample event.") %>%
+        caption = "Summary of Northern Pikeminnow angling survey data for single-census mark-recapture estimators. M is the total number of fish caught in the first sample (week), marked and returned to the population; n is the total number of fish caught in the second sample (week), and m is the number of previously marked fish caught in the second week.") %>%
   kable_styling()
 
 ```
@@ -880,15 +875,16 @@ LP_mod %>%
 N_mods %>%
   select(event_name, species, data) %>%
   distinct() %>%
+  select(-species) %>%
   unnest(data) %>%
   mutate(across(event_name,
                 ~ str_replace(., "_", " "))) %>%
-  rename(`Sampling Event` = event_name,
-         Species = species,
+  select(event_name, date, M, n, m, u, R) %>%
+  rename(`Effort` = event_name,
          Date = date) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Data summary for multiple-census mark-recapture estimators. M is the total number of fish caught in previous events, marked and returned to the population; n is the total number of fish caught in the current event; m is the number of marked fish caught in that event; u is the number of unmarked fish caught, and R is the number of marked fish returned to the population.") %>%
+        caption = "Summary of Northern Pikeminnow angling survey data for multiple-census mark-recapture estimators. M is the total number of fish caught in previous samples (days), marked and returned to the population; n is the total number of fish caught in the current sample (day); m is the number of marked fish caught in that sample; u is the number of unmarked Northern Pikeminnow caught, and R is the number of marked fish returned to the population. Dates of sampling are also provided.") %>%
   kable_styling()
 
 ```
@@ -898,18 +894,18 @@ N_mods %>%
 ```{r abund-tab}
 all_est %>%
   select(-c(species, range:prop_range)) %>%
-  rename(`Sampling Event` = event_name,
-         Estimator = model) %>%
+  rename(`Effort` = event_name,
+         Estimator = model,
+         `L CI` = Lci,
+         `U CI` = Uci) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Point estimates, standard errors, and confidence intervals for each of the mark-recapture estimators and for the fall sampling events. Standard errors are not available for the multiple-census estimators.") %>%
+        caption = "Point estimates, standard errors, and 95% confidence intervals for each of the mark-recapture estimators and for the fall sampling efforts. Standard errors are not available for the multiple-census estimators.") %>%
   kable_styling()
 
 ```
 
-\newpage
-
-```{r spring-N}
+```{r spring-N, eval = F}
 spring_abund %>%
   rowwise() %>%
   mutate(`Avg. Fall N (CI)` = paste0(prettyNum(round(N_F), big.mark = ","),
@@ -957,29 +953,67 @@ gastric_tbl %>%
 
 ```{r adult-imp}
 adult_impact %>%
-  mutate(stage = "Smolt") %>%
-  select(#event_name, 
-         #model,
-         stage,
-         starts_with("smolt")) %>%
-  rename_with(.fn = ~ str_remove(., "smolt_"),
-              .cols = starts_with("smolt")) %>%
-  bind_rows(adult_impact %>%
-              mutate(stage = "Adult Equivalent") %>%
-              select(#event_name, model,
-                     stage,
-                     starts_with("adult")) %>%
-              rename_with(.fn = ~ str_remove(., "adult_"),
-                          .cols = starts_with("adult"))) %>%
+  select(season,
+         perc_diet,
+         juv_chnk,
+         smolt_N,
+         smolt_Lci,
+         smolt_Uci,
+         medsar,
+         sdsar,
+         adult_N,
+         adult_Lci,
+         adult_Uci) %>%
+  mutate(juv_chnk = round(juv_chnk, 2),
+         smolt_N = round(smolt_N, 0),
+         smolt_Lci = round(smolt_Lci, 0),
+         smolt_Uci = round(smolt_Uci, 0),
+         medsar = round(medsar, 5),
+         sdsar = round(sdsar, 5),
+         adult_N = round(adult_N, 0),
+         adult_Lci = round(adult_Lci, 0),
+         adult_Uci = round(adult_Uci, 0)) %>%
+  rename(Effort = season,
+         `p Fish` = perc_diet,
+         `Juv Chinook` = juv_chnk,
+         `Juv N` = smolt_N,
+         `Juv L CI` = smolt_Lci,
+         `Juv U CI` = smolt_Uci,
+         `Median SAR` = medsar,
+         `SD SAR` = sdsar,
+         `Adult N` = adult_N,
+         `Adult L CI` = adult_Lci,
+         `Adult U CI` = adult_Uci) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        col.names = c("Stage",
-                      "N",
-                      "Lower 95% CI",
-                      "Upper 95% CI"),
-        digits = 0,
-        caption = "Estimates of smolts consumed during fall migration by Northern Pikeminnow, and the adult equivalent of those smolts based on SARs.") %>%
-  kable_styling()
+        caption = "Estimates of the number of DSR (fall) and NRR (spring) emigrants consumed for each season and diet scenario. The diet scenario indicates the proportion of the Northern Pikeminnow diet consisting of fish. The 'Juv Chinook' column indicates the number of juvenile Chinook consumed by an individual Northern Pikeminnow during the fall or spring seasons and is taken from each of the 18 bioenergetics model runs. The number of smolts consumed (and 95% confidence intervals) are calculated using Northern Pikeminnow abundance estimates of 28,144 (95% CI: 14,378 - 59,978) for fall and 14,897 (95% CI: 7,610 - 31,747) for spring. The number of 'adult equivalents' is also estimated using a Lower Granite Dam smolt-to-adult rate (SAR) from McCann et al. 2019.") %>%
+  kable_styling(font_size = 8)
+
+# adult_impact %>%
+#   mutate(stage = "Smolt") %>%
+#   select(#event_name, 
+#          #model,
+#          stage,
+#          starts_with("smolt")) %>%
+#   rename_with(.fn = ~ str_remove(., "smolt_"),
+#               .cols = starts_with("smolt")) %>%
+#   bind_rows(adult_impact %>%
+#               mutate(stage = "Adult Equivalent") %>%
+#               select(#event_name, model,
+#                      stage,
+#                      starts_with("adult")) %>%
+#               rename_with(.fn = ~ str_remove(., "adult_"),
+#                           .cols = starts_with("adult"))) %>%
+#   kable(booktabs = T,
+#         format.args = list(big.mark = ","),
+#         col.names = c("Stage",
+#                       "N",
+#                       "Lower 95% CI",
+#                       "Upper 95% CI"),
+#         digits = 0,
+#         caption = "Estimates of smolts consumed during fall migration by Northern Pikeminnow, and the adult equivalent of those smolts based on SARs.") %>%
+#   kable_styling()
+
 ```
 
 \newpage
@@ -988,7 +1022,7 @@ adult_impact %>%
 
 <div id="figures"></div>
 
-```{r map, out.width = "85%", fig.cap = "Map of the Deadwater Slough study area. The high-resolution orthoimage portion directly surrounding the Deadwater Slough was generated from aerial images taken by a drone. The red polygon indicates the reach characterized by unnaturally slow water velocities and a deepened channel. The location of the Dump Creek delta is indicated."}
+```{r map, out.width = "85%", fig.cap = "Map of the Deadwater Slough study area. The high-resolution orthoimage portion surrounding the Deadwater Slough was generated from aerial images taken by an unmanned aircraft system (drone). The red polygon indicates the reach characterized by unnaturally slow water velocities and a deepened channel. The location of the Dump Creek delta is indicated."}
 knitr::include_graphics("../figures/deadwater_map_low_res.png")
 
 ```
