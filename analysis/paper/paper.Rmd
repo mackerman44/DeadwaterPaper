@@ -834,10 +834,7 @@ Is there anything in the literature that discusses habitat preferences for pike 
 
 # Acknowledgements
 
-<!-- Please feel free to add others that I missed or improve -->
-
-The authors extend much appreciation to the many volunteers who assisted with field efforts including collaborators from Bureau of Reclamation, Idaho Department of Fish and Game, and Lemhi Regional Land Trust, among others. This manuscript benefited from reviews and contributions from colleagues at the Idaho Governor's Office of Species Conservation, Rio Applied Science and Engineering, and from Sean Gibbs and Ben Briscoe at Mount Hood Environmental. Funding for this study was provided by the Bureau of Reclamation, Pacific Northwest Regional Office (contract No. 140R1021F0018). Special thanks to Caitlin Alcott and Inter-Fluve for their administrative support and guidance.
-
+The authors extend much appreciation to the many volunteers who assisted with field efforts including collaborators from the Bureau of Reclamation, Idaho Office of Species Conservation, Idaho Deparment of Fish and Game, and the Lemhi Regional Land Trust, among others. Special thanks to Chelsea Welke, Tulley Mackey, Jared Barker, and Brian Hamilton for their help in the field. Special thanks to Caitlin Alcott and Inter-Fluve for their administrative support and guidance. Funding for this study was provided by the Bureau of Reclamation, Pacific Northwest Regional Office (contract No. 140R1021F0018) with assistance from the Idaho Office of Species Conservation.
 
 \newpage
 
