@@ -116,13 +116,23 @@ if(doc.type == 'docx') {
 
 \newpage
 
+```{r deadwater-attr}
+# set some deadwater attributes
+ddw_rkms = 1.871
+ddw_m2 = 119431
+ddw_avg_width_m = 68
+ddw_acres = ddw_m2 / 4047
+ddw_hectares = ddw_m2 / 10000
+
+```
+
 # Introduction
 
 The Snake and Columbia rivers drain a network of inland tributaries that provide essential spawning and rearing habitat for anadromous Pacific salmon *Oncorhynchus* spp. and steelhead *O. mykiss*. These fishes were historically abundant throughout the drainage basin and consequently have tremendous ecological, cultural, and economic value. Over the last century, salmonid stocks throughout the Snake and Columbia rivers have undergone significant declines related to habitat modification in the freshwater environment (e.g., removal of beavers, river channel simplification, water withdrawals, hydrosystem development) and poor marine conditions, both affecting their survival and recruitment at multiple life stages. Consequently, action agencies have made considerable investments in the rehabilitation of tributary ecosystems and evaulation of factors attributed to the species decline [@Roni2018].
 
 One potentially important, but perhaps under-appreciated source of salmonid mortality is predation on emigrating juveniles by piscivorous fishes. In the lower mainstem Snake and Columbia rivers it is estimated that predation on out-migrating salmonids during peak emigration has a significant negative impact on the overall population and success of population recovery [@Fresh2003; @Winther2020]. Dams and reservoirs in the Columbia River are the primary locations associated with high rates of piscine predation on salmonids [@Petersen1994; @Ward1995]. There are generally two mechanisms that explain these high predation zones. First, migration (movement) rates of juvenile salmon are reduced during reservoir passage [@Venditti2000], thereby increasing the time migrating smolts are vulnerable to predation. Second, reservoirs and downstream tailraces associated with dams on the Snake and Columbia rivers create favorable slow-water habitat for predatory fishes known to consume juvenile salmonids, such as the Northern Pikeminnow *Ptychocheilus oregonsis*. Northern Pikeminnow tolerate and thrive in relatively warm, slow water habitats [@Wydoski2003] and consequently have benefited from dams on the Columbia River, becoming abundant predators of salmonid outmigrants [@Knutsen1999]. Indeed, Northern Pikeminnow are estimated to consume 8% (16.4 million) of the approximately 200 million juvenile salmonids emigrating through the lower Snake and Columbia Rivers, annually [@Beamesderfer1996].
 
-Most predation studies have focused on reservoirs [@Murphy2021] and mainstem reaches [@Zimmerman1999; @Tabor1993; @Ward1995; @Shively1996] of the Columbia River basin whereas considerably less is known about the interaction between upstream, river-dwelling piscivorous fishes and their impacts on salmonid recovery above the reservoir systems [@Rubenson2020]. Upstream habitats containing slower water velocities and other attributes that support piscivorous predators may overlap with essential habitat for some salmonid species and life stages. One such example is Deadwater Slough, an approximately 1.5 kilometer long reach of unnaturally slow and deep water in the Salmon River, Idaho. The Deadwater Slough is located in a river reach containing historically important overwinter rearing and spring emigration habitat for juvenile Chinook Salmon *O. tshawytscha* and is inhabited by piscivorous predators, including Northern Pikeminnow and Smallmouth Bass *Micropterus dolomieu*. Further, the slough is part of the migratory pathway of the endangered Snake River Sockeye Salmon *O. nerka* population [@Axel2015] and several populations of threatened Snake River steelhead.
+Most predation studies have focused on reservoirs [@Murphy2021] and mainstem reaches [@Zimmerman1999; @Tabor1993; @Ward1995; @Shively1996] of the Columbia River basin whereas considerably less is known about the interaction between upstream, river-dwelling piscivorous fishes and their impacts on salmonid recovery above the reservoir systems [@Rubenson2020]. Upstream habitats containing slower water velocities and other attributes that support piscivorous predators may overlap with essential habitat for some salmonid species and life stages. One such example is Deadwater Slough, an approximately `r round(ddw_rkms, 1)` kilometer long reach of unnaturally slow and deep water in the Salmon River, Idaho. The Deadwater Slough is located in a river reach containing historically important overwinter rearing and spring emigration habitat for juvenile Chinook Salmon *O. tshawytscha* and is inhabited by piscivorous predators, including Northern Pikeminnow and Smallmouth Bass *Micropterus dolomieu*. Further, the slough is part of the migratory pathway of the endangered Snake River Sockeye Salmon *O. nerka* population [@Axel2015] and several populations of threatened Snake River steelhead.
 
 Quantifying mortality associated with piscine predation in upstream habitats of the Salmon River is of particular interest for spring/summer Chinook Salmon in the Upper Salmon major population group (MPG). The Salmon River was historically the most productive tributary for spring/summer Chinook Salmon in the Columbia River basin [@Nemeth1999], but those populations have become depleted in recent decades. Currently, the Upper Salmon MPG supports eight independent, extant spring/summer Chinook Salmon populations, including Salmon River (above Redfish Lake Creek), Valley Creek, Yankee Fork Salmon River, East Fork Salmon River, Salmon River (mainstem below Redfish Lake Creek), Pahsimeroi River, Lemhi River, and North Fork Salmon River [@NOAA2017]. The Upper Salmon MPG are stream-type Chinook Salmon and exhibit two distinct migration tactics; downstream rearing (DSR) and natal reach rearing (NRR) [@Copeland2014]. Diversity of migration tactics provides a mechanism for coping with adverse conditions in freshwater rearing and migration environments and buffers against catastrophic events, thereby increasing population resiliency. Because the Deadwater Slough supports rearing for DSR migrants and is part of the migration corridor for NRR migrants, and juveniles from all Upper Salmon populations must rear in or migrate through it, it represents a significant habitat for the Upper Salmon MPG.
 
@@ -141,7 +151,7 @@ We also consider how consumption of juvenile Chinook Salmo emigrants at Deadwate
 
 ## Study Site
 
-The Deadwater Slough is an approximately 1.5 km section of the mainstem Salmon River located approximately 6 river km downstream from the town of North Fork, Idaho (Figure \@ref(fig:map)). The downstream end of the slough is located at the confluence of Dump Creek and the Salmon River. Around 1897, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River [@Emerson1973], thereby creating a slow, deep section in the river, spanning approximately 30 acres, and averaging 68 m width.
+The Deadwater Slough is an approximately 1.5 km section of the mainstem Salmon River located approximately 6 river km downstream from the town of North Fork, Idaho (Figure \@ref(fig:map)). The downstream end of the slough is located at the confluence of Dump Creek and the Salmon River. Around 1897, the failure of a small mining diversion reservoir in the Dump Creek drainage resulted in an erosion event that deposited substantial amounts of sediment at the confluence of the Salmon River [@Emerson1973], thereby creating a slow, deep section in the river, spanning approximately `r round(ddw_acres)` acres (`r round(ddw_hectares)` hectares), and averaging `r round(ddw_avg_width_m)` m width.
 
 
 ## Northern Pikeminnow Abundance
@@ -418,36 +428,6 @@ $$
 The mark-recapture estimators allowed us to estimate the abundance of Northern Pikeminnow during the fall 2019 and 2020 sample efforts (the estimate is of the initial population size). However, to estimate the abundance of Northern Pikeminnow during spring 2021, which was not a mark-recapture design, we used the ratio of total CPUE in the fall efforts to the total CPUE in the spring efforts, then multiplied that ratio by the average abundance from the fall efforts. This approach assumes equal capture probabilities between fall and spring efforts.
 
 All mark-recapture abundance estimators assumed: (1) the population is closed (no immigration, emigration, births or deaths during the sampling period), (2) all fish have equal chance of being caught in the second (and subsequent) sample(s), (3) marking a fish does not affect its chances of recapture, (4) no loss of marks, and (5) marks are not missed or mistaken.
-
-```{r psd}
-s_size = 250
-q_size = 380
-
-psd_df = cmr_df %>%
-  select(species, count, length, recap, event_name) %>%
-  filter(recap  != TRUE)
-
-fs = psd_df %>%
-  filter(length >= s_size) %>%
-  nrow()
-
-fq = psd_df %>%
-  filter(length >= q_size) %>%
-  nrow()
-
-psd = 100 * (fq/fs)
-
-```
-
-<!--
-Finally, we calculated the proportional stock density (PSD) for Northern Pikeminnow captured during all field efforts, which is a measure of species size structure. PSD is a ratio, typically expressed as a percentage, between the number of "quality-sized" individuals or larger individuals and "stock-sized" individuals. Stock and quality size definitions vary by species. PSD is expressed as:
-
-$$
-PSD_{i} = 100 * \frac{FQ_{i}}{FS_{i}}
-$$
-
-where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$. We calculated the PSD for Northern Pikeminnow in our study using `r prettyNum(s_size, digits = 0)` mm TL for stock-size and `r prettyNum(q_size, digits = 0)` mm TL for quality-size [@Winther2020].
--->
 
 
 ## Gastric Lavage
@@ -737,9 +717,9 @@ We examined the stomach contents of `r prettyNum(gastric_tbl$lavaged[gastric_tbl
 
 ## Bioenergetics
 
-We estimated an individual, average-size (`r avg_fall_NPM` mm) Northern Pikeminnow to consume `r median(fall_g_summ$cumm_g)` g (range `r min(fall_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) of fish during the DSR emigration, depending on the proportion of diet consisting of fish versus invertebrates (Figure \@ref(fig:bio-p)). Similarly, we estimated the average-size (`r avg_spring_NPM` mm) Northern Pikeminnow to consume `r median(spring_g_summ$cumm_g)` g (range `r min(spring_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) of fish during the NRR emigration (Figure \@ref(fig:bio-p)). Given an average weight of `r avg_DSR_g` g for DSR emigrants, that would equate to `r round(median(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` (range `r round(min(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)`) fish consumed by an individual during fall and an additional `r round(median(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` (range `r round(min(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)`) fish consumed using an average weight of `r avg_NRR_g` g for NRR emigrants.
+We estimated an individual, average-size (`r avg_fall_NPM` mm) Northern Pikeminnow to consume `r median(fall_g_summ$cumm_g)` g (range `r min(fall_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) of fish during the DSR emigration to maintain their body size, depending on the proportion of diet consisting of fish versus invertebrates (Figure \@ref(fig:bio-p)). Similarly, we estimated an average-size (`r avg_spring_NPM` mm) Northern Pikeminnow to consume `r median(spring_g_summ$cumm_g)` g (range `r min(spring_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) of fish during the NRR emigration (Figure \@ref(fig:bio-p)). Given an average weight of `r avg_DSR_g` g for DSR emigrants, that would equate to `r round(median(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` (range `r round(min(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)`) fish consumed by an individual during fall and an additional `r round(median(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` (range `r round(min(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)`) fish consumed using an average weight of `r avg_NRR_g` g for NRR emigrants.
 
-Given a mean population size of `r prettyNum(unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` from fall estimates and an estimate of `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")` for spring 2021, and assuming the median value from diet scenarios (i.e, 50% of their diet consists of fish), we'd estimate that Northern Pikeminnow can consume `r prettyNum(round(median(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")` (95% CI: `r prettyNum(round(min(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")` - `r prettyNum(round(max(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")`) fish during the DSR emigration and `r prettyNum(round(median(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")` (95% CI: `r prettyNum(round(min(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")` - `r prettyNum(round(max(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")`) fish during the NRR emigration in Deadwater Slough. Table \@ref(tab:adult-imp) shows the estimated number of fish consumed by an individual Northern Pikeminnow and by the population across all diet scenarios during both the fall (DSR) and spring (NRR) peak emigration seasons.
+Given a mean Northern Pikeminnow population size of `r prettyNum(unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` from fall estimates and an estimate of `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")` for spring 2021 and using the median value from diet scenarios (i.e, 50% of their diet consists of fish), we'd estimate that Northern Pikeminnow can consume `r prettyNum(round(median(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")` (95% CI: `r prettyNum(round(min(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")` - `r prettyNum(round(max(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")`) fish during the DSR emigration and `r prettyNum(round(median(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")` (95% CI: `r prettyNum(round(min(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")` - `r prettyNum(round(max(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")`) fish during the NRR emigration in Deadwater Slough. Table \@ref(tab:adult-imp) shows the estimated number of fish consumed by an individual Northern Pikeminnow and by the population across all diet scenarios during both the fall (DSR) and spring (NRR) peak emigration seasons.
 
 Across both seasons and all diet scenarios, we estimated the total number of fish consumed to be between `r prettyNum(round(min(total_impacts$smolt_N), 0), big.mark = ",")` and `r prettyNum(round(max(total_impacts$smolt_N), 0), big.mark = ",")` (Table \@ref(tab:adult-imp)). The estimated number of fish consumed by a Northern Pikeminnow begins to taper off between the 30-90% diet scenarios. So although we are uncertain of the diet proportions consisting of fish versus invertebrates, the impact of that uncertainty is somewhat constrained.
 
@@ -753,11 +733,45 @@ The abundance of juvenile Chinook Salmon for the upper Salmon River basin was es
 
 # Discussion
 
-We estimated the population size of Northern Pikeminnow in the Deadwater Slough to be greater than ***xx,xxx*** during the fall emigration period for DSR Chinook Salmon. That estimate translates to a density of ***xxx*** Northern Pikeminnow per 100 m or ***xxx*** per 100 m^2^ which is ***similar/more/less*** than estimates from elsewhere in the Columbia River ***(citation)*** where substantial Northern Pikeminnow predation impacts on salmonids have led to bounty programs aimed at reducing Northern Pikeminnow abundance. The population size of Northern Pikeminnow was not directly estimated during the spring NRR Chinook salmon emigration period; however, the relative abundance measured at CPUE was comparable to the fall sampling periods ***(update statement later)***. The population of Northern Pikeminnow in Deadwater Slough was estimated to consume between ***xx,xxx*** and ***xx,xxx*** juvenile Chinook Salmon during the ***x*** sampling periods and result in an estimated reduction of returning adults between ***xxx*** and ***x,xxx***. We suggest that the habitat modifications that created the Deadwater Slough have resulted in favorable conditions for Northern Pikeminnow, including improved conditions for predation upon juvenile Chinook Salmon ***(add detail here)***. Therefore, predation by Northern Pikeminnow in the Deadwater Slough likely has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon River MPG.
+```{r john-day}
+john_day_res_abund = 85316
+john_day_rkms = 123
+john_day_dens = john_day_res_abund / john_day_rkms
 
-<!--
-The PSD for Northern Pikeminnow in our study and across all three years was `r prettyNum(psd, digits = 1)`% i.e., `r prettyNum(psd, digits = 1)` of captured fish were over the quality size classification of `r prettyNum(q_size, digits = 0)` mm TL defined by @Winther2020. For comparison, @Winther2020 reported a PSD for Northern Pikeminnow captured below Bonneville Dam of 41% and 18% in Bonneville Reservoir, suggesting that a larger fraction of Northern Pikeminnow in Deadwater Slough are of a quality size relative to population reported elsewhere in the Columbia River. 
--->
+low_columbia_fish_km = 2814
+
+```
+
+The mean population size of Northern Pikeminnow in the Deadwater Slough during the fall season was estimated to be `r prettyNum(unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` and during the spring 2021 to be `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")`. Those estimates translate to linear densities of `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Fall"]) / ddw_rkms), big.mark = ",")` and `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]) / ddw_rkms), big.mark = ",")` which is `r round(unique(adult_impact$N[adult_impact$season == "Fall"]) / ddw_rkms / john_day_dens)` and `r round(unique(adult_impact$N[adult_impact$season == "Spring"]) / ddw_rkms / john_day_dens)` times greater than densities reported by @Beamesderfer1991 for the John Day Reservoir and approximately `r as.character(english(round(unique(adult_impact$N[adult_impact$season == "Fall"]) / ddw_rkms / low_columbia_fish_km)))` and `r as.character(english(round(unique(adult_impact$N[adult_impact$season == "Spring"]) / ddw_rkms / low_columbia_fish_km)))` times greater than projections for the lower Columbia River [@Beamesderfer1996]. These densities for Deadwater Slough initially seem unrealistic especially given the size (volume) of the Salmon River at the slough relative to the Columbia River. However, we did catch `r prettyNum(nrow(cmr_df), big.mark = ",")` Northern Pikeminnow over the course of the study, of which only `r sum(cmr_df$capture_type == "Recapture", na.rm = T)` fish (one in every `r round(nrow(cmr_df) / sum(cmr_df$capture_type == "Recapture", na.rm = T))`) were recaptures. Further, @Beamesderfer1991 did acknowledge that they were unsuccessful in finding a suitable method for sampling offshore; they noted that water velocity, depth, irregular bottom contours, and barge traffic made sampling offshore ineffective and so their abundance estimates only apply to nearshore areas. This was not the case at Deadwater Slough where maximum depth was approximately 10-15 m with a relatively homogeneous bottom contour i.e., angling was effective for the entire area. Our estimates of Northern Pikeminnow areal density are also higher than those reported elsewhere. We estimate the density of Northern Pikeminnow in Deadwater Slough, as fish per hectare, to be `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Fall"]) / ddw_hectares), big.mark = ",")` for fall and `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]) / ddw_hectares), big.mark = ",")` for spring. For comparison, the only other available estimates of areal density, that the authors are aware of, are 4.4 fish per hectare for John Day Reservoir [@Beamesderfer1991] and 15 fish per hectare in Lake Washington [@Bartoo1977].
+
+```{r psd}
+s_size = 250
+q_size = 380
+
+psd_df = cmr_df %>%
+  select(species, count, length, recap, event_name) %>%
+  filter(recap  != TRUE)
+
+fs = psd_df %>%
+  filter(length >= s_size) %>%
+  nrow()
+
+fq = psd_df %>%
+  filter(length >= q_size) %>%
+  nrow()
+
+psd = 100 * (fq/fs)
+
+```
+
+Northern Pikeminnow in Deadwater Slough were not only abundant, but anglers noticed that many were also large-bodied. For that reason, we calculated the proportional stock density (PSD) for Northern Pikeminnow in Deadwater Slough, which is a measure of species size structure. PSD is a ratio, typically expressed as a percentage, between the number of "quality_sized" (larger) individuals and "stock-sized" individuals. 
+
+$$
+PSD_{i} = 100 * \frac{FQ_{i}}{FS_{i}}
+$$
+
+where $FQ_{i}$ is the number of fish $\ge$ quality-length for species $i$, and $FS_{i}$ is the number of fish $\ge$ stock-length for species $i$. Stock and quality size definitions vary by species. We calculated the PSD for Northern Pikeminnow in Deadwater Slough using `r prettyNum(s_size, digits = 0)` mm TL for stock-size and `r prettyNum(q_size, digits = 0)` mm TL for quality-size [@Winther2020]. The PSD for Northern Pikeminnow in Deadwater Slough across all three efforts was `r prettyNum(psd, digits = 1)`% i.e., `r prettyNum(psd, digits = 1)`% of captured fish were over the quality size classification defined by @Winther2020. For comparison, @Winther2020 reported a PSD for Northern Pikeminnow captured below Bonneville Dam of 41% and 18% in Bonneville Reservoir, suggesting that a larger fraction of Northern Pikeminnow in Deadwater Slough are of a quality size relative to populations reported elsewhere in the Columbia River. In fact, the state record Northern Pikeminnow, which measured `r max(cmr_df$length, na.rm = T)` mm (`r round(max(cmr_df$length, na.rm = T) / 25.4, 1)` in) TL, was caught in Deadwater Slough during the fall 2020 effort.
+
 
 ## Mark-Recapture Model
 
@@ -775,6 +789,7 @@ We are comfortable with assumptions 4 and 5 (no loss of marks and no mistaken or
 
 The spring abundance estimate is smaller than either fall sampling event. However, our approach assumes equal capture probabilities betwee the fall and spring sampling events. If it does differ, we believe that the capture probability in the spring could be lower due to higher flows, which would lead to our spring abundance estimate being biased low. Therefore, we presume our abundance estimate of Northern Pikeminnow for the spring 2021 sampling event to be a conservative estimate.
 
+
 ## Gastric Lavage
 
 The majority of fish collected during this study received gastric lavage, including some non-predatory species. To validate the efficacy of this method, we euthanized nine Northern Pikeminnow after gastric lavage was completed and removed the remaining stomach contents via dissection. Our results support previous findings that gastric lavage effectively removes stomach contents (@Lott2020). Additionally, we found that the fish captured in net-traps had a similar proportion of stomach content samples. Of those, 1,214 (76.2%) were completely empty, 345 (21.6%) had stomach contents, and 35 (2.2%) contained fish remnants. We were successfully able to identify Redside Shiners, a Largescale Sucker, sculpin, Mountain Whitefish, and one juvenile Chinook Salmon in the stomach contents. However, decomposition from digestion rendered most stomach contents unidentifiable.
@@ -785,6 +800,8 @@ Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or o
 
 
 ## Bioenergetics
+
+The population of Northern Pikeminnow in Deadwater Slough was estimated to consume between ***xx,xxx*** and ***xx,xxx*** juvenile Chinook Salmon during the ***x*** sampling periods and result in an estimated reduction of returning adults between ***xxx*** and ***x,xxx***.
 
 What assumptions did we make during the bioenergetics assessment? And how might violations of those assumptions change our estimate of the number of juvenile Chinook salmon consumed and resulting impacts to adult returns?
 
@@ -809,6 +826,7 @@ Again, what assumptions did we make here and how might violations of those assum
 * Maybe a plot of multiple scenarios depending on gastric lavage results? And pop estimates if they vary in time.
 * Maybe pop estimates if they vary in time.
 
+
 ## Avian Predation
 
 Although not formally assessed in this study, avian predators including Great Blue Herons *Ardea herodias* and Bald Eagles *Haliaeetus leucocephalus* are another potential source of mortality for juvenile salmon in the Deadwater Slough. The Deadwater Slough is recognized as an important bird watching and nesting area due to the associated riparian and backwater habitats [(Deadwater Slough - Audubon Important Bird Areas)](https://www.audubon.org/important-bird-areas/deadwater-slough#). Several piscivorous bird species have been documented using the Deadwater Slough that include the Common *Mergus merganser* and Hooded *Lophodytes cucullatus* mergansers, the Great Blue Heron, the Double-crested Cormorant *Phalacrocorax auritus*, and the Belted Kingfisher *Megaceryle alcyon* [@eBird2021]. During the initial sampling event in 2019, a two-person crew walked the entire reach and surrounding and upstream areas scanning for passive integrated transponder (PIT) tags. During that informal survey, nine PIT tags were recovered near active bird nests or in an upstream anastomizing reach where herons and eagles are prevalent, suggesting that mortality may have been a result of avian predation. The PIT tag histories in [PTAGIS](https://www.ptagis.org/) indicate these tags were implanted into a combination of juvenile Chinook Salmon (3), Sockeye Salmon (3), and steelhead (3). Avian predation contributes a major component of the total mortality for yearling Chinook Salmon in some locations in the lower Snake River and Columbia River, particularly at hydroelectric dams and within reservoirs [@Evans2012; -@Evans2016]; however, we did not observe large colonies of piscivorous birds within the study area. Although there is documentation of individual Double-crested Cormorants [@eBird2021] at the Deadwater Slough, the site is not within their breeding range, rather, it is part of a migration corridor. Given the current avian species known to occupy Deadwater Slough, it is unlikely that avian predation on juvenile salmonids is comparable to elsewhere in the Columbia River basin with large piscivorous bird colonies. Nevertheless, we hypothesize that the reservoir-like conditions at the Deadwater Slough may increase the probability of avian predation on juvenile Chinook Salmon from the many piscivorous birds known to use the site. Future estimates of predation would benefit from consideration of the contribution of piscivorous avian predators.
@@ -826,8 +844,11 @@ We see two potential management actions: 1) removing the Dump Creek delta to res
 Is there anything in the literature that discusses habitat preferences for pike minnow? If we speed up velocities and add some cover potentially pike minnow predation success will be lowered. Will these fish just move elsewhere? 
 -->
 
-## Conclusions
+projections for the lower Columbia River (Beamesderfer et al. 1996) where substantial Northern Pikeminnow predation impacts on salmonids have led to bounty programs aimed at reducing Northern Pikeminnow abundance.
 
+
+## Conclusions
+* We suggest that the habitat modifications that created the Deadwater Slough have resulted in favorable conditions for Northern Pikeminnow, including improved conditions for predation upon juvenile Chinook Salmon ***(add detail here)***. Therefore, predation by Northern Pikeminnow in the Deadwater Slough likely has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon River MPG.
 *	We have also presented a novel modeling framework for estimating predation on native, critically endangered anadromous species which can be applied to other areas of interest. John day? Others?
 *	The end. 
 
@@ -835,6 +856,7 @@ Is there anything in the literature that discusses habitat preferences for pike 
 # Acknowledgements
 
 The authors extend much appreciation to the many volunteers who assisted with field efforts including collaborators from the Bureau of Reclamation, Idaho Office of Species Conservation, Idaho Deparment of Fish and Game, and the Lemhi Regional Land Trust, among others. Special thanks to Chelsea Welke, Tulley Mackey, Jared Barker, and Brian Hamilton for their help in the field. Special thanks to Caitlin Alcott and Inter-Fluve for their administrative support and guidance. Funding for this study was provided by the Bureau of Reclamation, Pacific Northwest Regional Office (contract No. 140R1021F0018) with assistance from the Idaho Office of Species Conservation.
+
 
 \newpage
 
@@ -970,12 +992,12 @@ adult_impact %>%
          adult_N = round(adult_N, 0),
          adult_Lci = round(adult_Lci, 0),
          adult_Uci = round(adult_Uci, 0)) %>%
-  rename(Effort = season,
+  rename(Season = season,
          `p Fish` = perc_diet,
-         `Juv Chinook` = juv_chnk,
-         `Juv N` = smolt_N,
-         `Juv L CI` = smolt_Lci,
-         `Juv U CI` = smolt_Uci,
+         `Fish Per NPM` = juv_chnk,
+         `Fish N` = smolt_N,
+         `Fish L CI` = smolt_Lci,
+         `Fish U CI` = smolt_Uci,
          `Median SAR` = medsar,
          `SD SAR` = sdsar,
          `Adult N` = adult_N,
@@ -983,7 +1005,7 @@ adult_impact %>%
          `Adult U CI` = adult_Uci) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Estimates of the number of DSR (fall) and NRR (spring) emigrants consumed for each season and diet scenario. The diet scenario indicates the proportion of the Northern Pikeminnow diet consisting of fish. The 'Juv Chinook' column indicates the number of juvenile Chinook consumed by an individual Northern Pikeminnow during the fall or spring seasons and is taken from each of the 18 bioenergetics model runs. The number of smolts consumed (and 95% confidence intervals) are calculated using Northern Pikeminnow abundance estimates of 28,144 (95% CI: 14,378 - 59,978) for fall and 14,897 (95% CI: 7,610 - 31,747) for spring. The number of 'adult equivalents' is also estimated using a Lower Granite Dam smolt-to-adult rate (SAR) from McCann et al. 2019.") %>%
+        caption = "Estimates of the number of fish consumed for each season and diet scenario. The diet scenario indicates the proportion of the Northern Pikeminnow diet consisting of fish. The 'Fish Per NPM' column indicates the number of fish an individual Northern Pikeminnow to consume during the fall or spring seasons assuming an average weight of 10.3 (DSR) and 10.9 (NRR) grams for juvenile Chinook Salmon and is taken from each of the 18 bioenergetics model runs. The number of fish consumed (and 95% confidence intervals) are calculated using Northern Pikeminnow abundance estimates of 28,144 (95% CI: 14,378 - 59,978) for fall and 14,897 (95% CI: 7,610 - 31,747) for spring. The number of 'adult equivalents' is also estimated using a Lower Granite Dam smolt-to-adult rate (SAR) for Chinook Salmon from McCann et al. 2019.") %>%
   kable_styling(font_size = 8)
 
 # adult_impact %>%
