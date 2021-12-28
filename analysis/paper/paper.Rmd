@@ -530,7 +530,7 @@ shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River
 
 ```
 
-```{r read-bio-outputs, message=FALSE, warning=FALSE}
+```{r read-bio-outputs, message=FALSE, warning=FALSE, include=FALSE}
 fmt_bio_out = function(x) {
   x = x %>%
     clean_names() %>%
@@ -717,7 +717,7 @@ We examined the stomach contents of `r prettyNum(gastric_tbl$lavaged[gastric_tbl
 
 ## Bioenergetics
 
-We estimated an individual, average-size (`r avg_fall_NPM` mm) Northern Pikeminnow to consume `r median(fall_g_summ$cumm_g)` g (range `r min(fall_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) of fish during the DSR emigration to maintain their body size, depending on the proportion of diet consisting of fish versus invertebrates (Figure \@ref(fig:bio-p)). Similarly, we estimated an average-size (`r avg_spring_NPM` mm) Northern Pikeminnow to consume `r median(spring_g_summ$cumm_g)` g (range `r min(spring_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) of fish during the NRR emigration (Figure \@ref(fig:bio-p)). Given an average weight of `r avg_DSR_g` g for DSR emigrants, that would equate to `r round(median(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` (range `r round(min(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)`) fish consumed by an individual during fall and an additional `r round(median(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` (range `r round(min(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)`) fish consumed using an average weight of `r avg_NRR_g` g for NRR emigrants.
+We estimated an individual, average-size (`r avg_fall_NPM` mm) Northern Pikeminnow to consume `r median(fall_g_summ$cumm_g)` g (range `r min(fall_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) of fish during the DSR emigration to maintain their body size, depending on the proportion of diet consisting of fish versus invertebrates (Figure \@ref(fig:bio-p)). Similarly, we estimated an average-size (`r avg_spring_NPM` mm) Northern Pikeminnow to consume `r median(spring_g_summ$cumm_g)` g (range `r min(spring_g_summ$cumm_g)` - `r max(spring_g_summ$cumm_g)` g) of fish during the NRR emigration (Figure \@ref(fig:bio-p)). Given an average weight of `r avg_DSR_g` g for DSR emigrants, that would equate to `r round(median(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` (range `r round(min(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)`) fish consumed by an individual during fall and an additional `r round(median(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` (range `r round(min(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)`) fish consumed using an average weight of `r avg_NRR_g` g for NRR emigrants.
 
 Given a mean Northern Pikeminnow population size of `r prettyNum(unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` from fall estimates and an estimate of `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")` for spring 2021 and using the median value from diet scenarios (i.e, 50% of their diet consists of fish), we'd estimate that Northern Pikeminnow can consume `r prettyNum(round(median(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")` (95% CI: `r prettyNum(round(min(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")` - `r prettyNum(round(max(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")`) fish during the DSR emigration and `r prettyNum(round(median(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")` (95% CI: `r prettyNum(round(min(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")` - `r prettyNum(round(max(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")`) fish during the NRR emigration in Deadwater Slough. Table \@ref(tab:adult-imp) shows the estimated number of fish consumed by an individual Northern Pikeminnow and by the population across all diet scenarios during both the fall (DSR) and spring (NRR) peak emigration seasons.
 
@@ -786,7 +786,7 @@ The spring abundance estimate was smaller than either fall abundance estimate. H
 
 The majority of fish caught during the study received gastric lavage. To evaluate the efficacy of the method, we euthanized nine Northern Pikeminnow after gastric lavage was completed and removed the remaining stomach contents via dissection. In each case, no additional stomach contents were identified, suggesting that gastric lavage was effective in removing stomach contents, although our sample size was low. However, in total, we only identified fish or fish parts in `r prettyNum(gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"], big.mark = ",")` (`r round(gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$lavaged[gastric_tbl$event_name == "Total"] * 100, 1)`%) of the `r prettyNum(gastric_tbl$lavaged[gastric_tbl$event_name == "Total"], big.mark = ",")` Northern Pikeminnow examined using gastric lavage. Aside from juvenile Chinook Salmon, identified species included Redshine Shiner, Largescale Sucker *Catostomus macrocheilus*, sculpin *Cottus* spp., and Mountain Whitefish *Prosopium williamsoni*; however, decomposition from digestion rendered most stomach contents unidentifiable. 
 
-Although we only identified fish or fish parts within `r round(gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$lavaged[gastric_tbl$event_name == "Total"] * 100, 1)`% of Northern Pikeminnow examined and that fish remnants were only `r prettyNum(mean(stmch_df$p_fish) * 100, digits = 3)`% of the overall stomach contents, we believe those numbers to be misleading.
+Although we only identified fish or fish parts within `r round(gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$lavaged[gastric_tbl$event_name == "Total"] * 100, 1)`% of Northern Pikeminnow examined and that fish remnants were only `r prettyNum(mean(stmch_df$p_fish) * 100, digits = 3)`% of the overall stomach contents, we believe those numbers to be misleading...
 
 <!--
 Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or other fishes) in a very small number of stomach contents. However, we don't necessarily believe that to mean that pikeminnow in Deadwater Slough rarely consume juvenile Chinook salmon. Are there other cases where gastric lavage failed to document predation? How soon after consumption do you need to take a sample? So instead, we made some assumptions about the proportion of a pikeminnows diet consisting of Chinook salmon.
@@ -794,31 +794,37 @@ Concerns with gastric lavage. We only observed juvenile Chinook salmon (and/or o
 
 
 ## Bioenergetics
+<!--
+OUR APPROACH:
+1. g of fish consumed during DSR and NRR peak emigrations
+2. Combine results from #1 for total g consumed by an individual NPM
+3. Parse out the percentage of fish prey that is juvenile Chinook salmon
+  - start w/ conservative scenarios of 10% and 25%
+4. Divide total g consumed by 10.6 g, the average juvenile Chinook Salmon from Upper Salmon MPG, to estimate the # of juvenile Chinook Salmon consumed
+5. Multiply results from #4 by a "stable" NPM population size estimate
+6. Multiply results from #5 by SAR from McCann et al. 2019 for Upper Salmon MPG Chinook
+-->
 
-The population of Northern Pikeminnow in Deadwater Slough was estimated to consume between ***xx,xxx*** and ***xx,xxx*** juvenile Chinook Salmon during the ***x*** sampling periods and result in an estimated reduction of returning adults between ***xxx*** and ***x,xxx***.
+An average-size Northern Pikeminnow from Deadwater Slough is estimated to consume `r median(fall_g_summ$cumm_g)` g (range `r min(fall_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) and `r median(spring_g_summ$cumm_g)` g (range `r min(spring_g_summ$cumm_g)` - `r max(spring_g_summ$cumm_g)` g) of fish during spring and fall, respectively, to maintain its body weight using mean daily water temperatures recorded at a nearby stream gage [@USGS2016]. This equates to `r median(fall_g_summ$cumm_g) + median(spring_g_summ$cumm_g)` g of fish consumed during the DSR and NRR peak emigrations assuming the median value among diet scenarios (i.e., if 50% of their diet consists of fish); values ranged from a minimum of `r min(fall_g_summ$cumm_g) + min(spring_g_summ$cumm_g)` g if only 10% of the diet is fish to a maximum of `r max(fall_g_summ$cumm_g) + max(spring_g_summ$cumm_g)` g if 90% of the diet is fish.
 
-What assumptions did we make during the bioenergetics assessment? And how might violations of those assumptions change our estimate of the number of juvenile Chinook salmon consumed and resulting impacts to adult returns?
+<!-- The following needs to be updated after we finalize some results -->
+This approach currently assumes that juvenile Chinook Salmon are the only fish prey available to or preyed upon by Northern Pikeminnow. It further assumes that all prey available have energy densities equal to juvenile Chinook Salmon, which may not be far from the truth, given that other salmonids including juvenile steelhead and Sockeye Salmon are likely also prevalent as available prey in Deadwater Slough, especially during the spring migration. Additionally, hatchery smolt releases (Chinook Salmon, steelhead, and Sockeye Salmon) are also prevalent in the mainstem Salmon River during the spring migration. However, our study is focused on potential impacts to natural-origin DSR and NRR Chinook Salmon, in which case, let’s consider a “thought exercise” where DSR and NRR Chinook Salmon represent only 10% and 25% of total fish prey consumed by Northern Pikeminnow during these periods. Under these scenarios, the average Northern Pikeminnow would consume 8.95 g (range 4.52 – 10.05 g) if 10% of prey were natural-origin Chinook Salmon and 22.38 g (range 11.31 – 25.12) if 25%. 
+
+To estimate the total number of possible juvenile Chinook Salmon that could be consumed, we divided the cumulative consumption in grams for an individual Northern Pikeminnow by the average weight of a Chinook Salmon emigrant (taken from all rotary screw traps in the Upper Salmon MPG) to come up with a juvenile equivalency, and then multiplied this by a "stable" estimate of abundance for Northern Pikeminnow in Deadwater Slough, resulting in an estimate of the equivalent toal number of Chinook Salmon juveniles consumed. If we assume an average juvenile Chinook Salmon of 10.6 g, the mean from DSR and NRR Chinook Salmon emigrants in the Upper Salmon MPG, this equates to 0.84 juvenile Chinook Salmon (range 0.43 – 0.94) under the 10% scenario and 2.11 juvenile Chinook Salmon (range 1.07 – 2.37) under the 25% scenario.
+
+Let’s now consider a stable Northern Pikeminnow population size of 10,000 (roughly the mean of fall and spring abundance estimates, divided by two to account for half of marked individuals not being available for recapture). In this case, the Northern Pikeminnow population in Deadwater Slough would be estimated to consume 8,400 (range 4,300 – 9,400) or 21,100 (range 10,700 – 23,700) under the 10% and 25% scenarios, respectively.
 
 
 ## Impacts to Adult Returns
 
-To estimate the number of possible Chinook salmon that could be consumed, we divided the cumulative fish consumption in grams for an individual pikeminnow by the average weight of a Chinook emigrant to come up with a presmolt equivalency and then multiplied this by our abundance estimate of northern pikeminnow in Deadwater Slough, resulting in an estimate of the equivalent total number of Chinook salmon presmolts consumed. Finally, we estimated the number of additional adult Chinook salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough reach was reduced or eliminated. We multiplied the total estimated consumed juvenile Chinook salmon by an estimate of Granite-to-Granite SARs [@McCann2019].
+<!-- Also update this after finalizing results -->
+Finally, let's take our thought exercise one additional step and estimate the number of additional adult Chinook Salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough was reduced or eliminated. Our approach here was to multiply the total estimated juvenile Chinook Salmon consumed by an estimate of Granite-to-Granite smolt-to-adult survival rate (SAR) from @McCann2019 for Upper Salmon River MPG Chinook Salmon. Assuming an SAR of `r round(sar$medsar, 5)` (SE: `r prettyNum(round(sar$sdsar, 5))`) we'll consider the "adult equivalents" to our estimates of juveniles consumed. Under this scenario, the consumed juveniles would be equivalent to 51.6 adults (range 26.4 – 57.7) and 129.6 adults (range 65.7 – 145.6). However, we believe these 10% and 25% scenarios to be conservative, especially during the fall DSR emigration period. During spring, natural-origin steelhead and Sockeye Salmon are also actively emigrating from the Upper Salmon River and hatchery-origin releases of all three species (Chinook Salmon, steelhead, and Sockeye Salmon) are present in the river, and so 10% or 25% may be reasonable. However, during fall, DSR Chinook Salmon are likely the dominant prey species available to Chinook Salmon in Deadwater Slough as 1) no (or at least minimal) hatchery releases are present in the river and 2) fall emigrations of steelhead and Sockeye Salmon are less prominent than in Chinook Salmon. Note that this thought exercise only includes the Northern Pikeminnow population in Deadwater Slough even though they are present throughout the upper Salmon River, although likely at lower densities than in Deadwater Slough, and also ignores potential impacts to ESA-listed steelhead and Sockeye Salmon that are also a portion of the Northern Pikeminnow diet.
 
-This translates to adult Chinook equivalents between `r paste(prettyNum(round(range(total_impacts$adult_N)), big.mark = ","), collapse = " and ")` (Figure \@ref(fig:adult-imp-p)).
-
-Finally, we estimated the number of additional adult Chinook Salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough reach was reduced or eliminated by multiplying the total estimated consumed Chinook Salmon by an estimate of Granite-to-Granite smolt-to-adult survival rates (SARs) (`r round(sar$medsar, 5)`, SE: `r round(sar$sdsar, 5)`) [@McCann2019]. 
-
-<!-- 
-After making some assumptions (e.g., on SARs) attempt to estimate how results from objective #3 could translate into impacts on adult returns (via a thought experiment or simulation approach)
-
-Currently only using one bioenergetics model run. Could incorporate more bioenergetics models, but if so then maybe consider focusing on a single abundance estimator (e.g. Schnabel) to avoid too many combinations in the results 
--->
-
-Again, what assumptions did we make here and how might violations of those assumptions change our estimate of impacts to adult returns.
-
+<!--
+Additional thoughts here:
 *	SAR results. Those results are GRA - GRA SARs, estimated from multiple years of PIT tag data. Seem pretty good to me.
-* Maybe a plot of multiple scenarios depending on gastric lavage results? And pop estimates if they vary in time.
-* Maybe pop estimates if they vary in time.
+* Maybe a plot of multiple scenarios
+-->
 
 
 ## Avian Predation
@@ -842,6 +848,7 @@ projections for the lower Columbia River (Beamesderfer et al. 1996) where substa
 
 
 ## Conclusions
+
 * We suggest that the habitat modifications that created the Deadwater Slough have resulted in favorable conditions for Northern Pikeminnow, including improved conditions for predation upon juvenile Chinook Salmon ***(add detail here)***. Therefore, predation by Northern Pikeminnow in the Deadwater Slough likely has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon River MPG.
 *	We have also presented a novel modeling framework for estimating predation on native, critically endangered anadromous species which can be applied to other areas of interest. John day? Others?
 *	The end. 
