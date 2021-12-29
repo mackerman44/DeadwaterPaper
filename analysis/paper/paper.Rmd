@@ -60,7 +60,6 @@ bibliography:
 - AckermanLibrary.bib # Mike's library
 csl: "../templates/american-fisheries-society.csl" # Insert path for the bib-style
 abstract: |
-  Abstract text here. 
 keywords: |
   Northern Pikeminnow; Chinook Salmon; predation; mark-recapture; bioenergetics
 highlights: |
@@ -113,6 +112,12 @@ if(doc.type == 'docx') {
 }
 
 ```
+
+\newpage
+
+## Abstract
+
+Predation of emigrating juvenile salmonids by piscivorous fishes is perhaps an under-appreciated source of mortality hindering population recovery in the Columbia River basin. Reservoirs and tailraces associated with dams on the Snake and Columbia rivers have created favorable conditions for fishes known to consume juvenile salmonids, including the Northern Pikeminnow *Ptychocheilus oregonsis*. Indeed, Northern Pikeminnow have been estimated to consume 8% of the approximately 200 million juvenile salmonids emigration through those rivers, annually. Less is known about the interaction between upstream, river-dwelling Northern Pikeminnow and their impacts on salmonid recovery above the reservoir systems. In this study, we examine predation by Northern Pikeminnow on juvenile salmonids, focusing on Chinook Salmon *Oncorhynchus tshawytscha*, in a slow-water reach of the Salmon River, Idaho known as Deadwater Slough. The reach contains historically important overwinter rearing and spring emigration habitat for Chinook Salmon and other ESA-listed species, and was formed by the failure of a small mining dam in a reservoir in the late 19th century. We estimate the abundance of Northern Pikeminnow in Deadwater Slough during peak emigrations of Chinook salmon, and further, use a bioenergetics approach to estimate the consumption potential of the Northern Pikeminnow population to assess potential impacts to Chinook Salmon emigrants. Finally, we evaulate potential impacts to adult returns of local populations. ***We found that... (insert concluding findings here.*** It is likely that predation of juvenile Chinook Salmon in Deadwater Slough has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon River MPG hindering local recovery efforts.
 
 \newpage
 
