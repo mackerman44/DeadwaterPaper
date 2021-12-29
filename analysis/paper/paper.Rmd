@@ -849,9 +849,7 @@ Is there anything in the literature that discusses habitat preferences for pike 
 
 ## Conclusions
 
-* We suggest that the habitat modifications that created the Deadwater Slough have resulted in favorable conditions for Northern Pikeminnow, including improved conditions for predation upon juvenile Chinook Salmon ***(add detail here)***. Therefore, predation by Northern Pikeminnow in the Deadwater Slough likely has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon River MPG.
-*	We have also presented a novel modeling framework for estimating predation on native, critically endangered anadromous species which can be applied to other areas of interest. John day? Others?
-*	The end. 
+The failure of a mining reservoir dam in the late 19th century created an alluvial fan at the confluence of the Salmon River and Dump Creek which has backed up the Salmon River and created an almost 2-kilometer section of unnaturally slow and deep river, resulting in favorable conditions for Northern Pikeminnow. We estimate that greater than 10,000 Northern Pikeminnow occupy Deadwater Slough with densities greater than reported elsewhere. Additionally, the slow water velocity and lack of cover have created conditions that favor predation on juvenile salmonids emigrating through Deadwater Slough including Chinook Salmon i.e., juvenile Chinook Salmon have slower movement rates and little refugia to avoid predation. We estimate that predation from Northern Pikeminnow in Deadwater Slough may reduce adult returns by as much as 146 or 26% or recent returns to the Upper Salmon River MPG. Therefore, predation in Deadwater Slough likely has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon MPG.   
 
 
 # Acknowledgements
