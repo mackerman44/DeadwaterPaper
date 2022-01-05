@@ -122,7 +122,8 @@ N_mods = cmr_df %>%
 
 # diagnostic plots
 mod = N_mods %>%
-  slice(1) %>%
+  # slice(1) %>%
+  slice(3) %>%
   pull(mr_model) %>%
   magrittr::extract2(1)
 
@@ -147,7 +148,9 @@ tibble(m = mod$m,
 N_mods %>%
   filter(model == "Schnabel") %>%
   unnest(data) %>%
-  # filter(m > 0) %>%
+  group_by(event_name) %>%
+  filter(m > 0 |
+           date == min(date)) %>%
   ggplot(aes(x = M,
              y = m/n)) +
   geom_point(size = 4) +
@@ -164,7 +167,7 @@ N_mods %>%
               linetype = 2)
 
 
-#-----------------------------------------------------------------
+# -----------------------------------------------------------------
 # using Lincoln-Petersen model, combining first 4 and last four days
 # define mark and recapture periods
 cap_periods = tibble(event_name = "Fall_2019",
