@@ -84,18 +84,20 @@ knitr::opts_chunk$set(
 ```{r load-libraries}
 library(tidyverse)
 library(magrittr)
+library(janitor)
+library(here)
+library(lubridate)
+library(FSA)
+library(english)
 library(lubridate)
 library(tidytable)
-library(janitor)
-library(purrr)
-library(here)
-library(FSA)
-library(knitr)
-library(kableExtra)
-library(stringi)
-library(english)
-library(lemon)
-library(gridExtra)
+# library(purrr)
+# library(knitr)
+# library(kableExtra)
+# library(stringi)
+
+# library(lemon)
+# library(gridExtra)
 
 # format NA values in tables
 options(knitr.kable.NA = '-')
@@ -121,6 +123,12 @@ Predation of emigrating juvenile salmonids by piscivorous fishes is perhaps an u
 
 \newpage
 
+# Introduction
+
+The Snake and Columbia rivers drain a network of inland tributaries that provide essential spawning and rearing habitat for anadromous Pacific salmon *Oncorhynchus* spp. and steelhead *O. mykiss*. These fishes were historically abundant throughout the basin and consequently have tremendous ecological, cultural, and economic value. Over the last century, salmonid stocks throughout the Snake and Columbia rivers have undergone significant declines related to habitat modification in the freshwater environment (e.g., removal of beavers, river channel simplification, water withdrawals, hydrosystem development) and poor marine conditions, both affecting their survival and recruitment at multiple life stages. Consequently, action agencies have made considerable investments in the rehabilitation of tributary ecosystems and evaulation of factors attributed to the species decline [@Roni2018].
+
+One potentially important, but perhaps under-appreciated source of salmonid mortality is predation on emigrating juveniles by piscivorous fishes. In the lower mainstem Snake and Columbia rivers it is estimated that predation on out-migrating salmonids during peak emigration has a significant negative impact on the overall population and success of population recovery [@Fresh2003; @Winther2020]. Dams and reservoirs in the Columbia River are the primary locations associated with high rates of piscine predation on salmonids [@Petersen1994; @Ward1995]. There are generally two mechanisms that explain these high predation zones. First, migration (movement) rates of juvenile salmon are reduced during reservoir passage [@Venditti2000], thereby increasing the time migrating smolts are vulnerable to predation. Second, reservoirs and downstream tailraces associated with dams on the Snake and Columbia rivers create favorable slow-water habitat for predatory fishes known to consume juvenile salmonids, such as the Northern Pikeminnow *Ptychocheilus oregonsis*. Northern Pikeminnow tolerate and thrive in relatively warm, slow water habitats [@Wydoski2003] and consequently have benefited from dams on the Columbia River, becoming abundant predators of salmonid outmigrants [@Knutsen1999]. Indeed, Northern Pikeminnow are estimated to consume 8% (16.4 million) of the approximately 200 million juvenile salmonids emigrating through the lower Snake and Columbia Rivers, annually [@Beamesderfer1996].
+
 ```{r deadwater-attr}
 # set some deadwater attributes
 ddw_rkms = 1.871
@@ -130,12 +138,6 @@ ddw_acres = ddw_m2 / 4047
 ddw_hectares = ddw_m2 / 10000
 
 ```
-
-# Introduction
-
-The Snake and Columbia rivers drain a network of inland tributaries that provide essential spawning and rearing habitat for anadromous Pacific salmon *Oncorhynchus* spp. and steelhead *O. mykiss*. These fishes were historically abundant throughout the basin and consequently have tremendous ecological, cultural, and economic value. Over the last century, salmonid stocks throughout the Snake and Columbia rivers have undergone significant declines related to habitat modification in the freshwater environment (e.g., removal of beavers, river channel simplification, water withdrawals, hydrosystem development) and poor marine conditions, both affecting their survival and recruitment at multiple life stages. Consequently, action agencies have made considerable investments in the rehabilitation of tributary ecosystems and evaulation of factors attributed to the species decline [@Roni2018].
-
-One potentially important, but perhaps under-appreciated source of salmonid mortality is predation on emigrating juveniles by piscivorous fishes. In the lower mainstem Snake and Columbia rivers it is estimated that predation on out-migrating salmonids during peak emigration has a significant negative impact on the overall population and success of population recovery [@Fresh2003; @Winther2020]. Dams and reservoirs in the Columbia River are the primary locations associated with high rates of piscine predation on salmonids [@Petersen1994; @Ward1995]. There are generally two mechanisms that explain these high predation zones. First, migration (movement) rates of juvenile salmon are reduced during reservoir passage [@Venditti2000], thereby increasing the time migrating smolts are vulnerable to predation. Second, reservoirs and downstream tailraces associated with dams on the Snake and Columbia rivers create favorable slow-water habitat for predatory fishes known to consume juvenile salmonids, such as the Northern Pikeminnow *Ptychocheilus oregonsis*. Northern Pikeminnow tolerate and thrive in relatively warm, slow water habitats [@Wydoski2003] and consequently have benefited from dams on the Columbia River, becoming abundant predators of salmonid outmigrants [@Knutsen1999]. Indeed, Northern Pikeminnow are estimated to consume 8% (16.4 million) of the approximately 200 million juvenile salmonids emigrating through the lower Snake and Columbia Rivers, annually [@Beamesderfer1996].
 
 Most predation studies have focused on reservoirs [@Murphy2021] and mainstem reaches [@Zimmerman1999; @Tabor1993; @Ward1995; @Shively1996] of the Columbia River basin whereas considerably less is known about the interaction between upstream, river-dwelling piscivorous fishes and their impacts on salmonid recovery above the reservoir systems [@Rubenson2020]. Upstream habitats containing slower water velocities and other attributes that support piscivorous predators may overlap with essential habitat for some salmonid species and life stages. One such example is Deadwater Slough, an approximately `r round(ddw_rkms, 1)` km long reach of unnaturally slow and deep water in the Salmon River, Idaho. The Deadwater Slough is located in a river reach containing historically important overwinter rearing and spring emigration habitat for juvenile Chinook Salmon *O. tshawytscha* and is inhabited by piscivorous predators, including Northern Pikeminnow and Smallmouth Bass *Micropterus dolomieu*. Further, the slough is part of the migratory pathway of the endangered Snake River Sockeye Salmon *O. nerka* population [@Axel2015] and several populations of threatened Snake River steelhead.
 
@@ -163,8 +165,6 @@ The Deadwater Slough is an approximately `r round(ddw_rkms, 1)` km section of th
 
 We estimated the population size of piscine predators in the Deadwater Slough using a mark-recapture survey and a catch per unit effort (CPUE) approach. Predators were sampled near the peaks of the juvenile DSR and NRR emigrations. Our initial intent was to sample during the emigration of the 2018 brood year (fall 2019 and spring 2020). However, due to logistical concerns during the onset of the Covid-19 pandemic, the spring 2020 effort was delayed until fall 2020. Although this provided the benefit of an additional abundance estimate during the DSR emigration, estimates during the NRR emigration were still lacking, and so an additional effort was added in spring 2021. Fall efforts included sampling across a two-week span, but due to budget constraints the spring 2021 effort was limited to a single week. Fall efforts were constrained within a two-week window to minimize predator emigration/immigration and to constrain the population for the mark-recapture models.
 
-<!-- In the end, sampling dates were as follows: fall 2019 (mark = November 12-14; recapture = November 19-21), fall 2020 (mark = October 20-23; recapture = October 27-30); spring 2021 (mark = May 18-21). -->
-
 Multiple capture methods were employed during the initial fall 2019 effort to reduce selectivity and bias for species and size classes. Methods included raft electrofishing, fyke netting, snorkeling, and angling. Ineffective methods were then abandoned in subsequent years. <!-- For example, fish were able to elude the electrical field of the raft electrofisher due to 1) the lack of flow in Deadwater Slough and 2) our inability to "chase" fish downstream as they evaded the electricity. Snorkeling was ineffective due to the high turbidity of the mainstem Salmon River and Deadwater Slough area. Significant amounts of debris in the water column also created concerns that fyke nets could become entangled. Additionally, there were concerns that raft electrofishers and fyke nets could incidentally capture ESA-listed adult steelhead that are present in the mainstem Salmon River during fall and spring. -->After evaluating all methods, angling proved to be the most effective method for capturing piscine predators while also minimizing potential impacts to ESA-listed adult steelhead present in the Salmon River during our sampling efforts.<!--, but recognizing that angling can have both species and size selectivity (bias).--> Therefore, the following analyses will focus on fish captured by angling, unless otherwise noted. During the fall 2019 effort it additionally became clear that Northern Pikeminnow were by far the most prevalent piscine predator in Deadwater Slough and so is our focus.
 
 Our study relied heavily on volunteer anglers who were permitted to fish anywhere within Deadwater Slough. During a sampling occassion (day), anglers would boat or hike their catch (periodically or upon filling a livewell) to a processing station at the boat ramp approximately 500 m downstream from the top of the slough. For each fish, we recorded the date of capture, species, total length (TL; mm), and whether the fish was previously marked. Unmarked fish were given a physical mark (e.g., hole punch of lower caudal, upper caudal, left pelvic, right pelvic) unique to each day and released. Fish that died prior to release were still counted as captured (or recaptured), but not included in the number of marked fish available for recapture after that date. Released individuals were distributed throughout Deadwater Slough to facilitate mixing back into the population. Finally, we recorded the angling start and end time for each crew (person or combinations of persons) to facilitate calculations of CPUE.
@@ -182,13 +182,23 @@ raw_df = readxl::read_excel(here("analysis/data/raw_data/Deadwater_predation_mar
                               paste("Fall", year(date), sep = "_"),
                               paste("Spring", year(date), sep = "_")))
 
-# focus on pikeminnow, to be used for mark-recap models
+# capture/mark/recpature data frame; focus on pikeminnow, to be used for mark-recap models
 cmr_df = raw_df %>%
-  filter(count > 0) %>%
-  # pull out only Northern Pikeminnow
-  filter(species == "Northern Pikeminnow") %>%
-  mutate(mark_release = if_else(fish_status == "Live" &
-                                  capture_type == "Mark",
+  filter(count > 0) %>%                                     # filter out effort-only records
+  filter(species == "Northern Pikeminnow") %>%              # focus on NPM
+  filter(method == "Angling") %>%
+  select(event_name, 
+         date,
+         method, 
+         species, 
+         count, 
+         length, 
+         fish_status, 
+         capture_type) %>%
+  # if fish_status = Live & capture_type = Mark, set as mark_release as TRUE
+  # if capture_type = Recapture, set recap to TRUE
+  mutate(mark_release = if_else(fish_status == "Live" &     
+                                capture_type == "Mark",
                                 T, F),
          recap = if_else(capture_type == "Recapture",
                          T, F))
@@ -196,7 +206,11 @@ cmr_df = raw_df %>%
 ```
 
 ```{r effort, eval = T}
-effort_df = raw_df %>%
+# What size (mm) is considered a large pikeminnow?
+large_size = 380
+
+# catch per unit effort
+cpue_df = raw_df %>%
   select(event_name,
          site,
          date,
@@ -216,26 +230,17 @@ effort_df = raw_df %>%
   summarise(across(c(total_effort_min,
                      crew_count),
                    sum),
-            .groups = "drop")
-
-# What size (mm) is considered a large pikeminnow?
-large_size = 228
-
-# catch per unit effort
-cpue_df = effort_df %>%
-  # add back in the number of pikeminnow caught
-  left_join(cmr_df %>%
+            .groups = "drop") %>%
+    left_join(cmr_df %>%
               group_by(event_name, species, date) %>%
               summarise(n_fish = n(),
                         n_large_fish = sum(length >= large_size,
                                            na.rm = T),
                         .groups = "drop")) %>%
-  # calculate CPUE a few different ways
-  mutate(catch_per_min = n_fish / total_effort_min,
-         catch_per_hr  = n_fish / (total_effort_min / 60),
+  mutate(catch_per_hr = n_fish / (total_effort_min / 60),
          catch_per_angler_day = n_fish / crew_count,
          catch_lg_per_angler_day = n_large_fish / crew_count)
- 
+
 ```
 
 ```{r lincoln-petersen-estimator, eval = T}
@@ -269,7 +274,6 @@ for(i in 1:nrow(cap_periods)) {
 
 # Lincoln-Peterson Model
 LP_mod = cmr_df %>%
-  # filter out spring 2021 (no recapture)
   filter(event_name != "Spring_2021") %>%
   group_by(event_name, species) %>%
   summarise(M = sum(cap_period == "Mark" & fish_status == "Live", na.rm = T),
@@ -279,7 +283,7 @@ LP_mod = cmr_df %>%
   nest(data = -c(event_name, species)) %>%
   crossing(model = c("Petersen",
                      "Chapman")) %>%
-  mutate(mr_model = map2(data,
+    mutate(mr_model = map2(data,
                        model,
                       .f = function(x, y) {
                         with(x,
@@ -293,7 +297,7 @@ LP_mod = cmr_df %>%
                       incl.SE = T),
          CI = map(mr_model,
                   .f = confint)) %>%
-  mutate(N = map_dbl(N_summ,
+    mutate(N = map_dbl(N_summ,
                      .f = function(x) x[1]),
          SE = map_dbl(N_summ,
                       .f = function(x) x[2]),
@@ -301,7 +305,7 @@ LP_mod = cmr_df %>%
                          .f = function(x) x[1]),
          Uci = map_dbl(CI,
                          .f = function(x) x[2])) %>%
-  select(-N_summ, -CI)
+    select(-N_summ, -CI)
 
 ```
 
@@ -374,11 +378,10 @@ total_cpue = cpue_df %>%
                      angler_days = crew_count),
                    sum),
             .groups = "drop") %>%
-  mutate(catch_per_min = n_fish / total_effort_min,
-         catch_per_hr = n_fish / (total_effort_min / 60),
+  mutate(catch_per_hr = n_fish / (total_effort_min / 60),
          catch_per_angler_day = n_fish / angler_days,
          catch_lg_per_angler_day = n_large_fish / angler_days)
-
+  
 spring_abund = all_est %>%
   filter(model == "Schnabel") %>%
   select(-range, -prop_range) %>%
@@ -395,11 +398,12 @@ spring_abund = all_est %>%
   summarise(across(c(N_F:cpue_F),
                    mean),
             .groups = "drop") %>%
-  full_join(total_cpue %>%
+    full_join(total_cpue %>%
               filter(str_detect(event_name, "Spring")) %>%
               select(species,
                      cpue_S = catch_per_hr),
             by = "species") %>%
+  # calculate spring abundance estimate
   mutate(N_S = N_F * (cpue_S / cpue_F),
          Lci_S = Lci_F * (cpue_S / cpue_F),
          Uci_S = Uci_F * (cpue_S / cpue_F))
@@ -435,19 +439,23 @@ The mark-recapture estimators allowed us to estimate the abundance of Northern P
 All mark-recapture abundance estimators assumed: (1) the population is closed (no immigration, emigration, births or deaths during the sampling period), (2) all fish have equal chance of being caught in the second (and subsequent) sample(s), (3) marking a fish does not affect its chances of recapture, (4) no loss of marks, and (5) marks are not missed or mistaken.
 
 ```{r psd}
-s_size = 250
-q_size = 380
+s_size = 250        # stock size
+q_size = large_size # quality size
 
 psd_df = cmr_df %>%
-  select(species, count, length, recap, event_name) %>%
-  filter(recap  != TRUE)
-
-fs = psd_df %>%
-  filter(length >= s_size) %>%
-  nrow()
+  select(event_name,
+         species,
+         count,
+         length,
+         recap) %>%
+  filter(recap != T)
 
 fq = psd_df %>%
   filter(length >= q_size) %>%
+  nrow()
+
+fs = psd_df %>%
+  filter(length >= s_size) %>%
   nrow()
 
 psd = 100 * (fq/fs)
@@ -470,9 +478,19 @@ Gastric lavage [@Foster1977] was used to examine the stomach contents of Norther
 
 ```{r gastric-data}
 gastric_df = raw_df %>%
-  select(event_name, date, species, method, lavage_id, length, stomach_contents, comments, stomach_contents_weight,                             fish_content_weight) %>%
-  mutate(bin_50 = lencat(length, w = 50)) %>%
-  filter(species == "Northern Pikeminnow") %>%
+  select(event_name, 
+         date, 
+         species,
+         method,
+         length,
+         lavage_id,
+         stomach_contents,
+         stomach_contents_weight,
+         fish_content_weight,
+         comments) %>%
+  #mutate(bin_50 = lencat(length, w = 50)) %>%
+  filter(species == "Northern Pikeminnow",
+         method == "Angling") %>%
   mutate(non_fish_wt = stomach_contents_weight - fish_content_weight) %>%
   mutate(lavaged = case_when(
     is.na(lavage_id) & is.na(stomach_contents) ~ FALSE,
@@ -522,7 +540,9 @@ gastric_df = raw_df %>%
   mutate(had_chinook = case_when(
     stomach_contents == "Fish-Chinook/Other" ~ TRUE,
     TRUE ~ FALSE
-  ))
+  )) %>%
+  mutate(across(event_name,
+                ~ str_replace(., "_", " ")))
 
 gastric_tbl = gastric_df %>%
   group_by(event_name) %>%
@@ -533,18 +553,19 @@ gastric_tbl = gastric_df %>%
   adorn_totals("row")
 
 stmch_df = gastric_df %>%
-  filter(stomach_contents_weight > 0) %>%
   select(event_name,
+         species,
          date,
          length,
          stomach_contents_weight,
          fish_content_weight,
          non_fish_wt) %>%
+  filter(stomach_contents_weight > 0) %>%
   mutate(p_fish = fish_content_weight / stomach_contents_weight)
 
-psd_df = gastric_df %>%
-  group_by(bin_50) %>%
-  summarize(n = n())
+# psd_df = gastric_df %>%
+#   group_by(bin_50) %>%
+#   summarize(n = n())
 
 ```
 
@@ -559,7 +580,13 @@ shoup_temp_df = read_tsv(here("analysis/data/raw_data/USGS_13307000_Salmon_River
          gage_ht_ft = `47769_00065`,
          gage_ht_ft_cd = `47769_00065_cd`,
          water_temp_c = `47773_00010`,
-         water_temp_c_cd = `47773_00010_cd`)
+         water_temp_c_cd = `47773_00010_cd`) %>%
+  select(datetime, water_temp_c) %>%
+  mutate(month = month(datetime),
+         day = day(datetime)) %>%
+  group_by(month, 
+           day) %>%
+  summarize(mean_water_temp = mean(water_temp_c, na.rm = T))
 
 ```
 
@@ -616,17 +643,10 @@ fall_results = fall_f10 %>%
          f70_g = fall_f70$cum_cons_fish_g,
          f80_g = fall_f80$cum_cons_fish_g,
          f90_g = fall_f90$cum_cons_fish_g) %>%
-  mutate( across(contains('_g'),
-                 .fns = list(n = ~./avg_DSR_g),
-                 .names = "{col}_{fn}") )
-
-fall_g_summ = fall_results %>%
-  select(f10_g:f90_g) %>%
-  pivot_longer(f10_g:f90_g) %>%
-  group_by(name) %>%
-  summarize(cumm_g = max(value))
-
-rm(fall_f10, fall_f20, fall_f30, fall_f40, fall_f50, fall_f60, fall_f70, fall_f80, fall_f90)
+  mutate(season = "Fall") #%>%
+  # mutate( across(contains('_g'),
+  #                .fns = list(n = ~./avg_DSR_g),
+  #                .names = "{col}_{fn}") )
 
 # compile spring results
 spring_results = spring_f10 %>%
@@ -640,17 +660,38 @@ spring_results = spring_f10 %>%
          f70_g = spring_f70$cum_cons_fish_g,
          f80_g = spring_f80$cum_cons_fish_g,
          f90_g = spring_f90$cum_cons_fish_g) %>%
-  mutate( across(contains('_g'),
-                 .fns = list(n = ~./avg_NRR_g),
-                 .names = "{col}_{fn}") )
+  mutate(season = "Spring") # %>%
+  # mutate( across(contains('_g'),
+  #                .fns = list(n = ~./avg_NRR_g),
+  #                .names = "{col}_{fn}") )
 
-spring_g_summ = spring_results %>%
-  select(f10_g:f90_g) %>%
+bio_results = rbind(fall_results, spring_results)
+bio_g_summ = bio_results %>%
+  select(season, f10_g:f90_g) %>%
   pivot_longer(f10_g:f90_g) %>%
-  group_by(name) %>%
+  group_by(season, name) %>%
   summarize(cumm_g = max(value))
 
-rm(spring_f10, spring_f20, spring_f30, spring_f40, spring_f50, spring_f60, spring_f70, spring_f80, spring_f90)
+rm(fall_results,
+   fall_f10, 
+   fall_f20, 
+   fall_f30, 
+   fall_f40, 
+   fall_f50, 
+   fall_f60, 
+   fall_f70, 
+   fall_f80, 
+   fall_f90,
+   spring_results,
+   spring_f10, 
+   spring_f20, 
+   spring_f30, 
+   spring_f40, 
+   spring_f50, 
+   spring_f60, 
+   spring_f70, 
+   spring_f80, 
+   spring_f90)
 
 ```
 
@@ -683,52 +724,53 @@ sar = read_csv(here("analysis/data/raw_data",
                ~ . / 100))
 
 # summarize potential Chinook eaten for each time period by one pikeminnow
-adult_impact = fall_results %>%
-  summarise(across(ends_with("g_n"), max)) %>%
-  add_column(season = "Fall",
-             .before = 0) %>%
-  bind_rows(spring_results %>%
-              summarise(across(ends_with("g_n"), max)) %>%
-              add_column(season = "Spring",
-                         .before = 0)) %>%
-  pivot_longer(cols = ends_with("g_n"),
+impact_df = bio_results %>%
+  group_by(season) %>%
+  summarize(across(ends_with("_g"), max)) %>%
+  pivot_longer(cols = ends_with("_g"),
                names_to = "perc_diet",
-               values_to = "juv_chnk") %>%
+               values_to = "g_fish_cons") %>%
   mutate(across(perc_diet,
                 str_extract,
                 "[:digit:]+"),
          across(perc_diet,
                 as.integer)) %>%
+  crossing(p_chnk = c(.01, .10, .30, .50)) %>%
+  mutate(g_chnk = g_fish_cons * p_chnk) %>%
+  mutate(n_chnk = ifelse(season == "Fall",
+                         g_chnk / avg_DSR_g,
+                         g_chnk / avg_NRR_g)) %>%
   left_join(spring_abund %>%
-              select(N_F:Uci_F,
-                     N_S:Uci_S) %>%
-              pivot_longer(everything()) %>%
-              mutate(season = if_else(str_detect(name, "_F$"),
-                                      "Fall",
-                                      "Spring")) %>%
-              mutate(across(name,
-                            str_remove,
-                            "_F$"),
-                     across(name,
-                            str_remove,
-                            "_S$")) %>%
-              pivot_wider(names_from = name,
-                          values_from = value)) %>%
-  mutate(smolt_N = N * juv_chnk,
-         smolt_Lci = Lci * juv_chnk,
-         smolt_Uci = Uci * juv_chnk) %>%
+            select(N_F:Uci_F,
+                   N_S:Uci_S) %>%
+            pivot_longer(everything()) %>%
+            mutate(season = if_else(str_detect(name, "_F$"),
+                                    "Fall",
+                                    "Spring")) %>%
+            mutate(across(name,
+                          str_remove,
+                          "_F$"),
+                    across(name,
+                           str_remove,
+                           "_S$")) %>%
+            pivot_wider(names_from = name,
+                        values_from = value)) %>%
+  mutate(juv_N = N * n_chnk,
+         juv_Lci = Lci * n_chnk,
+         juv_Uci = Uci * n_chnk) %>%
   bind_cols(sar) %>%
-  mutate(adult_N = smolt_N * medsar,
-         adult_Lci = smolt_Lci * qnorm(0.025, medsar, sdsar),
-         adult_Uci = smolt_Uci * qnorm(0.975, medsar, sdsar))
-
+  mutate(adult_N = juv_N * medsar,
+         adult_Lci = juv_Lci * qnorm(0.025, medsar, sdsar),
+         adult_Uci = juv_Uci * qnorm(0.975, medsar, sdsar))
+ 
 # sum fall and spring impacts
-total_impacts = adult_impact %>%
-  group_by(perc_diet) %>%
+total_impacts = impact_df %>%
+  group_by(perc_diet, p_chnk) %>%
   summarise(across(c(ends_with("_N"),
                      ends_with("_Lci"),
                      ends_with("_Uci")),
-                   sum))
+                   sum),
+            .groups = "drop")
 
 ```
 
