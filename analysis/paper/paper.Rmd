@@ -863,7 +863,6 @@ Our estimated consumption of Chinook Salmon juveniles by Northern Pikeminnow was
 
 <!-- Also update this after finalizing results -->
 Our primary objective was to assess the impact of predation on juvenile Chinook Salmon in the Upper Salmon MPG. However, there is also interest in estimating the number of additional adult Chinook Salmon that might be expected to return to Lower Granite Dam if predation in the Deadwater Slough was reduced or eliminated. Our approach here was to multiply the total estimated juvenile Chinook Salmon consumed by an estimate of Granite-to-Granite smolt-to-adult survival rate (SAR) from @McCann2019 for Upper Salmon River MPG Chinook Salmon. Assuming an SAR of `r round(sar$medsar, 5)` (SE: `r prettyNum(round(sar$sdsar, 5))`) we'll consider the "adult equivalents" to our estimates of juveniles consumed. Under this scenario, the consumed juveniles would be equivalent to 51.6 adults (range 26.4 – 57.7) and 129.6 adults (range 65.7 – 145.6). However, we believe these 10% and 25% scenarios to be conservative, especially during the fall DSR emigration period. During spring, natural-origin steelhead and Sockeye Salmon are also actively emigrating from the Upper Salmon River and hatchery-origin releases of all three species (Chinook Salmon, steelhead, and Sockeye Salmon) are present in the river, and so 10% or 25% may be reasonable. However, during fall, DSR Chinook Salmon are likely the dominant prey species available to Chinook Salmon in Deadwater Slough as 1) no (or at least minimal) hatchery releases are present in the river and 2) fall emigrations of steelhead and Sockeye Salmon are less prominent than in Chinook Salmon. Note that this thought exercise only includes the Northern Pikeminnow population in Deadwater Slough even though they are present throughout the upper Salmon River, although likely at lower densities than in Deadwater Slough, and also ignores potential impacts to ESA-listed steelhead and Sockeye Salmon that are also a portion of the Northern Pikeminnow diet.
-
 <!--
 Additional thoughts here:
 *	SAR results. Those results are GRA - GRA SARs, estimated from multiple years of PIT tag data. Seem pretty good to me.
@@ -1000,10 +999,6 @@ gastric_tbl %>%
          Lavaged = lavaged,
          'Stomach Contents' = stmch_contents,
          'Fish Contents' = fish_contents) %>%
-  mutate(Effort = recode(Effort,
-                         `Fall_2019` = "Fall 2019",
-                         `Fall_2020` = "Fall 2020",
-                         `Spring_2021` = "Spring 2021")) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
         caption = "Summary of gastric lavage results including the total number of fish captured and gastric lavaged. For Northern Pikeminnow that were gastric lavaged, we show the number containing stomach contents, and of those, the number containing fish contents.") %>%
@@ -1241,32 +1236,45 @@ bio_p = do.call("grid.arrange",
 \newpage
 
 ```{r adult-imp-p, fig.cap = "The estimated number of DSR (fall) and NRR (spring) emigrants consumed by Northern Pikeminnow in Deadwater Slough (top panel) across a range of diet scenarios where 10-90% of the diet consists of juvenile Chinook salmon. The bottom panel provides the adult equivalents assuming a Lower Granite Dam smolt-to-adult rate (SAR) from McCann et al. 2019."}
-impact_df %>%
-  mutate(stage = "Juv. Emigrant") %>%
-  select(stage,
-         season,
+impact_p = impact_df %>%
+  select(season,
          perc_diet,
-         starts_with("smolt")) %>%
-  rename_with(.fn = ~ str_remove(., "smolt_"),
-              .cols = starts_with("smolt")) %>%
+         p_chnk,
+         N = juv_N,
+         Lci = juv_Lci,
+         Uci = juv_Uci) %>%
+  group_by(perc_diet, p_chnk) %>%
+  summarise(across(c("N", "Lci", "Uci"),
+                   sum),
+            .groups = "drop") %>%
+  mutate(Stage = "Juveniles") %>%
   bind_rows(impact_df %>%
-              mutate(stage = "Adult Equivalent") %>%
-              select(stage,
-                     season,
+              select(season,
                      perc_diet,
-                     starts_with("adult")) %>%
-              rename_with(.fn = ~ str_remove(., "adult_"),
-                          .cols = starts_with("adult"))) %>%
+                     p_chnk,
+                     N = adult_N,
+                     Lci = adult_Lci,
+                     Uci = adult_Uci) %>%
+              group_by(perc_diet, p_chnk) %>%
+              summarise(across(c("N", "Lci", "Uci"),
+                   sum),
+             .groups = "drop") %>%
+             mutate(Stage = "Adult Equivalents")) %>%
+  mutate(p_chnk = p_chnk * 100) %>%
+  rename(perc_chnk = p_chnk) %>%
+  filter(perc_chnk %in% c(10, 30, 50)) %>%
   ggplot(aes(x = perc_diet,
              y = N,
              color = as.factor(perc_diet))) +
   geom_errorbar(aes(ymin = Lci,
                     ymax = Uci),
                 width = 0.1) +
-  geom_point(size = 4) +
-  facet_grid(fct_rev(stage) ~ season,
+  geom_point(size = 3) +
+  facet_grid(vars(Stage),
+             vars(perc_chnk),
              scales = "free_y") +
   scale_color_viridis_d(name = "Percent\nFish in Diet") +
+  scale_y_continuous(labels = scales::comma) +
   theme(axis.text.x = element_blank(),
         legend.position = "bottom",
         axis.title.x = element_blank(),
@@ -1278,6 +1286,46 @@ impact_df %>%
         strip.text.y = element_text(size = 11,
                                     color = "black")) +
   labs(y = "Number Chinook Consumed")
+
+impact_p
+
+# impact_df %>%
+#   mutate(stage = "Juv. Emigrant") %>%
+#   select(stage,
+#          season,
+#          perc_diet,
+#          starts_with("smolt")) %>%
+#   rename_with(.fn = ~ str_remove(., "smolt_"),
+#               .cols = starts_with("smolt")) %>%
+#   bind_rows(impact_df %>%
+#               mutate(stage = "Adult Equivalent") %>%
+#               select(stage,
+#                      season,
+#                      perc_diet,
+#                      starts_with("adult")) %>%
+#               rename_with(.fn = ~ str_remove(., "adult_"),
+#                           .cols = starts_with("adult"))) %>%
+# ggplot(aes(x = perc_diet,
+#            y = N,
+#            color = as.factor(perc_diet))) +
+# geom_errorbar(aes(ymin = Lci,
+#                   ymax = Uci),
+#               width = 0.1) +
+# geom_point(size = 4) +
+# facet_grid(fct_rev(stage) ~ season,
+#            scales = "free_y") +
+# scale_color_viridis_d(name = "Percent\nFish in Diet") +
+# theme(axis.text.x = element_blank(),
+#       legend.position = "bottom",
+#       axis.title.x = element_blank(),
+#       axis.ticks.x = element_blank(),
+#       axis.text.y = element_text(size = 11,
+#                                  color = "black"),
+#       strip.text.x = element_text(size = 11,
+#                                   color = "black"),
+#       strip.text.y = element_text(size = 11,
+#                                   color = "black")) +
+# labs(y = "Number Chinook Consumed")
 
 ```
 
