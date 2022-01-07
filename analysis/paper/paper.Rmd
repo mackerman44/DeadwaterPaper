@@ -91,13 +91,9 @@ library(FSA)
 library(english)
 library(lubridate)
 library(tidytable)
-# library(purrr)
-# library(knitr)
-# library(kableExtra)
-# library(stringi)
-
-# library(lemon)
-# library(gridExtra)
+library(kableExtra)
+library(lemon)
+library(gridExtra)
 
 # format NA values in tables
 options(knitr.kable.NA = '-')
@@ -563,10 +559,6 @@ stmch_df = gastric_df %>%
   filter(stomach_contents_weight > 0) %>%
   mutate(p_fish = fish_content_weight / stomach_contents_weight)
 
-# psd_df = gastric_df %>%
-#   group_by(bin_50) %>%
-#   summarize(n = n())
-
 ```
 
 
@@ -735,7 +727,7 @@ impact_df = bio_results %>%
                 "[:digit:]+"),
          across(perc_diet,
                 as.integer)) %>%
-  crossing(p_chnk = c(.01, .10, .30, .50)) %>%
+  crossing(p_chnk = c(.01, .10, .30, .50, .70, .90, 1)) %>%
   mutate(g_chnk = g_fish_cons * p_chnk) %>%
   mutate(n_chnk = ifelse(season == "Fall",
                          g_chnk / avg_DSR_g,
@@ -797,7 +789,7 @@ We examined the stomach contents of Northern Pikeminnow from Deadwater Slough us
 
 ## Fish Consumption Potential
 
-We estimated an individual, average-size (`r avg_fall_NPM` mm) Northern Pikeminnow to consume `r median(fall_g_summ$cumm_g)` g (range: `r min(fall_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) of fish during the DSR emigration to maintain their body size, depending on the proportion of diet consisting of fish versus invertebrates (Figure \@ref(fig:bio-p)). Similarly, we estimated an average-size (`r avg_spring_NPM` mm) Northern Pikeminnow to consume `r median(spring_g_summ$cumm_g)` g (range: `r min(spring_g_summ$cumm_g)` - `r max(spring_g_summ$cumm_g)` g) of fish during the NRR emigration (Figure \@ref(fig:bio-p)). Given a mean Northern Pikeminnow population size of `r prettyNum(unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` from fall estimates and `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")` for spring 2021 and using the median value from diet scenarios (i.e., 50% of their diet consists of fish), we'd estimate that the Northern Pikeminnow population can consume `r prettyNum(median(fall_g_summ$cumm_g) * unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` g (range: `r prettyNum(min(fall_g_summ$cumm_g) * unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` - `r prettyNum(max(fall_g_summ$cumm_g) * unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` g) fish during the DSR emigration and an additional `r prettyNum(round(median(spring_g_summ$cumm_g) * unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")` g (range: `r prettyNum(round(min(spring_g_summ$cumm_g) * unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")` - `r prettyNum(round(max(spring_g_summ$cumm_g) * unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")` g) during the NRR emigration in Deadwater Slough. In total, the Northern Pikeminnow population can consume `r prettyNum(median(fall_g_summ$cumm_g) * unique(adult_impact$N[adult_impact$season == "Fall"]) + median(spring_g_summ$cumm_g) * unique(adult_impact$N[adult_impact$season == "Spring"]), big.mark = ",")` g of fish during the DSR and NRR emigrations to maintain their population size if we assume 50% of their diet consists of fish.
+We estimated an individual, average-size (`r avg_fall_NPM` mm) Northern Pikeminnow to consume `r median(bio_g_summ$cumm_g[bio_g_summ$season == "Fall"])` g (range: `r min(bio_g_summ$cumm_g[bio_g_summ$season == "Fall"])` - `r max(bio_g_summ$cumm_g[bio_g_summ$season == "Fall"])` g) of fish during the DSR emigration to maintain their body size, depending on the proportion of diet consisting of fish versus invertebrates (Figure \@ref(fig:bio-p)). Similarly, we estimated an average-size (`r avg_spring_NPM` mm) Northern Pikeminnow to consume `r median(bio_g_summ$cumm_g[bio_g_summ$season == "Spring"])` g (range: `r min(bio_g_summ$cumm_g[bio_g_summ$season == "Spring"])` - `r max(bio_g_summ$cumm_g[bio_g_summ$season == "Spring"])` g) of fish during the NRR emigration (Figure \@ref(fig:bio-p)). Given a mean Northern Pikeminnow population size of `r prettyNum(unique(impact_df$N[impact_df$season == "Fall"]), big.mark = ",")` from fall estimates and `r prettyNum(unique(impact_df$N[impact_df$season == "Spring"]), big.mark = ",")` for spring 2021 and using the median value from diet scenarios (i.e., 50% of their diet consists of fish), we'd estimate that the Northern Pikeminnow population can consume `r prettyNum(unique(impact_df$g_fish_cons[impact_df$season == "Fall" & impact_df$perc_diet == 50]) * unique(impact_df$N[impact_df$season == "Fall" & impact_df$perc_diet == 50]), big.mark = ",")` g (range: `r prettyNum(unique(impact_df$g_fish_cons[impact_df$season == "Fall" & impact_df$perc_diet == 10]) * unique(impact_df$N[impact_df$season == "Fall" & impact_df$perc_diet == 10]), big.mark = ",")` - `r prettyNum(unique(impact_df$g_fish_cons[impact_df$season == "Fall" & impact_df$perc_diet == 90]) * unique(impact_df$N[impact_df$season == "Fall" & impact_df$perc_diet == 90]), big.mark = ",")` g) fish during the DSR emigration and an additional `r prettyNum(unique(impact_df$g_fish_cons[impact_df$season == "Spring" & impact_df$perc_diet == 50]) * unique(impact_df$N[impact_df$season == "Spring" & impact_df$perc_diet == 50]), big.mark = ",")` g (range: `r prettyNum(unique(impact_df$g_fish_cons[impact_df$season == "Spring" & impact_df$perc_diet == 10]) * unique(impact_df$N[impact_df$season == "Spring" & impact_df$perc_diet == 10]), big.mark = ",")` - `r prettyNum(unique(impact_df$g_fish_cons[impact_df$season == "Spring" & impact_df$perc_diet == 90]) * unique(impact_df$N[impact_df$season == "Spring" & impact_df$perc_diet == 90]), big.mark = ",")` g) during the NRR emigration in Deadwater Slough. In total, the Northern Pikeminnow population can consume `r prettyNum(unique(impact_df$g_fish_cons[impact_df$season == "Fall" & impact_df$perc_diet == 50]) * unique(impact_df$N[impact_df$season == "Fall" & impact_df$perc_diet == 50]) + unique(impact_df$g_fish_cons[impact_df$season == "Spring" & impact_df$perc_diet == 50]) * unique(impact_df$N[impact_df$season == "Spring" & impact_df$perc_diet == 50]), big.mark = ",")` g of fish during the DSR and NRR emigrations to maintain their population size if we assume 50% of their diet consists of fish.
 
 
 ## Potential Impacts to Chinook Salmon Populations
@@ -807,14 +799,6 @@ We estimated an individual, average-size (`r avg_fall_NPM` mm) Northern Pikeminn
 3. Divide by average weight of juvenile Chinook Salmon (10.6 g), the average of DSR (10.3 g) and NRR (10.9 g) emigrants.
 4. Estimate of total juvenile Chinook Salmon consumed.
 5. Multiply by SAR to estimate "adult equivalents".
-
-<!--
-Given an average weight of `r avg_DSR_g` g for DSR emigrants, that would equate to `r round(median(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` (range: `r round(min(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Fall"]), 2)`) fish consumed by an individual during fall and an additional `r round(median(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` (range: `r round(min(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)` - `r round(max(adult_impact$juv_chnk[adult_impact$season == "Spring"]), 2)`) fish consumed using an average weight of `r avg_NRR_g` g for NRR emigrants.
-
-Given a mean Northern Pikeminnow population size of `r prettyNum(unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` from fall estimates and an estimate of `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")` for spring 2021 and using the median value from diet scenarios (i.e, 50% of their diet consists of fish), we'd estimate that Northern Pikeminnow can consume `r prettyNum(round(median(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")` (95% CI: `r prettyNum(round(min(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")` - `r prettyNum(round(max(adult_impact$smolt_N[adult_impact$season == "Fall"]), 0), big.mark = ",")`) fish during the DSR emigration and `r prettyNum(round(median(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")` (95% CI: `r prettyNum(round(min(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")` - `r prettyNum(round(max(adult_impact$smolt_N[adult_impact$season == "Spring"]), 0), big.mark = ",")`) fish during the NRR emigration in Deadwater Slough. Table \@ref(tab:adult-imp) shows the estimated number of fish consumed by an individual Northern Pikeminnow and by the population across all diet scenarios during both the fall (DSR) and spring (NRR) peak emigration seasons.
-
-Across both seasons and all diet scenarios, we estimated the total number of fish consumed to be between `r prettyNum(round(min(total_impacts$smolt_N), 0), big.mark = ",")` and `r prettyNum(round(max(total_impacts$smolt_N), 0), big.mark = ",")` (Table \@ref(tab:adult-imp)). The estimated number of fish consumed by a Northern Pikeminnow begins to taper off between the 30-90% diet scenarios. So although we are uncertain of the diet proportions consisting of fish versus invertebrates, the impact of that uncertainty is somewhat constrained.
--->
 
 <!--
 ## Juvenile Chinook Salmon Abundance
@@ -835,7 +819,7 @@ low_columbia_fish_km = 2814
 
 ```
 
-The mean population size of Northern Pikeminnow in the Deadwater Slough during the fall season was estimated to be `r prettyNum(unique(adult_impact$N[adult_impact$season == "Fall"]), big.mark = ",")` and during the spring 2021 to be `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]), 0), big.mark = ",")`. Those estimates translate to linear densities of `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Fall"]) / ddw_rkms), big.mark = ",")` and `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]) / ddw_rkms), big.mark = ",")` which is `r round(unique(adult_impact$N[adult_impact$season == "Fall"]) / ddw_rkms / john_day_dens)` and `r round(unique(adult_impact$N[adult_impact$season == "Spring"]) / ddw_rkms / john_day_dens)` times greater, respectively, than densities reported by @Beamesderfer1991 for the John Day Reservoir and approximately `r as.character(english(round(unique(adult_impact$N[adult_impact$season == "Fall"]) / ddw_rkms / low_columbia_fish_km)))` and `r as.character(english(round(unique(adult_impact$N[adult_impact$season == "Spring"]) / ddw_rkms / low_columbia_fish_km)))` times greater than projections for the lower Columbia River [@Beamesderfer1996]. Although estimated densities for Deadwater Slough are high given the relative size (volume) of the Salmon River at the slough relative to the Columbia River, high CPUE combined with low recapture rates (one in every `r round(nrow(cmr_df) / sum(cmr_df$capture_type == "Recapture", na.rm = T))` fish were recaptures) suggest this area may support exceptionally high predator densities. Further, @Beamesderfer1991 acknowledge that their methods were unsuitable for sampling offshore, noting that water velocity, depth, irregular bottom contours, and barge traffic made sampling offshore ineffective. Conversely, at Deadwater Slough the maximum depth was approximately 10-15 m with a relatively homogenous bottom contour, making angling an effective method throughout the entire reach. Our estimates of Northern Pikeminnow areal density are also higher than those reported elsewhere in the Columbia River basin. We estimate the density of Northern Pikeminnow in Deadwater Slough, as fish per hectare, to be `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Fall"]) / ddw_hectares), big.mark = ",")` for fall and `r prettyNum(round(unique(adult_impact$N[adult_impact$season == "Spring"]) / ddw_hectares), big.mark = ",")` for spring. For comparison, the only other available estimates of areal density, that the authors are aware of, are 4.4 fish per hectare for John Day Reservoir [@Beamesderfer1991] and 15 fish per hectare in Lake Washington [@Bartoo1977]. Given the dearth of current data available in the Columbia River basin, it is unclear how Northern Pikeminnow abundance estimates in this study compare to elsewhere in the Columbia River Basin. @Widener2021 has identified a need for more current information on piscine predator populations in the Columbia River.
+The mean population size of Northern Pikeminnow in the Deadwater Slough during the fall season was estimated to be `r prettyNum(unique(impact_df$N[impact_df$season == "Fall"]), big.mark = ",")` and during the spring 2021 to be `r prettyNum(unique(impact_df$N[impact_df$season == "Spring"]), big.mark = ",")`. Those estimates translate to linear densities of `r prettyNum(round(unique(impact_df$N[impact_df$season == "Fall"]) / ddw_rkms), big.mark = ",")` and `r prettyNum(round(unique(impact_df$N[impact_df$season == "Spring"]) / ddw_rkms), big.mark = ",")` which is `r round(unique(impact_df$N[impact_df$season == "Fall"]) / ddw_rkms / john_day_dens)` and `r round(unique(impact_df$N[impact_df$season == "Spring"]) / ddw_rkms / john_day_dens)` times greater, respectively, than densities reported by @Beamesderfer1991 for the John Day Reservoir and approximately `r as.character(english(round(unique(impact_df$N[impact_df$season == "Fall"]) / ddw_rkms / low_columbia_fish_km)))` and `r as.character(english(round(unique(impact_df$N[impact_df$season == "Spring"]) / ddw_rkms / low_columbia_fish_km)))` times greater than projections for the lower Columbia River [@Beamesderfer1996]. Although estimated densities for Deadwater Slough are high given the relative size (volume) of the Salmon River at the slough relative to the Columbia River, high CPUE combined with low recapture rates (one in every `r round(nrow(cmr_df) / sum(cmr_df$capture_type == "Recapture", na.rm = T))` fish were recaptures) suggest this area may support exceptionally high predator densities. Further, @Beamesderfer1991 acknowledge that their methods were unsuitable for sampling offshore, noting that water velocity, depth, irregular bottom contours, and barge traffic made sampling offshore ineffective. Conversely, at Deadwater Slough the maximum depth was approximately 10-15 m with a relatively homogenous bottom contour, making angling an effective method throughout the entire reach. Our estimates of Northern Pikeminnow areal density are also higher than those reported elsewhere in the Columbia River basin. We estimate the density of Northern Pikeminnow in Deadwater Slough, as fish per hectare, to be `r prettyNum(round(unique(impact_df$N[impact_df$season == "Fall"]) / ddw_hectares), big.mark = ",")` for fall and `r prettyNum(round(unique(impact_df$N[impact_df$season == "Spring"]) / ddw_hectares), big.mark = ",")` for spring. For comparison, the only other available estimates of areal density, that the authors are aware of, are 4.4 fish per hectare for John Day Reservoir [@Beamesderfer1991] and 15 fish per hectare in Lake Washington [@Bartoo1977]. Given the dearth of current data available in the Columbia River basin, it is unclear how Northern Pikeminnow abundance estimates in this study compare to elsewhere in the Columbia River Basin. @Widener2021 has identified a need for more current information on piscine predator populations in the Columbia River.
 
 
 ## Mark-Recapture Models
@@ -854,9 +838,6 @@ The spring abundance estimate was smaller than fall abundance estimates. Our app
 ## Stomach Contents
 
 We performed gastric lavage on nearly all Northern Pikeminnow collected during this study. In addition to juvenile Chinook Salmon, species included Redside Shiner, Largescale Sucker *Catostomus macrocheilus*, sculpin *Cottus* spp., and Mountain Whitefish *Prosopium williamsoni*; although decomposition from digestion rendered many fish contents unidentifiable. While this approach provided useful information on prey species, we have concerns about using angling and gastric lavage to quantify diet composition in Northern Pikeminnow. First, previous studies have indicated that diets of angled fish differ from those collected by other methods (e.g., electrofishing) [@Hodgson1988], and further, angled fish are more likely to have empty stomachs [@Jurajda2016], perhaps because they are hungry and actively searching for food. Second, unlike other predators such as Smallmouth Bass and Walleye that are commonly sampled using gastric lavage [@Kamler2001], Northern Pikeminnow are cyprinids and therefore lack a true stomach. Previous research indicates that performing gastric lavage on cyprinid species can be ineffective at quantifying diet composition [@Hartleb1995], or alternately, requires a modification in methodology to flush food items out the vent of the fish [@Wasowicz1994]. Our intent, rather, was to simply document predation on juvenile Chinook Salmon in Deadwater Slough, and given the potential ineffectiveness of gastric lavage using angling and for Northern Pikeminnow, we consider our diet composition estimates to be conservative estimates i.e., we believe that a larger proportion of the Northern Pikeminnow diet is fish and juvenile Chinook Salmon than our gastric results suggest. 
-<!--
-Although we only identified fish or fish parts within `r round(gastric_tbl$fish_contents[gastric_tbl$event_name == "Total"] / gastric_tbl$lavaged[gastric_tbl$event_name == "Total"] * 100, 1)`% of Northern Pikeminnow examined and that fish remnants were only `r prettyNum(mean(stmch_df$p_fish) * 100, digits = 3)`% of the overall stomach contents, we believe those numbers to be misleading...
--->
 
 
 ## Bioenergetics
@@ -871,7 +852,7 @@ OUR APPROACH:
 6. Multiply results from #5 by SAR from McCann et al. 2019 for Upper Salmon MPG Chinook
 -->
 
-An average-size Northern Pikeminnow from Deadwater Slough is estimated to consume `r median(fall_g_summ$cumm_g)` g (range `r min(fall_g_summ$cumm_g)` - `r max(fall_g_summ$cumm_g)` g) and `r median(spring_g_summ$cumm_g)` g (range `r min(spring_g_summ$cumm_g)` - `r max(spring_g_summ$cumm_g)` g) of fish during spring and fall, respectively, to maintain its body weight. This equates to `r median(fall_g_summ$cumm_g) + median(spring_g_summ$cumm_g)` g of fish consumed during the DSR and NRR peak emigrations, assuming the median value among diet scenarios (i.e., if 50% of their diet consists of fish). Consumption ranged from `r min(fall_g_summ$cumm_g) + min(spring_g_summ$cumm_g)` for a diet comprised of 10% fish to `r max(fall_g_summ$cumm_g) + max(spring_g_summ$cumm_g)` for a diet comprised of 90% fish.
+An average-size Northern Pikeminnow from Deadwater Slough is estimated to consume `r median(bio_g_summ$cumm_g[bio_g_summ$season == "Fall"])` g (range: `r min(bio_g_summ$cumm_g[bio_g_summ$season == "Fall"])` - `r max(bio_g_summ$cumm_g[bio_g_summ$season == "Fall"])` g) and `r median(bio_g_summ$cumm_g[bio_g_summ$season == "Spring"])` g (range: `r min(bio_g_summ$cumm_g[bio_g_summ$season == "Spring"])` - `r max(bio_g_summ$cumm_g[bio_g_summ$season == "Spring"])` g) of fish during fall and spring, respectively, to maintain its body weight. This equates to `r median(bio_g_summ$cumm_g[bio_g_summ$season == "Fall"]) + median(bio_g_summ$cumm_g[bio_g_summ$season == "Spring"])` g of fish consumed during the DSR and NRR peak emigrations, assuming the median value among diet scenarios (i.e., if 50% of their diet consists of fish). Consumption ranged from `r min(bio_g_summ$cumm_g[bio_g_summ$season == "Fall"]) + min(bio_g_summ$cumm_g[bio_g_summ$season == "Spring"])` for a diet comprised of 10% fish to `r max(bio_g_summ$cumm_g[bio_g_summ$season == "Fall"]) + max(bio_g_summ$cumm_g[bio_g_summ$season == "Spring"])` for a diet comprised of 90% fish.
 
 Our approach assumed that all available prey consumed by Northern Pikeminnow have energy densities equal to juvenile Chinook Salmon. Other salmonid including juvenile steelhead and Sockeye Salmon are likely also available prey in Deadwater Slough, especially during the spring migration. Additionally, hatchery smolt releases (Chinook Salmon, steelhead, and Sockeye Salmon) are also prevalent in the mainstem Salmon River during the spring migration. Other studies have used a similar approach where the energy densities of different salmonids were generalized using an estimate from a single species [@Petersen1999].<!-- The following needs to be updated after we finalize some results --> However, our study is focused on potential impacts to natural-origin DSR and NRR Chinook Salmon, in which case, let's consider a thought exercise where DSR and NRR Chinook Salmon represent only 10% and 25% of total fish prey consumed by Northern Pikemnnow during these periods. Under these scenarios, the average Northern Pikeminnow would consume 8.95 g (range 4.52 – 10.05 g) if 10% of prey were natural-origin Chinook Salmon and 22.38 g (range 11.31 – 25.12) if 25%. 
 
@@ -1032,8 +1013,8 @@ gastric_tbl %>%
 
 \newpage
 
-```{r adult-imp}
-adult_impact %>%
+```{r adult-imp, eval = F}
+impact_df %>%
   select(season,
          perc_diet,
          juv_chnk,
@@ -1069,31 +1050,6 @@ adult_impact %>%
         format.args = list(big.mark = ","),
         caption = "Estimates of the number of fish consumed for each season and diet scenario. The diet scenario indicates the proportion of the Northern Pikeminnow diet consisting of fish. The 'Fish Per NPM' column indicates the number of fish an individual Northern Pikeminnow to consume during the fall or spring seasons assuming an average weight of 10.3 (DSR) and 10.9 (NRR) grams for juvenile Chinook Salmon and is taken from each of the 18 bioenergetics model runs. The number of fish consumed (and 95% confidence intervals) are calculated using Northern Pikeminnow abundance estimates of 28,144 (95% CI: 14,378 - 59,978) for fall and 14,897 (95% CI: 7,610 - 31,747) for spring. The number of 'adult equivalents' is also estimated using a Lower Granite Dam smolt-to-adult rate (SAR) for Chinook Salmon from McCann et al. 2019.") %>%
   kable_styling(font_size = 8)
-
-# adult_impact %>%
-#   mutate(stage = "Smolt") %>%
-#   select(#event_name, 
-#          #model,
-#          stage,
-#          starts_with("smolt")) %>%
-#   rename_with(.fn = ~ str_remove(., "smolt_"),
-#               .cols = starts_with("smolt")) %>%
-#   bind_rows(adult_impact %>%
-#               mutate(stage = "Adult Equivalent") %>%
-#               select(#event_name, model,
-#                      stage,
-#                      starts_with("adult")) %>%
-#               rename_with(.fn = ~ str_remove(., "adult_"),
-#                           .cols = starts_with("adult"))) %>%
-#   kable(booktabs = T,
-#         format.args = list(big.mark = ","),
-#         col.names = c("Stage",
-#                       "N",
-#                       "Lower 95% CI",
-#                       "Upper 95% CI"),
-#         digits = 0,
-#         caption = "Estimates of smolts consumed during fall migration by Northern Pikeminnow, and the adult equivalent of those smolts based on SARs.") %>%
-#   kable_styling()
 
 ```
 
@@ -1212,9 +1168,9 @@ length_freq_p
 \newpage
 
 ```{r bio-p, fig.cap = "The cumulative amount of fish (g) consumed by an individual Northern Pikeminnow during the peak DSR (fall) and NRR (spring) Chinook Salmon emigrations (top panel) and corresponding daily mean water temperatures (bottom panel). The black line is the median among diet scenarios (i.e., where 50% of the Northern Pikeminnow diet consists of fish) and the gray area shows the range among model scenarios (i.e., 10 - 90% of Northern Pikeminnow diet consists of fish). Daily mean water temperatures were summarized from six years of data available from the Shoup gage station. "}
-spring_results$season = "Spring"
-fall_results$season = "Fall"
-bio_results = rbind(spring_results, fall_results)
+# spring_results$season = "Spring"
+# fall_results$season = "Fall"
+# bio_results = rbind(spring_results, fall_results)
 bio_results$ymd = (ymd(bio_results$date))
 
 pFish = bio_results %>%
@@ -1285,7 +1241,7 @@ bio_p = do.call("grid.arrange",
 \newpage
 
 ```{r adult-imp-p, fig.cap = "The estimated number of DSR (fall) and NRR (spring) emigrants consumed by Northern Pikeminnow in Deadwater Slough (top panel) across a range of diet scenarios where 10-90% of the diet consists of juvenile Chinook salmon. The bottom panel provides the adult equivalents assuming a Lower Granite Dam smolt-to-adult rate (SAR) from McCann et al. 2019."}
-adult_impact %>%
+impact_df %>%
   mutate(stage = "Juv. Emigrant") %>%
   select(stage,
          season,
@@ -1293,7 +1249,7 @@ adult_impact %>%
          starts_with("smolt")) %>%
   rename_with(.fn = ~ str_remove(., "smolt_"),
               .cols = starts_with("smolt")) %>%
-  bind_rows(adult_impact %>%
+  bind_rows(impact_df %>%
               mutate(stage = "Adult Equivalent") %>%
               select(stage,
                      season,
