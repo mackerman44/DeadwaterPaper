@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 # Please put your title here to include it in the file below.
-Title <- "Northern Pikeminnow Predation on Juvenile Chinook Salmon and Potential Impacts to Local Populations in the Upper Salmon River, Idaho"
+Title <- "Northern Pikeminnow Predation on Juvenile Chinook Salmon in Deadwater Slough, Salmon River, Idaho and Potential Impacts to Local Populations"
 Authors <- "Ackerman, Michael W., Nicholas J. Porter, Kevin E. See, Michael S. Hall, Tara E. Blackman, and Richard A. Carmichael, and Michael W. Ackerman"
 yr <- 2022
 Journal <- "Transactions of the American Fisheries Society"
@@ -26,10 +26,11 @@ This repository contains the data and code for our paper:
 
 > `r Authors` (`r yr`). _`r Title`_. `r Journal` <https://doi.org/xxx/xxx>
 
+<!--
 Our pre-print is online here:
 
 > `r Authors` (`r yr`). _`r Title`_. `r Journal`, Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx>
-
+-->
 
 ### How to cite
 
