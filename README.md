@@ -10,18 +10,15 @@ This repository contains the data and code for our paper:
 > Ackerman, Michael W., Nicholas J. Porter, Kevin E. See, Michael S.
 > Hall, Tara E. Blackman, and Richard A. Carmichael, and Michael W.
 > Ackerman (2022). *Northern Pikeminnow Predation on Juvenile Chinook
-> Salmon and Potential Impacts to Local Populations in the Upper Salmon
-> River, Idaho*. Transactions of the American Fisheries Society
+> Salmon in Deadwater Slough, Salmon River, Idaho and Potential Impacts
+> to Local Populations*. Transactions of the American Fisheries Society
 > <https://doi.org/xxx/xxx>
 
+<!--
 Our pre-print is online here:
 
-> Ackerman, Michael W., Nicholas J. Porter, Kevin E. See, Michael S.
-> Hall, Tara E. Blackman, and Richard A. Carmichael, and Michael W.
-> Ackerman (2022). *Northern Pikeminnow Predation on Juvenile Chinook
-> Salmon and Potential Impacts to Local Populations in the Upper Salmon
-> River, Idaho*. Transactions of the American Fisheries Society,
-> Accessed 21 Dec 2021. Online at <https://doi.org/xxx/xxx>
+> Ackerman, Michael W., Nicholas J. Porter, Kevin E. See, Michael S. Hall, Tara E. Blackman, and Richard A. Carmichael, and Michael W. Ackerman (2022). _Northern Pikeminnow Predation on Juvenile Chinook Salmon in Deadwater Slough, Salmon River, Idaho and Potential Impacts to Local Populations_. Transactions of the American Fisheries Society, Accessed 07 Jan 2022. Online at <https://doi.org/xxx/xxx>
+-->
 
 ### How to cite
 
@@ -29,10 +26,10 @@ Please cite this compendium as:
 
 > Ackerman, Michael W., Nicholas J. Porter, Kevin E. See, Michael S.
 > Hall, Tara E. Blackman, and Richard A. Carmichael, and Michael W.
-> Ackerman, (2021). *Compendium of R code and data for Northern
-> Pikeminnow Predation on Juvenile Chinook Salmon and Potential Impacts
-> to Local Populations in the Upper Salmon River, Idaho*. Accessed 21
-> Dec 2021. Online at <https://doi.org/xxx/xxx>
+> Ackerman, (2022). *Compendium of R code and data for Northern
+> Pikeminnow Predation on Juvenile Chinook Salmon in Deadwater Slough,
+> Salmon River, Idaho and Potential Impacts to Local Populations*.
+> Accessed 07 Jan 2022. Online at <https://doi.org/xxx/xxx>
 
 ## Contents
 
