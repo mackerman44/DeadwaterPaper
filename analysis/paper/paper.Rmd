@@ -33,6 +33,15 @@ institute:
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 always_allow_html: true
 output: 
+    bookdown::html_document2:
+      fig_caption: yes
+      number_sections: FALSE
+      toc: no
+      fig_width: 6
+      pandoc_args:
+      - --lua-filter=../templates/scholarly-metadata.lua
+      - --lua-filter=../templates/author-info-blocks.lua
+      - --lua-filter=../templates/pagebreak.lua      
     bookdown::word_document2:
       fig_caption: yes
       reference_docx: "../templates/template.docx" # Insert path for the DOCX file
@@ -44,15 +53,6 @@ output:
       - --lua-filter=../templates/scholarly-metadata.lua
       - --lua-filter=../templates/author-info-blocks.lua
       - --lua-filter=../templates/pagebreak.lua
-    bookdown::html_document2:
-      fig_caption: yes
-      number_sections: FALSE
-      toc: no
-      fig_width: 6
-      pandoc_args:
-      - --lua-filter=../templates/scholarly-metadata.lua
-      - --lua-filter=../templates/author-info-blocks.lua
-      - --lua-filter=../templates/pagebreak.lua      
 fontsize: 12pt
 mainfont: Times New Roman
 bibliography: 
@@ -383,6 +383,7 @@ total_cpue = cpue_df %>%
   
 spring_abund = all_est %>%
   filter(model == "Schnabel") %>%
+  # filter(model == "Chapman") %>%
   select(-range, -prop_range) %>%
   inner_join(total_cpue,
              by = c("event_name", "species")) %>%
@@ -957,11 +958,18 @@ N_mods %>%
 
 ```{r abund-tab}
 all_est %>%
-  select(-c(species, range:prop_range)) %>%
+  mutate(across(c(N, SE, Lci, Uci),
+                ~ prettyNum(round(.), big.mark = ","))) %>%
+  rowwise() %>%
+  mutate(CI = paste(Lci, Uci,
+                    sep = " - ")) %>%
+  select(-c(species, range:prop_range),
+         -Lci, -Uci) %>%
   rename(`Effort` = event_name,
          Estimator = model,
-         `L CI` = Lci,
-         `U CI` = Uci) %>%
+         `95% Confidence Interval` = CI) %>%
+         # `L CI` = Lci,
+         # `U CI` = Uci) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
         caption = "Point estimates, standard errors, and 95% confidence intervals for each of the mark-recapture estimators and for the fall sampling efforts. Standard errors are not available for the multiple-census estimators.") %>%
