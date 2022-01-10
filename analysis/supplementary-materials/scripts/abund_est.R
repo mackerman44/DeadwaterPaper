@@ -333,3 +333,74 @@ cpue_df %>%
        y = "CPUE (Pikeminnow caught per hour)") +
   theme(legend.position = "none")
 
+
+#-----------------------------------------------------------------
+# what if marked fish were not as susceptible to recapture?
+
+N_mods2 = N_mods %>%
+  crossing(perc_unavail = c(0, 0.1, 0.3, 0.5, 0.7, 0.9)) %>%
+  mutate(data = map2(data,
+                     perc_unavail,
+                    .f = function(x, y) {
+                      x %>%
+                        mutate(across(R,
+                                      ~ . * (1 - y))) %>%
+                        mutate(M = lag(R - m),
+                               M = replace_na(M, 0),
+                               M = cumsum(M))
+                    })) %>%
+  mutate(mr_model = map2(data,
+                         model,
+                         .f = function(x, y) {
+                           with(x,
+                                mrClosed(n = n,
+                                         m = m,
+                                         R = R,
+                                         method = y,
+                                         chapman.mod = TRUE))
+                         }),
+         N = map_dbl(mr_model,
+                     .f = summary),
+         CI = map(mr_model,
+                  .f = confint),
+         Lci = map_dbl(CI,
+                       .f = function(x) x[1]),
+         Uci = map_dbl(CI,
+                       .f = function(x) x[2])) %>%
+  ungroup() %>%
+  select(-CI) %>%
+  group_by(event_name,
+           model) %>%
+  mutate(perc_N = N / N[perc_unavail == 0],
+         perc_avail = 1 - perc_unavail)
+
+all_equal(N_mods %>%
+            select(event_name, model,
+                   N:Uci),
+          N_mods2 %>%
+            filter(perc_unavail == 0) %>%
+            select(event_name, model,
+                   N:Uci))
+
+N_mods2 %>%
+  ggplot(aes(x = perc_unavail,
+             y = N,
+             color = model)) +
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(~ event_name,
+             scales = "free_y") +
+  theme(legend.position = "bottom")
+
+N_mods2 %>%
+  ggplot(aes(x = perc_avail,
+             y = perc_N,
+             color = model)) +
+  geom_point(aes(shape = event_name)) +
+  geom_abline(linetype = 2) +
+  geom_smooth()
+
+N_mods2 %>%
+  filter(model == "Schnabel")
+
+# I don't know how to do something similar for single census models
