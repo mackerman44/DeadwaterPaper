@@ -347,10 +347,49 @@ N_mods = cmr_df %>%
 
 ```
 
+```{r assump-violation}
+# assume that marked fish aren't available for recapture until 2 days after capture
+# using Schnabel estimator
+N_mods_viol = N_mods %>%
+  filter(model == "Schnabel") %>%
+  select(event_name:model) %>%
+  mutate(data = map(data,
+                    .f = function(x) {
+                      x %>%
+                        mutate(R_lag = lag(R),
+                               R_lag = replace_na(R_lag,
+                                                  0))
+                    })) %>%
+  mutate(mr_model = map2(data,
+                         model,
+                         .f = function(x, y) {
+                           with(x,
+                                mrClosed(n = n,
+                                         m = m,
+                                         R = R_lag,
+                                         method = y,
+                                         chapman.mod = TRUE))
+                         }),
+         N = map_dbl(mr_model,
+                     .f = summary),
+         CI = map(mr_model,
+                  .f = confint),
+         Lci = map_dbl(CI,
+                       .f = function(x) x[1]),
+         Uci = map_dbl(CI,
+                       .f = function(x) x[2])) %>%
+  ungroup() %>%
+  select(-CI) %>%
+  mutate(model = "Schnabel - Delayed Mixing")
+```
+
+
 ```{r abund-est}
 all_est = LP_mod %>%
   select(event_name, species, model, N:Uci) %>%
   bind_rows(N_mods %>%
+             select(event_name, species, model, N:Uci)) %>%
+  bind_rows(N_mods_viol %>%
              select(event_name, species, model, N:Uci)) %>%
   mutate(range = Uci - Lci,
          prop_range = range / N) %>%
@@ -361,7 +400,9 @@ all_est = LP_mod %>%
          model = fct_relevel(model,
                              "Petersen",
                              after = 0)) %>%
-  arrange(event_name, model)
+  arrange(event_name, model) %>%
+  filter(! model %in% c("Petersen",
+                        "Schumacher-Eschmeyer"))
 
 ```
 

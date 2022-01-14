@@ -414,3 +414,42 @@ N_mods2 %>%
   filter(model == "Schnabel")
 
 # I don't know how to do something similar for single census models
+
+
+
+# assume that marked fish aren't available for recapture until 2 days after capture
+# using Schnabel estimator
+
+N_mods_viol <- N_mods %>%
+  filter(model == "Schnabel") %>%
+  select(event_name:model) %>%
+  mutate(data = map(data,
+                    .f = function(x) {
+                      x %>%
+                        mutate(R_lag = lag(R),
+                               R_lag = replace_na(R_lag,
+                                                  0))
+                    })) %>%
+  mutate(mr_model = map2(data,
+                         model,
+                         .f = function(x, y) {
+                           with(x,
+                                mrClosed(n = n,
+                                         m = m,
+                                         R = R_lag,
+                                         method = y,
+                                         chapman.mod = TRUE))
+                         }),
+         N = map_dbl(mr_model,
+                     .f = summary),
+         CI = map(mr_model,
+                  .f = confint),
+         Lci = map_dbl(CI,
+                       .f = function(x) x[1]),
+         Uci = map_dbl(CI,
+                       .f = function(x) x[2])) %>%
+  ungroup() %>%
+  select(-CI)
+
+N_mods %>%
+  filter(model == 'Schnabel')
