@@ -383,6 +383,16 @@ all_equal(N_mods %>%
                    N:Uci))
 
 N_mods2 %>%
+  group_by(event_name,
+           model) %>%
+  mutate(org_N = N[perc_avail == 1]) %>%
+  ungroup() %>%
+  lm(N / org_N ~ perc_avail*model - 1,
+     data = .) %>%
+  summary() %>%
+  broom::tidy()
+
+N_mods2 %>%
   ggplot(aes(x = perc_unavail,
              y = N,
              color = model)) +
