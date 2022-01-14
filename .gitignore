@@ -38,3 +38,7 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 .Rproj.user
+
+# some extra files on Kevin See's computer
+# drafts of manuscripts (Word files)
+analysis/paper/drafts_comments/
