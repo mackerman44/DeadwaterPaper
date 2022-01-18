@@ -1138,6 +1138,7 @@ total_cpue %>%
 ```{r abund-fig, fig.cap = "Estimates of abundance of Northern Pikeminnow using different mark-recapture estimators and for the fall sampling events. Single census estimators are shown as circles; multiple census estimators are shown as triangles. Note the y-axis is truncated at 100 and the upper confidence interval for the Schumacker-Eschmeyer estimator in 2020 extends beyond that."}
 
 pos = position_dodge(width=0.3)
+pm_est_labels <- c("Chapman","Schnabel","Schnabel \n Delayed-mixing")
 all_est %>%
   
   mutate(across(c(N, Lci, Uci),
@@ -1153,19 +1154,19 @@ all_est %>%
              #color = model
              )) +
   geom_errorbar(aes(ymin = Lci,ymax = Uci, group=event_name), position = pos, width=0) + 
-  geom_point(aes(shape = event_name, color = census), position = pos, size = 4) +
+  geom_point(aes(shape = event_name), position = pos, size = 4) +
     #facet_wrap(~ event_name) +
   coord_cartesian(ylim = c(0, 100)) +
   scale_shape_manual(values = c(21, 19), name="Event") +
-  scale_color_manual(values = c("grey35", "darkred"), name="Census type") +
+  #scale_color_manual(values = c("grey35", "darkred"), name="Census type") +
+  scale_x_discrete(labels=c(pm_est_labels))+
   labs(x = "Estimator",
        y = "Abundance (x 1,000)") +
   #scale_size(guide = "none")+
-  theme(legend.position="top",legend.key = element_blank(),
-        legend.background = element_blank(),
-        legend.key.size = unit(0.50, "cm"),
+  theme(legend.position = c(.15, .85),legend.background = element_blank(),
+        legend.key.size = unit(.5, "cm"),legend.box = 'horizontal',
         #axis.title.x = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, size = 11, color = "black"),
+        axis.text.x = element_text(size = 11, color = "black"),
         axis.text.y = element_text(size = 11, color = "black"),
         strip.text.x = element_text(size = 11,color = "black"))
   #scale_color_brewer(palette = "Dark2")
@@ -1201,7 +1202,7 @@ length_freq_p = gastric_df %>%
                  fill = "gray30",
                  alpha = .2) +
   labs(x = "Total Length (mm)",
-       y = "Frequency") +
+       y = "Number of Northern Pikeminnow") +
   xlim(c(100, 700)) +
   ylim(c(0, 800)) +
   scale_x_continuous(breaks = seq(0, 650, by = 50)) +
@@ -1209,9 +1210,8 @@ length_freq_p = gastric_df %>%
   theme(axis.text.x = element_text(size = 11,
                                    color = "black"),
         axis.text.y = element_text(size = 11,
-                                   color = "black",
-                                   vjust = 3)) +
-  theme_classic()
+                                   color = "black")) 
+
 
 length_freq_p
 
@@ -1227,19 +1227,15 @@ bio_results$ymd = (ymd(bio_results$date))
 
 pFish = bio_results %>%
   ggplot(aes(ymd, f50_g)) +
-  geom_line(size = 1.15) +
+  geom_line(size = 1.1) +
   geom_ribbon(data = bio_results,
-              aes(ymd,
-                  ymin = f10_g,
+              aes(ymd,ymin = f10_g,
                   ymax = f90_g),
-              color = "grey65",
-              alpha = 0.4) +
-  theme_bw() +
+              color = "grey55",
+              alpha = 0.4) +  theme_bw() +
   labs(y = "Fish consumed (g)",
-       x = "",
-       title = "") +
-  facet_rep_wrap(~season,
-                 scales = "free_x",
+       x = "", title = "") +
+  facet_rep_wrap(~season,scales = "free_x",
                  repeat.tick.labels = F) +
   theme(strip.background = element_rect(color = "white",
                                         fill = "white"),
@@ -1271,7 +1267,6 @@ pTemp = bio_results %>%
         strip.text.x = element_blank(),
         axis.text.x = element_text(size = 11,
                                    color = "black"),
-        axis.title.x = element_blank(),
         axis.text.y = element_text(size = 11,
                                    color = "black"),
         axis.title.y = element_text(vjust = 0.1,
@@ -1280,7 +1275,7 @@ pTemp = bio_results %>%
         panel.grid.major.y = element_blank(),
         panel.grid.minor.x = element_blank(),
         panel.grid.minor.y = element_blank(),
-        plot.margin = unit(c(-.1, .3, .1, .1), "cm"))
+        plot.margin = unit(c(-.2, .3, .1, .1), "cm"))
 
 p_list = list(pFish, pTemp)
 n_col = floor(sqrt(length(p_list)))
@@ -1293,6 +1288,57 @@ bio_p = do.call("grid.arrange",
 \newpage
 
 ```{r adult-imp-p, fig.cap = "The estimated number of DSR (fall) and NRR (spring) emigrants consumed by Northern Pikeminnow in Deadwater Slough (top panel) across a range of diet scenarios where 10-90% of the diet consists of juvenile Chinook salmon. The bottom panel provides the adult equivalents assuming a Lower Granite Dam smolt-to-adult rate (SAR) from McCann et al. 2019."}
+#impact_p = impact_df %>%
+#  select(season,
+#         perc_diet,
+#         p_chnk,
+#         N = juv_N,
+#         Lci = juv_Lci,
+#         Uci = juv_Uci) %>%
+#  group_by(perc_diet, p_chnk) %>%
+#  summarise(across(c("N", "Lci", "Uci"),sum),
+#            .groups = "drop") %>%
+#  mutate(Stage = "Juveniles") %>%
+#  bind_rows(impact_df %>%
+#              select(season,
+#                     perc_diet,
+#                     p_chnk,
+#                     N = adult_N,
+#                     Lci = adult_Lci,
+#                     Uci = adult_Uci) %>%
+#              group_by(perc_diet, p_chnk) %>%
+#              summarise(across(c("N", "Lci", "Uci"),
+#                   sum),
+#             .groups = "drop") %>%
+#             mutate(Stage = "Adult Equivalents")) %>%
+#  mutate(p_chnk = p_chnk * 100) %>%
+#  rename(perc_chnk = p_chnk) %>%
+#  filter(perc_chnk %in% c(10, 30, 50)) %>%
+#  ggplot(aes(x = perc_diet,y = N)) +
+#  geom_errorbar(aes(ymin = Lci,
+#                    ymax = Uci),
+#                width = 0.1) +
+#  geom_point(size = 3) +
+#  facet_grid(vars(Stage),
+#             vars(perc_chnk),
+#             scales = "free_y") +
+#  scale_color_viridis_d(name = "Percent\nFish in Diet") +
+#  scale_y_continuous(labels = scales::comma) +
+#  scale_x_continuous(breaks = seq(0, 100, by = 10)) +
+#  theme(#axis.text.x = element_blank(),
+        #legend.position = "bottom",
+        #axis.title.x = element_blank(),
+        #axis.ticks.x = element_blank(),
+#        axis.text.y = element_text(size = 11,
+#                                   color = "black"),
+#        strip.text.x = element_text(size = 11,
+#                                    color = "black"),
+#        strip.text.y = element_text(size = 11,
+#                                    color = "black")) +
+#  labs(y = "Number Chinook Consumed")
+
+#impact_p
+
 impact_p = impact_df %>%
   select(season,
          perc_diet,
@@ -1301,48 +1347,26 @@ impact_p = impact_df %>%
          Lci = juv_Lci,
          Uci = juv_Uci) %>%
   group_by(perc_diet, p_chnk) %>%
-  summarise(across(c("N", "Lci", "Uci"),
-                   sum),
+  summarise(across(c("N", "Lci", "Uci"),sum),
             .groups = "drop") %>%
   mutate(Stage = "Juveniles") %>%
-  bind_rows(impact_df %>%
-              select(season,
-                     perc_diet,
-                     p_chnk,
-                     N = adult_N,
-                     Lci = adult_Lci,
-                     Uci = adult_Uci) %>%
-              group_by(perc_diet, p_chnk) %>%
-              summarise(across(c("N", "Lci", "Uci"),
-                   sum),
-             .groups = "drop") %>%
-             mutate(Stage = "Adult Equivalents")) %>%
   mutate(p_chnk = p_chnk * 100) %>%
   rename(perc_chnk = p_chnk) %>%
   filter(perc_chnk %in% c(10, 30, 50)) %>%
-  ggplot(aes(x = perc_diet,
-             y = N,
-             color = as.factor(perc_diet))) +
-  geom_errorbar(aes(ymin = Lci,
-                    ymax = Uci),
-                width = 0.1) +
-  geom_point(size = 3) +
-  facet_grid(vars(Stage),
-             vars(perc_chnk),
-             scales = "free_y") +
-  scale_color_viridis_d(name = "Percent\nFish in Diet") +
+  ggplot(aes(x = perc_diet,y = N, group=as.factor(perc_chnk), color=as.factor(perc_chnk))) +
+  geom_point(size = 2) + geom_line(size = 1.05)+
   scale_y_continuous(labels = scales::comma) +
-  theme(axis.text.x = element_blank(),
-        legend.position = "bottom",
-        axis.title.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        axis.text.y = element_text(size = 11,
+  scale_x_continuous(breaks = seq(0, 100, by = 10)) +
+  scale_color_manual(name="Proportion Chinook", values=c("lightsteelblue","steelblue3","navyblue"))+
+  theme(axis.text.y = element_text(size = 11,
                                    color = "black"),
-        strip.text.x = element_text(size = 11,
+        axis.text.x = element_text(size = 11,
                                     color = "black"),
         strip.text.y = element_text(size = 11,
-                                    color = "black")) +
-  labs(y = "Number Chinook Consumed")
+                                    color = "black"),
+        legend.position = c(.15, .85),legend.background = element_blank(),
+        legend.key.size = unit(.5, "cm"),legend.box = 'horizontal') +
+  labs(y = "Estimated Chinook Consumed", x="Percent Fish in Pikeminnow Diet")
 
 impact_p
 
