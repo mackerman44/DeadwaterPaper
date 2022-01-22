@@ -772,7 +772,7 @@ impact_df = bio_results %>%
                 "[:digit:]+"),
          across(perc_diet,
                 as.integer)) %>%
-  crossing(p_chnk = c(.01, .10, .30, .50, .70, .90, 1)) %>%
+  crossing(p_chnk = c(.01, .10, .30, .50, .65, .90, 1)) %>%
   mutate(g_chnk = g_fish_cons * p_chnk) %>%
   mutate(n_chnk = ifelse(season == "Fall",
                          g_chnk / avg_DSR_g,
@@ -1138,7 +1138,7 @@ total_cpue %>%
 ```{r abund-fig, fig.cap = "Estimates of abundance of Northern Pikeminnow using different mark-recapture estimators and for the fall sampling events. Single census estimators are shown as circles; multiple census estimators are shown as triangles. Note the y-axis is truncated at 100 and the upper confidence interval for the Schumacker-Eschmeyer estimator in 2020 extends beyond that."}
 
 pos = position_dodge(width=0.3)
-pm_est_labels <- c("Chapman","Schnabel","Schnabel \n Delayed-mixing")
+pm_est_labels <- c("Chapman","Schnabel","Schnabel \n [Delayed-mixing]")
 all_est %>%
   
   mutate(across(c(N, Lci, Uci),
@@ -1352,20 +1352,20 @@ impact_p = impact_df %>%
   mutate(Stage = "Juveniles") %>%
   mutate(p_chnk = p_chnk * 100) %>%
   rename(perc_chnk = p_chnk) %>%
-  filter(perc_chnk %in% c(10, 30, 50)) %>%
-  ggplot(aes(x = perc_diet,y = N, group=as.factor(perc_chnk), color=as.factor(perc_chnk))) +
-  geom_point(size = 2) + geom_line(size = 1.05)+
+  filter(perc_chnk %in% c(30, 50, 65)) %>%
+  ggplot(aes(x = perc_diet,y = N, group=as.factor(perc_chnk), linetype=as.factor(perc_chnk))) +
+  geom_line(size = 1.05)+
   scale_y_continuous(labels = scales::comma) +
   scale_x_continuous(breaks = seq(0, 100, by = 10)) +
-  scale_color_manual(name="Proportion Chinook", values=c("lightsteelblue","steelblue3","navyblue"))+
+  scale_linetype_manual(name="Percent juvenile chinook \nof total fish consumed", values=c("dotted","solid","dashed"))+
   theme(axis.text.y = element_text(size = 11,
                                    color = "black"),
         axis.text.x = element_text(size = 11,
                                     color = "black"),
         strip.text.y = element_text(size = 11,
                                     color = "black"),
-        legend.position = c(.15, .85),legend.background = element_blank(),
-        legend.key.size = unit(.5, "cm"),legend.box = 'horizontal') +
+        legend.position = c(.19, .82),legend.background = element_blank(),
+        legend.key.size = unit(.56, "cm"),legend.box = 'horizontal') +
   labs(y = "Estimated Chinook Consumed", x="Percent Fish in Pikeminnow Diet")
 
 impact_p
