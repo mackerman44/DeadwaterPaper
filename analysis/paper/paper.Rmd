@@ -1065,7 +1065,7 @@ gastric_tbl %>%
 
 \newpage
 
-```{r adult-imp, eval = F}
+```{r adult-imp}
 impact_df %>%
   select(season,
          perc_diet,
@@ -1107,6 +1107,48 @@ impact_df %>%
 
 \newpage
 
+```{r adult-imp-tab, echo =TRUE}
+
+impact_tbl = impact_df %>%
+  select(season,
+         perc_diet,
+         p_chnk,
+         N = juv_N,
+         Lci = juv_Lci,
+         Uci = juv_Uci) %>%
+  group_by(perc_diet, p_chnk) %>%
+  summarise(across(c("N", "Lci", "Uci"),sum),
+            .groups = "drop") %>%
+  mutate(Stage = "Juveniles") %>%
+  mutate(p_chnk = p_chnk * 100) %>%
+  rename(perc_chnk = p_chnk) %>%
+  filter(perc_chnk %in% c(30, 50, 65))%>%
+    
+  bind_rows(impact_df %>%
+              select(season,
+                     perc_diet,
+                     p_chnk,
+                     N = adult_N,
+                     Lci = adult_Lci,
+                     Uci = adult_Uci) %>%
+              group_by(perc_diet, p_chnk) %>%
+              summarise(across(c("N", "Lci", "Uci"),
+                   sum),
+             .groups = "drop") %>%
+             mutate(Stage = "Adult Equivalents") %>%
+  mutate(p_chnk = p_chnk * 100) %>%
+  rename(perc_chnk = p_chnk) %>%
+  filter(perc_chnk %in% c(30, 50, 65))) %>%
+  kable(booktabs = T,
+        format.args = list(big.mark = ","),
+        caption = "Estimates of juvenile fish consumed and adult equivalents for diet scenarios comprised of 10-90% fish. Estimates and 95% confidence intervals are calculated using Northern Pikeminnow abundance estimates of 28,144 (95% CI: 14,378 - 59,978) for fall and 14,897 (95% CI: 7,610 - 31,747) for spring. 'Adult equivalents' are estimated using a Lower Granite Dam smolt-to-adult rate (SAR) for Chinook Salmon from McCann et al. 2019.") %>%
+  kable_styling(font_size = 10)
+
+impact_tbl
+
+```
+\newpage
+
 # Figures
 
 <div id="figures"></div>
@@ -1118,7 +1160,7 @@ knitr::include_graphics("../figures/deadwater_map_low_res.png")
 
 \newpage
 
-```{r cpue-fig, fig.cap = "The number of Northern Pikeminnow caught per angler effort for each sample effort."}
+```{r cpue-fig, fig.cap = "The number of Northern Pikeminnow caught per angler effort for each sample effort.", eval = FALSE}
 total_cpue %>%
   ggplot(aes(x = event_name,
              y = catch_per_hr)) +
@@ -1219,7 +1261,7 @@ length_freq_p
 
 \newpage
 
-```{r bio-p, fig.cap = "The cumulative amount of fish (g) consumed by an individual Northern Pikeminnow during the peak DSR (fall) and NRR (spring) Chinook Salmon emigrations (top panel) and corresponding daily mean water temperatures (bottom panel). The black line is the median among diet scenarios (i.e., where 50% of the Northern Pikeminnow diet consists of fish) and the gray area shows the range among model scenarios (i.e., 10 - 90% of Northern Pikeminnow diet consists of fish). Daily mean water temperatures were summarized from six years of data available from the Shoup gage station. "}
+```{r bio-p, fig.cap = "Cumulative amount of fish (g) consumed by an individual Northern Pikeminnow during the peak DSR (fall) and NRR (spring) Chinook Salmon emigrations (top panel) and corresponding daily mean water temperatures (bottom panel). The black line indicates the diet scenario comprised of 50% fish prey and the gray area indicates the range among diet scenarios (10 - 90% of Northern Pikeminnow diet consists of fish). Daily mean water temperatures were summarized from six years of data available from the Shoup gage station. "}
 # spring_results$season = "Spring"
 # fall_results$season = "Fall"
 # bio_results = rbind(spring_results, fall_results)
@@ -1353,11 +1395,11 @@ impact_p = impact_df %>%
   mutate(p_chnk = p_chnk * 100) %>%
   rename(perc_chnk = p_chnk) %>%
   filter(perc_chnk %in% c(30, 50, 65)) %>%
-  ggplot(aes(x = perc_diet,y = N, group=as.factor(perc_chnk), linetype=as.factor(perc_chnk))) +
-  geom_line(size = 1.05)+
+  ggplot(aes(x = perc_diet,y = N, group=as.factor(perc_chnk), color=as.factor(perc_chnk))) +
+  geom_line(size = 1.1)+
   scale_y_continuous(labels = scales::comma) +
   scale_x_continuous(breaks = seq(0, 100, by = 10)) +
-  scale_linetype_manual(name="Percent juvenile chinook \nof total fish consumed", values=c("dotted","solid","dashed"))+
+  scale_color_manual(name="% Juvenile Chinook \nof total fish consumed", values=c("lightsteelblue","steelblue3","navyblue"))+
   theme(axis.text.y = element_text(size = 11,
                                    color = "black"),
         axis.text.x = element_text(size = 11,
@@ -1366,7 +1408,7 @@ impact_p = impact_df %>%
                                     color = "black"),
         legend.position = c(.19, .82),legend.background = element_blank(),
         legend.key.size = unit(.56, "cm"),legend.box = 'horizontal') +
-  labs(y = "Estimated Chinook Consumed", x="Percent Fish in Pikeminnow Diet")
+  labs(y = "Estimated Juvenile Chinook Consumed", x="Percent Fish in Pikeminnow Diet")
 
 impact_p
 
