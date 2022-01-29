@@ -1078,7 +1078,7 @@ gastric_tbl %>%
 
 \newpage
 
-```{r adult-imp}
+```{r adult-imp, eval = F}
 impact_df %>%
   select(season,
          perc_diet,
