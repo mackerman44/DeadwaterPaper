@@ -1158,7 +1158,7 @@ total_cpue %>%
 
 \newpage
 
-```{r abund-fig, fig.cap = "Estimates of abundance of Northern Pikeminnow using different mark-recapture estimators and for the fall sampling events. Single census estimators are shown as circles; multiple census estimators are shown as triangles. Note the y-axis is truncated at 100 and the upper confidence interval for the Schumacker-Eschmeyer estimator in 2020 extends beyond that."}
+```{r abund-fig, fig.cap = "Estimates of abundance of Northern Pikeminnow using different mark-recapture estimators and for the fall sampling events."}
 
 pos = position_dodge(width=0.3)
 pm_est_labels <- c("Chapman","Schnabel","Schnabel \n [Delayed-mixing]")
@@ -1180,7 +1180,7 @@ all_est %>%
   geom_point(aes(shape = event_name), position = pos, size = 4) +
     #facet_wrap(~ event_name) +
   coord_cartesian(ylim = c(0, 100)) +
-  scale_shape_manual(values = c(21, 19), name="Event") +
+  scale_shape_manual(values = c(21, 19), name="Survey") +
   #scale_color_manual(values = c("grey35", "darkred"), name="Census type") +
   scale_x_discrete(labels=c(pm_est_labels))+
   labs(x = "Estimator",
@@ -1242,7 +1242,7 @@ length_freq_p
 
 \newpage
 
-```{r bio-p, fig.cap = "Cumulative amount of fish (g) consumed by an individual Northern Pikeminnow during the peak DSR (fall) and NRR (spring) Chinook Salmon emigrations (top panel) and corresponding daily mean water temperatures (bottom panel). The black line indicates the diet scenario comprised of 50% fish prey and the gray area indicates the range among diet scenarios (10 - 90% of Northern Pikeminnow diet consists of fish). Daily mean water temperatures were summarized from six years of data available from the Shoup gage station. "}
+```{r bio-p, fig.cap = "The cumulative fish (g) pre consumed by an individual Northern Pikeminnow during the peak DSR (fall) and NRR (spring) Chinook Salmon emigrations (top panel) and corresponding daily mean water temperatures (bottom panel). The black line is the median among diet scenarios (60% of the Northern Pikeminnow diet consists of fish) and the gray area shows the range between diet scenarios of 30 and 90% fish prey. Daily mean water temperatures were summarized from six years of data available from the Shoup gage station. "}
 # spring_results$season = "Spring"
 # fall_results$season = "Fall"
 # bio_results = rbind(spring_results, fall_results)
