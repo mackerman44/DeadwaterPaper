@@ -56,14 +56,11 @@ output:
 fontsize: 12pt
 mainfont: Times New Roman
 bibliography: 
-- references.bib      # Kevin's library
+- references.bib # Kevin's library
 - AckermanLibrary.bib # Mike's library
 csl: "../templates/american-fisheries-society.csl" # Insert path for the bib-style
-abstract: |
 keywords: |
   Northern Pikeminnow; Chinook Salmon; predation; mark-recapture; bioenergetics
-highlights: |
-  These are the highlights. 
 ---
 
 Keywords: `r rmarkdown::metadata$keywords`
