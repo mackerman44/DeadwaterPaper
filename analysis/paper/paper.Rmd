@@ -943,6 +943,7 @@ What about adding cover? It could potentially provide refugia for juvenile salmo
 
 The failure of a mining reservoir dam in the late 19th century created an alluvial fan at the confluence of the Salmon River and Dump Creek which has backed up the Salmon River and created favorable conditions for Northern Pikeminnow. We estimate that more than ***value*** Northern Pikeminnow occupy Deadwater Slough, resulting in a remarkable density given the size of Deadwater Slough. Additionally, the slow water velocity and lack of cover have created conditions that favor predation on juvenile salmonids that are rearing in or emigrating through Deadwater Slough, including Chinook Salmon. We estimate that predation from Northern Pikeminnow in Deadwater Slough may reduce adult returns by as much as 146 or 26%, and therefore, has a consequential impact on ESA-listed Chinook Salmon populations in the Upper Salmon MPG.
 
+
 \newpage
 
 # Acknowledgements
@@ -957,6 +958,7 @@ The authors extend much appreciation to the many volunteers that assisted with f
 <!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
 
 <div id="refs"></div>
+
 
 \newpage
 
@@ -979,7 +981,7 @@ bio_tbl = bio_g_summ %>%
                                Fall = "Sep 15 - Nov 30",
                                Spring = "Mar 1 - May 31")) %>%
   kable(booktabs = T,
-        caption = "Bioenergetics model runs to estimate the grams of fish consumed during the DSR fall and NRR spring Chinook Salmon emigrations. The date ranges for each model run, the assumed proportion of fish in the diet, and the total grams of fish consumed by an individual Northern Pikeminnow to maintain its body weight for a given season are shown. The Northern Pikeminnow start/end weights were 598.7 and 430.7 g for the fall and spring seasons, respectively.") %>%
+        caption = "Bioenergetics model runs to estimate the grams of fish consumed during the fall DSR and spring NRR Chinook Salmon emigrations. The date ranges for each model run, the assumed proportion of fish in the diet, and the total grams of fish consumed by an individual Northern Pikeminnow to maintain its body weight for a given season are shown. Northern Pikeminnow start and end weights were 598.7 and 430.7 g for the fall and spring seasons, respectively.") %>%
   kable_styling()
 
 bio_tbl
@@ -996,10 +998,10 @@ LP_mod %>%
   unnest(data) %>%
   mutate(across(event_name,
                 ~ str_replace(., "_", " "))) %>%
-  rename(`Effort` = event_name) %>%
+  rename(`Survey` = event_name) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Summary of Northern Pikeminnow angling survey data for single-census mark-recapture estimators. M is the total number of fish caught in the first sample (week), marked and returned to the population; n is the total number of fish caught in the second sample (week), and m is the number of previously marked fish caught in the second week.") %>%
+        caption = "Summary of Northern Pikeminnow angling survey data for the single-census mark-recapture estimator. M is the total number of fish caught in the first sample (week), marked and returned to the population; n is the total number of fish caught in the second sample (week), and m is the number of previously marked fish caught in the second week.") %>%
   kable_styling()
 
 ```
@@ -1015,11 +1017,11 @@ N_mods %>%
   mutate(across(event_name,
                 ~ str_replace(., "_", " "))) %>%
   select(event_name, date, M, n, m, u, R) %>%
-  rename(`Effort` = event_name,
+  rename(`Survey` = event_name,
          Date = date) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Summary of Northern Pikeminnow angling survey data for multiple-census mark-recapture estimators. M is the total number of fish caught in previous samples (days), marked and returned to the population; n is the total number of fish caught in the current sample (day); m is the number of marked fish caught in that sample; u is the number of unmarked Northern Pikeminnow caught, and R is the number of marked fish returned to the population. Dates of sampling are also provided.") %>%
+        caption = "Summary of Northern Pikeminnow angling survey data for standard Schnabel estimator. M is the total number of fish caught in previous samples (days), marked and returned to the population; n is the total number of fish caught in the current sample (day); m is the number of marked fish caught in that sample; u is the number of unmarked fish caught, and R is the number of marked fish returned to the population. Dates of sampling are also provided.") %>%
   kable_styling()
 
 ```
@@ -1035,9 +1037,9 @@ all_est %>%
                     sep = " - ")) %>%
   select(-c(species, range:prop_range),
          -Lci, -Uci) %>%
-  rename(`Effort` = event_name,
+  rename(`Survey` = event_name,
          Estimator = model,
-         `95% Confidence Interval` = CI) %>%
+         `95% CI` = CI) %>%
          # `L CI` = Lci,
          # `U CI` = Uci) %>%
   kable(booktabs = T,
@@ -1047,35 +1049,11 @@ all_est %>%
 
 ```
 
-```{r spring-N, eval = F}
-spring_abund %>%
-  rowwise() %>%
-  mutate(`Avg. Fall N (CI)` = paste0(prettyNum(round(N_F), big.mark = ","),
-                                     " (",
-                                     paste0(prettyNum(round(c(Lci_F, Uci_F)), big.mark = ","),
-                                            collapse = ", "),
-                                     ")"),
-         `Spring N (CI)` = paste0(prettyNum(round(N_S), big.mark = ","),
-                                     " (",
-                                     paste0(prettyNum(round(c(Lci_S, Uci_S)), big.mark = ","),
-                                            collapse = ", "),
-                                     ")")) %>%
-  ungroup() %>%
-  select(Species = species,
-         `Avg Fall CPUE` = cpue_F,
-         `Spring CPUE` = cpue_S,
-         ends_with("(CI)")) %>%
-  kable(booktabs = T,
-        caption = "Average CPUE and abundance in the fall (95% confidence interval), and CPUE and estimates of spring abundance (95% confidence interval) for Northern Pikeminnow in Deadwater Slough.") %>%
-  kable_styling()
-
-```
-
 \newpage
 
 ```{r gastric-tab}
 gastric_tbl %>%
-  rename(Effort = event_name,
+  rename(Survey = event_name,
          Captured = captured,
          Lavaged = lavaged,
          'Stomach Contents' = stmch_contents,
@@ -1129,48 +1107,42 @@ impact_df %>%
 
 ```
 
-\newpage
-
-```{r adult-imp-tab, echo =TRUE}
-impact_tbl = impact_df %>%
-  select(season,
-         perc_diet,
+```{r adult-imp-tab}
+impact_tbl = total_impacts %>%
+  select(perc_diet,
          p_chnk,
          N = juv_N,
          Lci = juv_Lci,
          Uci = juv_Uci) %>%
-  group_by(perc_diet, p_chnk) %>%
-  summarise(across(c("N", "Lci", "Uci"),sum),
-            .groups = "drop") %>%
-  mutate(Stage = "Juveniles") %>%
   mutate(p_chnk = p_chnk * 100) %>%
   rename(perc_chnk = p_chnk) %>%
-  filter(perc_chnk %in% c(30, 50, 65))%>%
-    
-  bind_rows(impact_df %>%
-              select(season,
-                     perc_diet,
+  mutate(Stage = "Juveniles") %>%
+  bind_rows(total_impacts %>%
+              select(perc_diet,
                      p_chnk,
                      N = adult_N,
                      Lci = adult_Lci,
                      Uci = adult_Uci) %>%
-              group_by(perc_diet, p_chnk) %>%
-              summarise(across(c("N", "Lci", "Uci"),
-                   sum),
-             .groups = "drop") %>%
-             mutate(Stage = "Adult Equivalents") %>%
-  mutate(p_chnk = p_chnk * 100) %>%
-  rename(perc_chnk = p_chnk) %>%
-  filter(perc_chnk %in% c(30, 50, 65))) %>%
+              mutate(p_chnk = p_chnk * 100) %>%
+              rename(perc_chnk = p_chnk) %>%
+              mutate(Stage = "Adult Equivalents")) %>%
+  select(Stage,
+         `% Chinook` = perc_chnk,
+         N,
+         `95% L CI` = Lci,
+         `95% U CI` = Uci) %>% 
+  mutate(across(where(is.numeric), round)) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Estimates of juvenile fish consumed and adult equivalents for diet scenarios comprised of 10-90% fish. Estimates and 95% confidence intervals are calculated using Northern Pikeminnow abundance estimates of 28,144 (95% CI: 14,378 - 59,978) for fall and 14,897 (95% CI: 7,610 - 31,747) for spring. 'Adult equivalents' are estimated using a Lower Granite Dam smolt-to-adult rate (SAR) for Chinook Salmon from McCann et al. 2019.") %>%
-  kable_styling(font_size = 10)
-
+        caption = "Estimates of juvenile Chinook Salmon consumed and adult equivalents for scenario where 60% of Northern Pikeminnow diet is fish, the median of scenarios evaluated. Table shows scenarios where 30%, 50%, and 65% of total fish consumed is Chinook Salmon. Estimates and 95% confidence intervals are calculated using Northern Pikeminnow abundance estimates of 27,874 (95% CI: 14,244 - 59,388) for fall and 14,799 (95% CI: 7,562 - 31,530) for spring. 'Adult equivalents' are estimated using a Lower Granite Dam smolt-to-adult rate (SAR) for upper Salmon River Chinook Salmon from McCann et al. (2019).") %>%
+  kable_styling()
+         
 impact_tbl
 
 ```
+
 \newpage
+
 
 # Figures
 
@@ -1183,7 +1155,7 @@ knitr::include_graphics("../figures/deadwater_map_low_res.png")
 
 \newpage
 
-```{r cpue-fig, fig.cap = "The number of Northern Pikeminnow caught per angler effort for each sample effort.", eval = FALSE}
+```{r cpue-fig, fig.cap = "The number of Northern Pikeminnow caught per angler effort for each sample effort.", eval = F}
 total_cpue %>%
   ggplot(aes(x = event_name,
              y = catch_per_hr)) +
@@ -1198,9 +1170,7 @@ total_cpue %>%
 
 ```
 
-\newpage
-
-```{r abund-fig, fig.cap = "Estimates of abundance of Northern Pikeminnow using different mark-recapture estimators and for the fall sampling events."}
+```{r abund-fig, fig.cap = "Estimates of abundance of Northern Pikeminnow in Deadwater Slough using different mark-recapture estimators and for the fall sampling events."}
 
 pos = position_dodge(width=0.3)
 pm_est_labels <- c("Chapman","Schnabel","Schnabel \n [Delayed-mixing]")
@@ -1221,16 +1191,15 @@ all_est %>%
   geom_errorbar(aes(ymin = Lci,ymax = Uci, group=event_name), position = pos, width=0) + 
   geom_point(aes(shape = event_name), position = pos, size = 4) +
     #facet_wrap(~ event_name) +
-  coord_cartesian(ylim = c(0, 100)) +
+  coord_cartesian(ylim = c(0, 80)) +
   scale_shape_manual(values = c(21, 19), name="Survey") +
   #scale_color_manual(values = c("grey35", "darkred"), name="Census type") +
   scale_x_discrete(labels=c(pm_est_labels))+
-  labs(x = "Estimator",
-       y = "Abundance (x 1,000)") +
+  labs(y = "Abundance (x 1,000)") +
   #scale_size(guide = "none")+
   theme(legend.position = c(.15, .85),legend.background = element_blank(),
         legend.key.size = unit(.5, "cm"),legend.box = 'horizontal',
-        #axis.title.x = element_blank(),
+        axis.title.x = element_blank(),
         axis.text.x = element_text(size = 11, color = "black"),
         axis.text.y = element_text(size = 11, color = "black"),
         strip.text.x = element_text(size = 11,color = "black"))
@@ -1261,24 +1230,30 @@ stmch_cont_per_sz_p
 
 ```{r length-freq-p, fig.cap = "Length frequency histogram of Northern Pikeminnow caught using hook-and-line angling during the study."}
 length_freq_p = gastric_df %>%
-  ggplot(aes(length)) +
-  geom_histogram(breaks = seq(150, 650, by = 50),
+  select(event_name,
+         length) %>%
+  mutate(season = event_name) %>%
+  mutate(season = recode(season,
+                         `Fall 2019` = "Fall",
+                         `Fall 2020` = "Fall",
+                         `Spring 2021` = "Spring"))
+
+ggplot(length_freq_p, 
+       aes(x = length, 
+           fill = season)) +
+  geom_histogram(breaks = seq(150, 650, by = 25),
                  col = "black",
-                 fill = "gray30",
-                 alpha = .2) +
+                 alpha = 0.5) +
+  scale_fill_manual(name = "Season",
+                    values = c("gray", "black"),
+                    labels = c("Fall", "Spring")) +
   labs(x = "Total Length (mm)",
-       y = "Number of Northern Pikeminnow") +
-  xlim(c(100, 700)) +
-  ylim(c(0, 800)) +
-  scale_x_continuous(breaks = seq(0, 650, by = 50)) +
-  scale_y_continuous(breaks = seq(0, 550, by = 50)) +
+       y = "Frequency") +
   theme(axis.text.x = element_text(size = 11,
                                    color = "black"),
         axis.text.y = element_text(size = 11,
-                                   color = "black")) 
-
-
-length_freq_p
+                                   color = "black"),
+        legend.position = c(.15, .85))
 
 ```
 
