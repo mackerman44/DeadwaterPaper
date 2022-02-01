@@ -675,9 +675,7 @@ fmt_bio_out = function(x) {
   
 }
 
-# fall, fish 10% - 90%
-fall_f10 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I90_F10.csv")) %>% fmt_bio_out()
-fall_f20 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I80_F20.csv")) %>% fmt_bio_out()
+# fall, fish 30% - 90%
 fall_f30 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I70_F30.csv")) %>% fmt_bio_out()
 fall_f40 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I60_F40.csv")) %>% fmt_bio_out()
 fall_f50 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I50_F50.csv")) %>% fmt_bio_out()
@@ -686,9 +684,7 @@ fall_f70 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I30_F70.csv"
 fall_f80 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I20_F80.csv")) %>% fmt_bio_out()
 fall_f90 = read_csv(here("analysis/data/raw_data/Bioenergetics_Fall_I10_F90.csv")) %>% fmt_bio_out()
 
-# spring, fish 10% - 90%
-spring_f10 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I90_F10.csv")) %>% fmt_bio_out()
-spring_f20 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I80_F20.csv")) %>% fmt_bio_out()
+# spring, fish 30% - 90%
 spring_f30 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I70_F30.csv")) %>% fmt_bio_out()
 spring_f40 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I60_F40.csv")) %>% fmt_bio_out()
 spring_f50 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I50_F50.csv")) %>% fmt_bio_out()
@@ -698,12 +694,10 @@ spring_f80 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I20_F80.
 spring_f90 = read_csv(here("analysis/data/raw_data/Bioenergetics_Spring_I10_F90.csv")) %>% fmt_bio_out()
 
 # compile fall results
-fall_results = fall_f10 %>%
+fall_results = fall_f30 %>%
   select(date, temperature_c, cum_cons_fish_g) %>%
-  rename(f10_g = cum_cons_fish_g) %>%
-  mutate(f20_g = fall_f20$cum_cons_fish_g,
-         f30_g = fall_f30$cum_cons_fish_g,
-         f40_g = fall_f40$cum_cons_fish_g,
+  rename(f30_g = cum_cons_fish_g) %>%
+  mutate(f40_g = fall_f40$cum_cons_fish_g,
          f50_g = fall_f50$cum_cons_fish_g,
          f60_g = fall_f60$cum_cons_fish_g,
          f70_g = fall_f70$cum_cons_fish_g,
@@ -715,12 +709,10 @@ fall_results = fall_f10 %>%
   #                .names = "{col}_{fn}") )
 
 # compile spring results
-spring_results = spring_f10 %>%
+spring_results = spring_f30 %>%
   select(date, temperature_c, cum_cons_fish_g) %>%
-  rename(f10_g = cum_cons_fish_g) %>%
-  mutate(f20_g = spring_f20$cum_cons_fish_g,
-         f30_g = spring_f30$cum_cons_fish_g,
-         f40_g = spring_f40$cum_cons_fish_g,
+  rename(f30_g = cum_cons_fish_g) %>%
+  mutate(f40_g = spring_f40$cum_cons_fish_g,
          f50_g = spring_f50$cum_cons_fish_g,
          f60_g = spring_f60$cum_cons_fish_g,
          f70_g = spring_f70$cum_cons_fish_g,
@@ -733,14 +725,12 @@ spring_results = spring_f10 %>%
 
 bio_results = rbind(fall_results, spring_results)
 bio_g_summ = bio_results %>%
-  select(season, f10_g:f90_g) %>%
-  pivot_longer(f10_g:f90_g) %>%
+  select(season, f30_g:f90_g) %>%
+  pivot_longer(f30_g:f90_g) %>%
   group_by(season, name) %>%
   summarize(cumm_g = max(value))
 
 rm(fall_results,
-   fall_f10, 
-   fall_f20, 
    fall_f30, 
    fall_f40, 
    fall_f50, 
@@ -749,8 +739,6 @@ rm(fall_results,
    fall_f80, 
    fall_f90,
    spring_results,
-   spring_f10, 
-   spring_f20, 
    spring_f30, 
    spring_f40, 
    spring_f50, 
@@ -771,7 +759,7 @@ $$
 
 This resulted in average fall and spring starting weights of `r round(avg_fall_NPM_g, 1)` and `r round(avg_spring_NPM_g, 1)` g for Northern Pikeminnow with average TLs of `r round(avg_fall_NPM_TL, 1)` and `r round(avg_spring_NPM_TL, 1)` mm, respectively. We assumed no growth in individual Northern Pikeminnow, resulting in equal start and end weights. Mean daily water temperatures were summarized from 15-minute interval temperature readings between March 3, 2013 and June 14, 2021 from USGS gage station 13307000, approximately 22 rkm downstream of Deadwater Slough.
 
-The proportion of fish in the Northern Pikeminnow's diet relative to non-fish prey items is unknown in Deadwater Slough. Therefore, we conducted separate model runs that assume different proportions of fish in the diet ranging from 30 - 90%, in 10% increments. These values were supported by observations elsewhere in the Columbia River basin (54-86%: @Shively1996; 48-86%: @Zimmerman1999; 37%: @Gray2001) that suggest fish are the majority of Northern Pikeminnow prey. Fourteen model runs were completed (7 diet scenarios and 2 seasons), each providing an estimate of the total grams of fish consumed by an individual Northern Pikeminnow (***table reference***). To estimate the total biomass of fish consumed by Northern Pikeminnow in Deadwater Slough, we multiplied the grams of fish consumed by an individual Northern Pikeminnow by the estimated Northern Pikeminnow population sizes during fall and spring.
+The proportion of fish in the Northern Pikeminnow's diet relative to non-fish prey items is unknown in Deadwater Slough. Therefore, we conducted separate model runs that assume different proportions of fish in the diet ranging from 30 - 90%, in 10% increments. These values were supported by observations elsewhere in the Columbia River basin (54-86%: @Shively1996; 48-86%: @Zimmerman1999; 37%: @Gray2001) that suggest fish are the majority of Northern Pikeminnow prey. Fourteen model runs were completed (7 diet scenarios and 2 seasons), each providing an estimate of the total grams of fish consumed by an individual Northern Pikeminnow (Table \@ref(tab:bio-tbl)). To estimate the total biomass of fish consumed by Northern Pikeminnow in Deadwater Slough, we multiplied the grams of fish consumed by an individual Northern Pikeminnow by the estimated Northern Pikeminnow population sizes during fall and spring.
 
 
 ## Impacts to Chinook Salmon Populations
@@ -962,6 +950,30 @@ The authors extend much appreciation to the many volunteers that assisted with f
 # Tables
 
 <div id="tables"></div>
+
+```{r bio-tbl}
+bio_tbl = bio_g_summ %>%
+  mutate(`Date Range` = season) %>%
+  select(season,
+         `Date Range`,
+         name,
+         cumm_g) %>%
+  mutate(name = str_sub(name, 2, 3)) %>%
+  rename(Season = season,
+         `% Fish in Diet` = name,
+         `g Consumed` = cumm_g) %>%
+  mutate(`Date Range` = recode(`Date Range`,
+                               Fall = "Sep 15 - Nov 30",
+                               Spring = "Mar 1 - May 31")) %>%
+  kable(booktabs = T,
+        caption = "Bioenergetics model runs to estimate the grams of fish consumed during the DSR fall and NRR spring Chinook Salmon emigrations. The date ranges for each model run, the assumed proportion of fish in the diet, and the total grams of fish consumed by an individual Northern Pikeminnow to maintain its body weight for a given season are shown. The Northern Pikeminnow start/end weights were 598.7 and 430.7 g for the fall and spring seasons, respectively.") %>%
+  kable_styling()
+
+bio_tbl
+
+```
+
+\newpage
 
 ```{r abund-data-lp}
 LP_mod %>%
@@ -1266,10 +1278,10 @@ length_freq_p
 bio_results$ymd = (ymd(bio_results$date))
 
 pFish = bio_results %>%
-  ggplot(aes(ymd, f50_g)) +
+  ggplot(aes(ymd, f60_g)) +
   geom_line(size = 1.1) +
   geom_ribbon(data = bio_results,
-              aes(ymd,ymin = f10_g,
+              aes(ymd,ymin = f30_g,
                   ymax = f90_g),
               color = "grey55",
               alpha = 0.4) +  theme_bw() +
