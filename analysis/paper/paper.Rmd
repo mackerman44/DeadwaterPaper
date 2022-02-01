@@ -790,7 +790,7 @@ impact_df = bio_results %>%
                 "[:digit:]+"),
          across(perc_diet,
                 as.integer)) %>%
-  filter(perc_diet == 60) %>%
+  #filter(perc_diet == 60) %>%
   crossing(p_chnk = c(.30, .50, .65)) %>%
   mutate(g_chnk = g_fish_cons * p_chnk) %>%
   mutate(n_chnk = ifelse(season == "Fall",
@@ -870,7 +870,7 @@ During the fall DSR emigration, we estimate an average-size Northern Pikeminnow 
 
 ## Impacts to Chinook Salmon Populations
 
-Using the total fish consumed by the Northern Pikeminnow population (summing fall and spring surveys), we produced a sensitivity analysis for three Northern Pikeminnow diet scenarios where juvenile Chinook Salmon make up 30%, 50%, and 65% of total fish prey consumed (Figure \@ref(fig:impact-p)). Assuming that 50% of the total fish consumed are juvenile Chinook salmon, we estimate that `r prettyNum(round(total_impacts$juv_N[total_impacts$p_chnk == 0.50]), big.mark = ",")` (95% CI: `r prettyNum(round(total_impacts$juv_Lci[total_impacts$p_chnk == 0.50]), big.mark = ",")` - `r prettyNum(round(total_impacts$juv_Uci[total_impacts$p_chnk == 0.50]), big.mark = ",")`) juvenile Chinook Salmon will be consumed. We then used our estimate of total juvenile Chinook Salmon consumed to estimate an "adult equivalents" using the median Granite-to-Granite SAR of `r round(sar$medsar, 5)` (sd = `r format(round(sar$sdsar, 5), scientific = F)`) from @McCann2019. Assuming predation was non-existent in Deadwater Slough, the juvenile consumption would be equivalent to `r prettyNum(round(total_impacts$adult_N[total_impacts$p_chnk == 0.50]), big.mark = ",")` (95% CI: `r prettyNum(round(total_impacts$adult_Lci[total_impacts$p_chnk == 0.50]), big.mark = ",")` - `r prettyNum(round(total_impacts$adult_Uci[total_impacts$p_chnk == 0.50]), big.mark = ",")`).
+Using the total fish consumed by the Northern Pikeminnow population (summing fall and spring surveys), we produced a sensitivity analysis for three Northern Pikeminnow diet scenarios where juvenile Chinook Salmon make up 30%, 50%, and 65% of total fish prey consumed (Figure \@ref(fig:impact-p)). Assuming that 50% of the total fish consumed are juvenile Chinook salmon, we estimate that `r prettyNum(round(total_impacts$juv_N[total_impacts$perc_diet == 60 & total_impacts$p_chnk == 0.50]), big.mark = ",")` (95% CI: `r prettyNum(round(total_impacts$juv_Lci[total_impacts$perc_diet == 60 & total_impacts$p_chnk == 0.50]), big.mark = ",")` - `r prettyNum(round(total_impacts$juv_Uci[total_impacts$perc_diet == 60 & total_impacts$p_chnk == 0.50]), big.mark = ",")`) juvenile Chinook Salmon will be consumed. We then used our estimate of total juvenile Chinook Salmon consumed to estimate an "adult equivalents" using the median Granite-to-Granite SAR of `r round(sar$medsar, 5)` (sd = `r format(round(sar$sdsar, 5), scientific = F)`) from @McCann2019. Assuming predation was non-existent in Deadwater Slough, the juvenile consumption would be equivalent to `r prettyNum(round(total_impacts$adult_N[total_impacts$perc_diet == 60 & total_impacts$p_chnk == 0.50]), big.mark = ",")` (95% CI: `r prettyNum(round(total_impacts$adult_Lci[total_impacts$perc_diet == 60 & total_impacts$p_chnk == 0.50]), big.mark = ",")` - `r prettyNum(round(total_impacts$adult_Uci[total_impacts$perc_diet == 60 & total_impacts$p_chnk == 0.50]), big.mark = ",")`).
 
 
 # Discussion
@@ -1065,49 +1065,7 @@ gastric_tbl %>%
 
 ```
 
-\newpage
-
-```{r adult-imp, eval = F}
-impact_df %>%
-  select(season,
-         perc_diet,
-         juv_chnk,
-         smolt_N,
-         smolt_Lci,
-         smolt_Uci,
-         medsar,
-         sdsar,
-         adult_N,
-         adult_Lci,
-         adult_Uci) %>%
-  mutate(juv_chnk = round(juv_chnk, 2),
-         smolt_N = round(smolt_N, 0),
-         smolt_Lci = round(smolt_Lci, 0),
-         smolt_Uci = round(smolt_Uci, 0),
-         medsar = round(medsar, 5),
-         sdsar = round(sdsar, 5),
-         adult_N = round(adult_N, 0),
-         adult_Lci = round(adult_Lci, 0),
-         adult_Uci = round(adult_Uci, 0)) %>%
-  rename(Season = season,
-         `p Fish` = perc_diet,
-         `Fish Per NPM` = juv_chnk,
-         `Fish N` = smolt_N,
-         `Fish L CI` = smolt_Lci,
-         `Fish U CI` = smolt_Uci,
-         `Median SAR` = medsar,
-         `SD SAR` = sdsar,
-         `Adult N` = adult_N,
-         `Adult L CI` = adult_Lci,
-         `Adult U CI` = adult_Uci) %>%
-  kable(booktabs = T,
-        format.args = list(big.mark = ","),
-        caption = "Estimates of the number of fish consumed for each season and diet scenario. The diet scenario indicates the proportion of the Northern Pikeminnow diet consisting of fish. The 'Fish Per NPM' column indicates the number of fish an individual Northern Pikeminnow to consume during the fall or spring seasons assuming an average weight of 10.3 (DSR) and 10.9 (NRR) grams for juvenile Chinook Salmon and is taken from each of the 18 bioenergetics model runs. The number of fish consumed (and 95% confidence intervals) are calculated using Northern Pikeminnow abundance estimates of 28,144 (95% CI: 14,378 - 59,978) for fall and 14,897 (95% CI: 7,610 - 31,747) for spring. The number of 'adult equivalents' is also estimated using a Lower Granite Dam smolt-to-adult rate (SAR) for Chinook Salmon from McCann et al. 2019.") %>%
-  kable_styling(font_size = 8)
-
-```
-
-```{r adult-imp-tab}
+```{r adult-imp-tab, eval = F}
 impact_tbl = total_impacts %>%
   select(perc_diet,
          p_chnk,
@@ -1175,7 +1133,6 @@ total_cpue %>%
 pos = position_dodge(width=0.3)
 pm_est_labels <- c("Chapman","Schnabel","Schnabel \n [Delayed-mixing]")
 all_est %>%
-  
   mutate(across(c(N, Lci, Uci),
                 ~ . / 1000)) %>%
   mutate(census = case_when(grepl("Chapman", model) ~ "single",
@@ -1327,126 +1284,77 @@ bio_p = do.call("grid.arrange",
 
 \newpage
 
-```{r adult-imp-p, fig.cap = "The estimated number of DSR (fall) and NRR (spring) emigrants consumed by Northern Pikeminnow in Deadwater Slough (top panel) across a range of diet scenarios where 10-90% of the diet consists of juvenile Chinook salmon. The bottom panel provides the adult equivalents assuming a Lower Granite Dam smolt-to-adult rate (SAR) from McCann et al. 2019."}
-#impact_p = impact_df %>%
-#  select(season,
-#         perc_diet,
-#         p_chnk,
-#         N = juv_N,
-#         Lci = juv_Lci,
-#         Uci = juv_Uci) %>%
-#  group_by(perc_diet, p_chnk) %>%
-#  summarise(across(c("N", "Lci", "Uci"),sum),
-#            .groups = "drop") %>%
-#  mutate(Stage = "Juveniles") %>%
-#  bind_rows(impact_df %>%
-#              select(season,
-#                     perc_diet,
-#                     p_chnk,
-#                     N = adult_N,
-#                     Lci = adult_Lci,
-#                     Uci = adult_Uci) %>%
-#              group_by(perc_diet, p_chnk) %>%
-#              summarise(across(c("N", "Lci", "Uci"),
-#                   sum),
-#             .groups = "drop") %>%
-#             mutate(Stage = "Adult Equivalents")) %>%
-#  mutate(p_chnk = p_chnk * 100) %>%
-#  rename(perc_chnk = p_chnk) %>%
-#  filter(perc_chnk %in% c(10, 30, 50)) %>%
-#  ggplot(aes(x = perc_diet,y = N)) +
-#  geom_errorbar(aes(ymin = Lci,
-#                    ymax = Uci),
-#                width = 0.1) +
-#  geom_point(size = 3) +
-#  facet_grid(vars(Stage),
-#             vars(perc_chnk),
-#             scales = "free_y") +
-#  scale_color_viridis_d(name = "Percent\nFish in Diet") +
-#  scale_y_continuous(labels = scales::comma) +
-#  scale_x_continuous(breaks = seq(0, 100, by = 10)) +
-#  theme(#axis.text.x = element_blank(),
-        #legend.position = "bottom",
-        #axis.title.x = element_blank(),
-        #axis.ticks.x = element_blank(),
-#        axis.text.y = element_text(size = 11,
-#                                   color = "black"),
-#        strip.text.x = element_text(size = 11,
-#                                    color = "black"),
-#        strip.text.y = element_text(size = 11,
-#                                    color = "black")) +
-#  labs(y = "Number Chinook Consumed")
-
-#impact_p
-
-impact_p = impact_df %>%
+```{r juv-con-p, fig.cap = "test"}
+juv_cons_p = impact_df %>%
   select(season,
          perc_diet,
          p_chnk,
          N = juv_N,
          Lci = juv_Lci,
          Uci = juv_Uci) %>%
-  group_by(perc_diet, p_chnk) %>%
+  group_by(perc_diet,
+           p_chnk) %>%
   summarise(across(c("N", "Lci", "Uci"),sum),
             .groups = "drop") %>%
   mutate(Stage = "Juveniles") %>%
   mutate(p_chnk = p_chnk * 100) %>%
   rename(perc_chnk = p_chnk) %>%
-  filter(perc_chnk %in% c(30, 50, 65)) %>%
-  ggplot(aes(x = perc_diet,y = N, group=as.factor(perc_chnk), color=as.factor(perc_chnk))) +
-  geom_line(size = 1.1)+
+  ggplot(aes(x = perc_diet,
+             y = N,
+             group = as.factor(perc_chnk),
+             color = as.factor(perc_chnk))) +
+  geom_point(size = 2) +
+  geom_line(size = 1.1) +
   scale_y_continuous(labels = scales::comma) +
   scale_x_continuous(breaks = seq(0, 100, by = 10)) +
-  scale_color_manual(name="% Juvenile Chinook \nof total fish consumed", values=c("lightsteelblue","steelblue3","navyblue"))+
+  scale_color_manual(name = "Percent Chinook", 
+                     values=c("lightsteelblue","steelblue3","navyblue")) +
   theme(axis.text.y = element_text(size = 11,
                                    color = "black"),
         axis.text.x = element_text(size = 11,
                                     color = "black"),
         strip.text.y = element_text(size = 11,
                                     color = "black"),
-        legend.position = c(.19, .82),legend.background = element_blank(),
-        legend.key.size = unit(.56, "cm"),legend.box = 'horizontal') +
-  labs(y = "Estimated Juvenile Chinook Consumed", x="Percent Fish in Pikeminnow Diet")
+        legend.position = c(.19, .89),
+        legend.background = element_blank(),
+        legend.key.size = unit(.56, "cm"),
+        legend.box = 'horizontal') +
+  labs(y = "Estimated Juvenile Chinook Consumed", 
+       x = "Percent Fish in Pikeminnow Diet")
 
-impact_p
+juv_cons_p  
+  
+```
 
-# impact_df %>%
-#   mutate(stage = "Juv. Emigrant") %>%
-#   select(stage,
-#          season,
-#          perc_diet,
-#          starts_with("smolt")) %>%
-#   rename_with(.fn = ~ str_remove(., "smolt_"),
-#               .cols = starts_with("smolt")) %>%
-#   bind_rows(impact_df %>%
-#               mutate(stage = "Adult Equivalent") %>%
-#               select(stage,
-#                      season,
-#                      perc_diet,
-#                      starts_with("adult")) %>%
-#               rename_with(.fn = ~ str_remove(., "adult_"),
-#                           .cols = starts_with("adult"))) %>%
-# ggplot(aes(x = perc_diet,
-#            y = N,
-#            color = as.factor(perc_diet))) +
-# geom_errorbar(aes(ymin = Lci,
-#                   ymax = Uci),
-#               width = 0.1) +
-# geom_point(size = 4) +
-# facet_grid(fct_rev(stage) ~ season,
-#            scales = "free_y") +
-# scale_color_viridis_d(name = "Percent\nFish in Diet") +
-# theme(axis.text.x = element_blank(),
-#       legend.position = "bottom",
-#       axis.title.x = element_blank(),
-#       axis.ticks.x = element_blank(),
-#       axis.text.y = element_text(size = 11,
-#                                  color = "black"),
-#       strip.text.x = element_text(size = 11,
-#                                   color = "black"),
-#       strip.text.y = element_text(size = 11,
-#                                   color = "black")) +
-# labs(y = "Number Chinook Consumed")
+\newpage
+
+```{r adult-imp-p, fig.cap = "temp"}
+#adult impacts
+adult_imp_p = total_impacts %>%
+  filter(perc_diet == 60) %>%
+  select(p_chnk,
+         adult_N,
+         adult_Lci,
+         adult_Uci) %>%
+  mutate(perc_chnk = p_chnk * 100) %>%
+  select(-p_chnk) %>%
+  ggplot(aes(x = as.factor(perc_chnk),
+             y = adult_N)) +
+  geom_point(size = 3,
+             aes(shape = as.factor(perc_chnk))) +
+  geom_errorbar(aes(ymin = adult_Lci,
+                    ymax = adult_Uci),
+                width = 0.1) +
+  labs(y = "Adult Equivalents",
+       shape = "Percent\nChinook") +
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 11,
+                                   color = "black"),
+        legend.position = c(.2, .8),
+        legend.box = "horizontal")
+
+adult_imp_p
 
 ```
 
