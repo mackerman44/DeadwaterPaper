@@ -1091,7 +1091,7 @@ impact_tbl
 <div id="figures"></div>
 
 ```{r map, out.width = "85%", fig.cap = "Map of the Deadwater Slough study area. The high-resolution orthoimage portion surrounding the Deadwater Slough was generated from aerial images taken by an unmanned aircraft system (drone). The red polygon indicates the reach characterized by unnaturally slow water velocities and a deepened channel. The location of the Dump Creek delta is indicated."}
-knitr::include_graphics("../figures/deadwater_map_low_res.png")
+knitr::include_graphics("../figures/Study Area Map 5.png")
 
 ```
 
