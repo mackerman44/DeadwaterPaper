@@ -28,7 +28,7 @@ author:
 institute:
   - mhe_mccall: Mount Hood Environmental, PO Box 4282, McCall, Idaho, 83638, USA
   - biomark: Biomark, Inc., 705 South 8th Street, Boise, Idaho, 83702, USA
-  - wdfw: Washington Department of Fish and Wildife, Fish Program, Science Division, 1111 Washington Street NE, Olympia, Washington, 98501, USA
+  - wdfw: Washington Department of Fish and Wildlife, Fish Program, Science Division, 1111 Washington Street NE, Olympia, Washington, 98501, USA
   - mhe_sandy: Mount Hood Environmental, 39085 Pioneer Boulevard \#100 Mezzanine, Sandy, Oregon, 97055, USA 
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 always_allow_html: true
@@ -932,7 +932,7 @@ The failure of a mining reservoir dam in the late 19th century created an alluvi
 
 # Acknowledgements
 
-The authors extend much appreciation to the many volunteers that assisted with field efforts including collaborators from the Bureau of Reclamation, Idaho Governor’s Office of Species Conservation, Idaho Department of Fish and Game, and the Lemhi Regional Land Trust, among others. Special thanks to Jared Barker, Brian Hamilton, Tulley Mackey, and Chelsea Welke for their help in the field. We further appreciate the administrative support and guidance from Caitlin Alcott and Inter-Fluve. This manuscript benefited from a review by Sean Gibbs. Funding for this study was provided by the Bureau of Reclamation, Pacific Northwest Regional Office (contract No. 140R1021F0018) with assistance from the Idaho Governor’s Office of Species Conservation.
+The authors extend much appreciation to the many volunteers that assisted with field efforts including collaborators from the Bureau of Reclamation, Idaho Governor’s Office of Species Conservation, Idaho Department of Fish and Game, and the Lemhi Regional Land Trust, among others. Special thanks to Jared Barker, Brian Hamilton, Tulley Mackey, and Chelsea Welke for their help in the field. We further appreciate the administrative support and guidance from Caitlin Alcott and Inter-Fluve. This manuscript benefited from reviews by Sean Gibbs, Mark Roes, and Ian Courter. Funding for this study was provided by the Bureau of Reclamation, Pacific Northwest Regional Office (contract No. 140R1021F0018) with assistance from the Idaho Governor’s Office of Species Conservation.
 
 
 \newpage
