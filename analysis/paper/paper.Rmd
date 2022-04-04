@@ -1245,7 +1245,7 @@ juv_cons_p = impact_df %>%
   mutate(p_chnk = p_chnk * 100) %>%
   rename(perc_chnk = p_chnk) %>%
   ggplot(aes(x = perc_diet,
-             y = N,
+             y = N / 1000,
              group = as.factor(perc_chnk),
              color = as.factor(perc_chnk))) +
   geom_point(size = 2) +
@@ -1264,7 +1264,7 @@ juv_cons_p = impact_df %>%
         legend.background = element_blank(),
         legend.key.size = unit(.56, "cm"),
         legend.box = 'horizontal') +
-  labs(y = "Estimated Juvenile Chinook Consumed", 
+  labs(y = "Juvenile Chinook Consumed (x 1,000)", 
        x = "Percent Fish in Pikeminnow Diet")
 
 juv_cons_p  
