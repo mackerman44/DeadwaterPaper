@@ -842,7 +842,7 @@ All data and code for the analyses presented here can be found in a GitHub repos
 
 ## Northern Pikeminnow Demographics
 
-Using hook-and-line angling, we caught a total of `r prettyNum(sum(total_cpue$n_fish), big.mark = ",")` Northern Pikeminnow over the course of the study including `r sum(N_mods[[3]][[1]]$m) + sum(N_mods[[3]][[3]]$m)` recaptures; the overall CPUE was `r round(sum(cpue_df$n_fish) / (sum(cpue_df$total_effort_min) / 60), 2)` Northern Pikeminnow per angler hour (table reference needed). Mark-recapture abundance estimates of Northern Pikeminnow in Deadwater Slough ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` in fall 2019 and from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")` in fall 2020 (Table \@ref(tab:abund-tab)). We estimated larger populations of Northern Pikeminnow using the unadjusted multiple-census estimator compared to the single census and adjusted delayed-mixing multiple census estimators (Figure \@ref(fig:abund-fig)). Our sampling design most closely matched a multiple-census estimator; therefore, the Schnabel estimates were considered most appropriate. Accordingly, the mean Northern Pikeminnow abundance for the two fall sampling events was `r prettyNum(mean(all_est$N[all_est$model == "Schnabel"]), big.mark = ",")` (95% CI: `r prettyNum(round(mean(all_est$Lci[all_est$model == "Schnabel"])), big.mark = ",")` - `r prettyNum(round(mean(all_est$Uci[all_est$model == "Schnabel"])), big.mark = ",")`) using the unadjusted Schabel estimator. Using the delayed-mixing Schnabel estimator the mean fall abundance estimate was `r prettyNum(mean(all_est$N[all_est$model == "Schnabel - Delayed Mixing"]), big.mark = ",")` (95% CI: `r prettyNum(mean(all_est$Lci[all_est$model == "Schnabel - Delayed Mixing"]), big.mark = ",")` - `r prettyNum(mean(all_est$Uci[all_est$model == "Schnabel - Delayed Mixing"]), big.mark = ",")`). All subsequent analyses use results from the adjusted delayed-mixing Schnabel estimator. For spring 2021, we estimated `r prettyNum(round(spring_abund$N_S), big.mark = ",")` (95% CI: `r paste(prettyNum(round(c(spring_abund$Lci_S, spring_abund$Uci_S)), big.mark = ","), collapse = " - ")`) Northern Pikeminnow in Deadwater Slough. Those estimates translate to linear densities of `r prettyNum(round(mean(all_est$N[all_est$model == "Schnabel - Delayed Mixing"]) / ddw_rkms), big.mark = ",")` and `r prettyNum(round(spring_abund$N_S / ddw_rkms), big.mark = ",")` Northern Pikeminnow per rkm and areal densities (fish/100 m$^2$) of `r round((mean(all_est$N[all_est$model == "Schnabel - Delayed Mixing"]) / ddw_m2) * 100, 1)` and `r round((spring_abund$N_S / ddw_m2) * 100, 1)` for fall and spring, respectively.
+Using hook-and-line angling, we caught a total of `r prettyNum(sum(total_cpue$n_fish), big.mark = ",")` Northern Pikeminnow over the course of the study including `r sum(N_mods[[3]][[1]]$m) + sum(N_mods[[3]][[3]]$m)` recaptures; the overall CPUE was `r round(sum(cpue_df$n_fish) / (sum(cpue_df$total_effort_min) / 60), 2)` Northern Pikeminnow per angler hour (Table \@ref(tab:summary-tbl)). Mark-recapture abundance estimates of Northern Pikeminnow in Deadwater Slough ranged from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2019"]), big.mark = ",")` in fall 2019 and from `r prettyNum(min(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")` to `r prettyNum(max(all_est$N[all_est$event_name == "Fall 2020"]), big.mark = ",")` in fall 2020 (Table \@ref(tab:abund-tab)). We estimated larger populations of Northern Pikeminnow using the unadjusted multiple-census estimator compared to the single census and adjusted delayed-mixing multiple census estimators (Figure \@ref(fig:abund-fig)). Our sampling design most closely matched a multiple-census estimator; therefore, the Schnabel estimates were considered most appropriate. Accordingly, the mean Northern Pikeminnow abundance for the two fall sampling events was `r prettyNum(mean(all_est$N[all_est$model == "Schnabel"]), big.mark = ",")` (95% CI: `r prettyNum(round(mean(all_est$Lci[all_est$model == "Schnabel"])), big.mark = ",")` - `r prettyNum(round(mean(all_est$Uci[all_est$model == "Schnabel"])), big.mark = ",")`) using the unadjusted Schabel estimator. Using the delayed-mixing Schnabel estimator the mean fall abundance estimate was `r prettyNum(mean(all_est$N[all_est$model == "Schnabel - Delayed Mixing"]), big.mark = ",")` (95% CI: `r prettyNum(mean(all_est$Lci[all_est$model == "Schnabel - Delayed Mixing"]), big.mark = ",")` - `r prettyNum(mean(all_est$Uci[all_est$model == "Schnabel - Delayed Mixing"]), big.mark = ",")`). All subsequent analyses use results from the adjusted delayed-mixing Schnabel estimator. For spring 2021, we estimated `r prettyNum(round(spring_abund$N_S), big.mark = ",")` (95% CI: `r paste(prettyNum(round(c(spring_abund$Lci_S, spring_abund$Uci_S)), big.mark = ","), collapse = " - ")`) Northern Pikeminnow in Deadwater Slough. Those estimates translate to linear densities of `r prettyNum(round(mean(all_est$N[all_est$model == "Schnabel - Delayed Mixing"]) / ddw_rkms), big.mark = ",")` and `r prettyNum(round(spring_abund$N_S / ddw_rkms), big.mark = ",")` Northern Pikeminnow per rkm and areal densities (fish/100 m$^2$) of `r round((mean(all_est$N[all_est$model == "Schnabel - Delayed Mixing"]) / ddw_m2) * 100, 1)` and `r round((spring_abund$N_S / ddw_m2) * 100, 1)` for fall and spring, respectively.
 
 The lengths of Northern Pikeminnow ranged from `r min(cmr_df$length, na.rm = T)` to `r max(cmr_df$length, na.rm = T)` mm TL with an average of `r round(mean(cmr_df$length, na.rm = T))` mm (Figure \@ref(fig:length-freq-p)). The PSD for Northern Pikeminnow in Deadwater Slough across all three surveys was `r prettyNum(psd, digits = 1)`%.
 
@@ -926,6 +926,15 @@ The authors extend much appreciation to the many volunteers that assisted with f
 
 <div id="tables"></div>
 
+```{r summary-tbl}
+summary_tbl = NULL %>%
+  kable(booktabs = T,
+        caption = "Summary of Northern Pikeminnow angling survey data. Fall surveys included mark and recapture weeks for the single census estimate. Spring surveys included only a single capture week to estimate catch-per-unit-effort.")
+
+```
+
+\newpage
+
 ```{r bio-tbl}
 bio_tbl = bio_g_summ %>%
   mutate(`Date Range` = season) %>%
@@ -948,9 +957,7 @@ bio_tbl
 
 ```
 
-\newpage
-
-```{r abund-data-lp}
+```{r abund-data-lp, eval = F}
 LP_mod %>%
   select(event_name, species, data) %>%
   distinct() %>%
@@ -966,9 +973,7 @@ LP_mod %>%
 
 ```
 
-\newpage
-
-```{r abund-data-schn}
+```{r abund-data-schn, eval = F}
 N_mods %>%
   select(event_name, species, data) %>%
   distinct() %>%
@@ -1020,7 +1025,7 @@ gastric_tbl %>%
          'Fish Contents' = fish_contents) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Summary of gastric lavage results including counts of the total number of Northern Pikeminnow captured, gastric lavaged, individuals with stomach contents, and individuals with fish prey contents") %>%
+        caption = "Summary of gastric lavage results including counts of the total number of Northern Pikeminnow captured, gastric lavaged, individuals with stomach contents, and individuals with fish prey contents.") %>%
   kable_styling()
 
 ```
