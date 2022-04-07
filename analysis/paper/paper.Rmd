@@ -151,7 +151,7 @@ In this study, we estimated the abundance of Northern Pikeminnow in the Deadwate
 
 ## Study Site
 
-The Deadwater Slough is an approximately `r round(ddw_rkms, 1)` km section of the mainstem Salmon River located roughly 6 river kilometers (rkm) downstream from the town of North Fork, Idaho (Figure \@ref(fig:map)). The downstream end of the slough is located at the confluence of Dump Creek and the Salmon River. A large alluvial fan at the mouth of Dump Creek has, at least partially, created a hydraulic control in the Salmon River resulting in the formation of Deadwater Slough. Although the origin and timing of the alluvial fan and Deadwater Slough is somewhat ambiguous [@Reichmuth1985; @USACE1986], they likely coincided with the failure of a small mining reservoir in the Dump Creek drainage around 1897 that deposited substantial amounts of sediment at its confluence with the Salmon River [@Emerson1973]. The slough is currently a slow, deep section in the river, spanning approximately `r round(ddw_hectares)` hectares, averaging `r round(ddw_avg_width_m)` m wide, and has characteristics resembling a small reservoir.
+The Deadwater Slough is an approximately `r round(ddw_rkms, 1)` km section of the mainstem Salmon River located roughly 6 river kilometers (rkm) downstream from the town of North Fork, Idaho (Figure \@ref(fig:map)). The downstream end of the slough is located at the confluence of Dump Creek and the Salmon River. A large alluvial fan at the mouth of Dump Creek has, at least partially, created a hydraulic control in the Salmon River resulting in the formation of Deadwater Slough. Although the origin and timing of the alluvial fan and Deadwater Slough is somewhat ambiguous [@Reichmuth1985; @USACE1986], some believe they coincided with the failure of a small mining reservoir in the Dump Creek drainage around 1897 that deposited substantial amounts of sediment at its confluence with the Salmon River [@Emerson1973]. The slough is currently a slow, deep section in the river, spanning approximately `r round(ddw_hectares)` hectares, averaging `r round(ddw_avg_width_m)` m wide, and has characteristics resembling a small reservoir.
 
 
 ## Northern Pikeminnow Demographics
@@ -462,7 +462,7 @@ $$
 
 where $M$, $n$, and $m$ are indexed by each survey (day), $i$. The 95% confidence intervals of the Schnabel estimator were calculated using a Poisson approximation [@Krebs1999].<!--The Schnabel estimator is essentially the weighted average of a series of Chapman-modified Lincoln-Peterson estimators.-->
 
-Because fish capture was dependent on volunteer anglers, there was concern that sampling effort was biased to locations preferred by anglers. If release sites for marked fish were not proximal to preferred angling locales, recently released fish may have been less susceptible to immediate capture than unmarked fish. To account for this potential bias, we included an adjusted "delayed-mixing" Schnabel estimator that assumed fish marked and released on a given survey day were not available for recapture for 48 hours. The delayed-mixing Schnabel estimator, is given by:
+Because fish capture was dependent on volunteer anglers, there was concern that sampling effort was biased to locations preferred by anglers. If release sites for marked fish were not proximal to preferred angling locales, recently released fish may have been less susceptible to immediate capture than unmarked fish. To account for this potential bias, we included an adjusted "delayed-mixing" Schnabel estimator that assumed fish marked and released on a given survey day were not available for recapture for 48 hours. The delayed-mixing Schnabel estimator is given by:
 
 $$
 \hat{N} = \frac{\sum\limits_{i = 1}^k n_i M_{i-1}}{\left(\sum\limits_{i = 1}^k m_i \right) + 1}
@@ -763,7 +763,7 @@ The proportion of fish in the Northern Pikeminnow's diet relative to non-fish pr
 
 The proportion of Chinook Salmon prey relative to other fish prey in the Northern Pikeminnow diet is also unknown. However, there is some evidence that juvenile salmonids are by far the most consumed fish prey [@Zimmerman1999; @Shively1996]. Moreover, it is estimated that Chinook Salmon make up 64.2%, 29.3%, and 49.3% of the fish prey consumed by Northern Pikeminnow in the Columbia River below Bonneville Dam, in Columbia River reservoirs, and in the lower Snake River, respectively [@Zimmerman1999]. Because the bioenergetics model does not differentiate juvenile Chinook Salmon from other fish prey items, we performed a sensitivity analysis to assess potential impacts of Northern Pikeminnow predation on local Chinook Salmon populations. Using values similar to @Zimmerman1999, we modeled three diet scenarios where Chinook Salmon comprised 30%, 50%, and 65% of the fish prey, by weight, in the Northern Pikeminnow diet during the fall DSR and spring NRR emigration periods. In this analysis, we assume 60% of the Northern Pikeminnow's total diet is comprised of fish, representing the median scenario in our range of modeled diets.
 
-We obtained an estimate of the number of juvenile Chinook Salmon consumed by dividing total biomass consumed by the average weight of DSR (`r avg_DSR_g` g) and NRR (`r avg_NRR_g` g) emigrants in the Upper Salmon MPG. The average weights of DSR and NRR emigrants were calculated from fish captured at seven rotary screw traps upstream of Deadwater Slough during the fall and spring periods. Although the primary impact to Chinook Salmon in Deadwater Slough by Northern Pikeminnow is juvenile predation, the common metric to evaluate salmon recovery is adult returns. We quantified the potential impact of Northern Pikeminnow predation on adult returns by estimating the number of equivalent adults expected to return to Lower Granite Dam if predation by Pikeminnow was eliminated in the Deadwater Slough. To accomplish this, we multiplied the estimated total juvenile Chinook Salmon consumed by the median Granite-to-Granite smolt-to-adult return rate (SAR) of 0.00614 (SD = 0.00051) from @McCann2019 for Chinook Salmon in the Upper Salmon River. 
+We obtained an estimate of the number of juvenile Chinook Salmon consumed by dividing total biomass consumed by the average weight of DSR (`r avg_DSR_g` g) and NRR (`r avg_NRR_g` g) emigrants in the Upper Salmon River. The average weights of DSR and NRR emigrants were calculated from fish captured at seven rotary screw traps upstream of Deadwater Slough during the fall and spring periods. Although the primary impact to Chinook Salmon in Deadwater Slough by Northern Pikeminnow is juvenile predation, the common metric to evaluate salmon recovery is adult returns. We quantified the potential impact of Northern Pikeminnow predation on adult returns by estimating the number of equivalent adults expected to return to Lower Granite Dam if predation by Pikeminnow was eliminated in the Deadwater Slough. To accomplish this, we multiplied the estimated total juvenile Chinook Salmon consumed by the median Granite-to-Granite smolt-to-adult return rate (SAR) of 0.00614 (SD = 0.00051) from @McCann2019 for Chinook Salmon in the Upper Salmon River. 
 
 
 ```{r adult-impacts}
@@ -927,9 +927,12 @@ The authors extend much appreciation to the many volunteers that assisted with f
 <div id="tables"></div>
 
 ```{r summary-tbl}
-summary_tbl = NULL %>%
+summary_tbl = tibble(dummy = 1:4, bogus = 5:8) %>%
   kable(booktabs = T,
-        caption = "Summary of Northern Pikeminnow angling survey data. Fall surveys included mark and recapture weeks for the single census estimate. Spring surveys included only a single capture week to estimate catch-per-unit-effort.")
+        caption = "Summary of Northern Pikeminnow angling survey data. Fall surveys included mark and recapture weeks for the single census estimate. Spring surveys included only a single capture week to estimate catch-per-unit-effort.") %>%
+  kable_styling()
+
+summary_tbl
 
 ```
 
