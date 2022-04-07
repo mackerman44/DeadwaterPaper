@@ -827,7 +827,6 @@ total_impacts = impact_df %>%
 
 ```
 
-All data and code for the analyses presented here can be found in a GitHub repository at ***zenodo DOI***.
 
 # Results
 
