@@ -13,13 +13,13 @@ author:
       email: Kevin.See@dfw.wa.gov
       institute: [biomark, wdfw]
       correspondence: false
-  - Michael S. Hall:
-      email: Mike.Hall1@merck.com
-      institute: [biomark]
-      correspondence: false
   - Tara E. Blackman:
       email: tara.blackman@mthoodenvironmental.com
       institute: [mhe_sandy]
+      correspondence: false
+  - Michael S. Hall:
+      email: Mike.Hall1@merck.com
+      institute: [biomark]
       correspondence: false
   - Richard A. Carmichael:
       email: Richard.Carmichael@merck.com
