@@ -116,7 +116,7 @@ if(doc.type == 'docx') {
 
 ## Impact Statement
 
-A large population of Northern Pikeminnow in a slow-water reach of the Salmon River, Idaho can potentially consume large numbers of juvenile Chinook Salmon, hindering ongoing recovery efforts.
+A large population of Northern Pikeminnow occupying a slow-water reach of the Salmon River, Idaho can potentially consume large numbers of juvenile Chinook Salmon, hindering ongoing recovery efforts.
 
 ## Abstract
 
@@ -937,7 +937,7 @@ The authors extend much appreciation to the many volunteers that assisted with f
 ```{r summary-tbl}
 summary_tbl = tibble(dummy = 1:4, bogus = 5:8) %>%
   kable(booktabs = T,
-        caption = "Summary of Northern Pikeminnow angling survey data. Fall surveys included mark and recapture weeks for the single census estimate. Spring surveys included only a single capture week to estimate catch-per-unit-effort.") %>%
+        caption = "Summary of Northern Pikeminnow captures from angling surveys in Deadwater Slough. Fall surveys included mark and recapture weeks for the single census estimate. Spring surveys included only a single capture week to estimate CPUE.") %>%
   kable_styling()
 
 summary_tbl
@@ -961,7 +961,7 @@ bio_tbl = bio_g_summ %>%
                                Fall = "Sep 15 - Nov 30",
                                Spring = "Mar 1 - May 31")) %>%
   kable(booktabs = T,
-        caption = "Bioenergetics model runs to estimate the grams of fish consumed during the fall DSR and spring NRR Chinook Salmon emigrations. The date ranges for each model run, the assumed proportion of fish in the diet, and the total grams of fish consumed by an individual Northern Pikeminnow to maintain its body weight for a given season are shown. Northern Pikeminnow start and end weights were 598.7 and 430.7 g for the fall and spring seasons, respectively.") %>%
+        caption = "Estimated fish consumed by an individual Northern Pikeminnow to maintain its body weight during the fall DSR and spring NRR Chinook Salmon emigrations. Bioenergetic model results for each season include seven model runs that assume different percentages of fish in the diet. Northern Pikeminnow start and end weights were 598.7 and 430.7 g for the fall and spring seasons, respectively.") %>%
   kable_styling()
 
 bio_tbl
@@ -1020,7 +1020,7 @@ all_est %>%
          # `U CI` = Uci) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Point estimates, standard errors, and 95% confidence intervals for each of the mark-recapture estimators and for the fall sampling efforts. Standard errors are not available for the multiple census estimators.") %>%
+        caption = "Estimated Northern Pikeminnow in Deadwater Slough and the associated standard errors and 95% confidence intervals from mark-recapture estimators calculated for the fall surveys. Standard errors are not available for the multiple census estimators.") %>%
   kable_styling()
 
 ```
@@ -1036,7 +1036,7 @@ gastric_tbl %>%
          'Fish Contents' = fish_contents) %>%
   kable(booktabs = T,
         format.args = list(big.mark = ","),
-        caption = "Counts of the total number of Northern Pikeminnow captured and gastric lavaged. The number of individuals with stomach contents, including those with confirmed fish contents are shown.") %>%
+        caption = "Total number of Northern Pikeminnow gastric lavaged and the number of those individuals with contents (including fish) and with contents that include fish. ") %>%
   kable_styling()
 
 ```
@@ -1159,7 +1159,7 @@ ggplot(length_freq_p,
 
 \newpage
 
-```{r bio-p, fig.cap = "The cumulative fish prey consumed (g) by an individual Northern Pikeminnow during the peak Chinook Salmon emigrations for fall DSR (top left) and spring NRR  (top right) and corresponding daily mean water temperatures (bottom panels). The black line is the median Northern Pikeminnow diet scenario, consisting of 60% fish and the gray area shows the range between diet scenarios of 30% and 90% fish prey. Daily mean water temperatures were summarized from six years of data available from the Shoup gage station. "}
+```{r bio-p, fig.cap = "The cumulative fish prey consumed (g) by an individual Northern Pikeminnow during the peak Chinook Salmon emigrations for fall DSR (top left) and spring NRR (top right) and corresponding daily mean water temperatures (bottom panels). The black line shows the consumption by Northern Pikeminnow when the diet consists of 60% fish and the gray area shows the range between all model runs in the series, from 30% to 90% fish prey. Daily mean water temperatures were summarized from six years of data available from the Shoup gage station."}
 # spring_results$season = "Spring"
 # fall_results$season = "Fall"
 # bio_results = rbind(spring_results, fall_results)
@@ -1227,7 +1227,7 @@ bio_p = do.call("grid.arrange",
 
 \newpage
 
-```{r juv-con-p, fig.cap = "Estimated number of juvenile Chinook Salmon consumed by Northern Pikeminnow from a sensitivity analysis of diet scenarios made up of variable percentages of fish. The proportion of Chinook Salmon in the total fish prey consumed by Northern Pikeminnow were evaluated for 30%, 50%, and 65% scenarios, similar to those reported by Zimmerman and Ward 1999."}
+```{r juv-con-p, fig.cap = "Estimated number of juvenile Chinook Salmon consumed by Northern Pikeminnow from a sensitivity analysis of diet scenarios made up of variable percentages of fish. Diet scenarios include 30%, 50%, and 65% Chinook Salmon in the total fish prey consumed by Northern Pikeminnow, similar to those reported by Zimmerman and Ward 1999."}
 
 juv_cons_p = impact_df %>%
   select(season,
@@ -1327,4 +1327,4 @@ if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r:
 
 ## Supplement - Avian Predation in Deadwater Slough
 
-Although not formally assessed in this study, avian predators are another potential source of mortality for juvenile Chinook Salmon and other ESA-listed salmonids in the Deadwater Slough. The Deadwater Slough is recognized as an important bird watching and nesting area due to the associated upstream braided channels and riparian and backwater habitats [(Deadwater Slough - Audubon Important Bird Areas)](https://www.audubon.org/important-bird-areas/deadwater-slough#). Several piscivorous bird species have been documented using Deadwater Slough including the Common *Mergus merganser* and Hooded *Lophodytes cucullatus* mergansers, the Great Blue Heron *Ardea herodias*, the Double-crested Cormorant *Phalacrocorax auritus*, and the Belted Kingfisher *Megaceryle alcyon* [@eBird2021]. During the initial sampling effort in fall 2019, a two-person crew walked the entire reach including surrounding and upstream areas scanning for passive integrated transponder (PIT) tags that are implanted into thousands of natural- and hatchery-origin salmonids in the Upper Salmon River, annually. During that informal survey, 10 PIT tags were recovered near active bird nests and in an upstream anastomizing reach where herons and eagles are prevalent, suggesting that mortality may have been a result of avian predation. The PIT tag histories in [PTAGIS](https://www.ptagis.org/) indicate these tags were implanted into a combination of juvenile Chinook Salmon (3), Sockeye Salmon (4), and steelhead (3). Two of the Chinook Salmon and one steelhead were natural-origin, the remaining were of hatchery-origin. Avian predation contributes a major component of the total mortality for yearling Chinook Salmon in some locations in the lower Snake and Columbia rivers, particularly at hydroelectric dams and within reservoirs [@Evans2012; -@Evans2016]; however, we did not observe large colonies of piscivorous birds within the study area. Although we did observe Belted Kingfishers, mergansers, and Great Blue Herons at Deadwater Slough; Great Blue Herons were especially prevalent in the anastomizing reach immediately upriver of the slack water reach. Additionally, there is documentation of individual Double-crested Cormorants [@eBird2021] at the Deadwater Slough; however, the site is not within their breeding range, rather, it is part of a migration corridor. Given the current avian species known to occupy Deadwater Slough, it is unlikely that avian predation on juvenile salmonids is comparable to elsewhere in the Columbia River basin with large piscivorous bird colonies. Nevertheless, we hypothesize that the reservoir-like conditions and associated habitat features at the Deadwater Slough may increase the probability of avian predation on juvenile Chinook Salmon and other ESA-listed salmonids from the many piscivorous birds known to use the site. Future studies of predation would benefit from estimates from piscivorous avian predators.
+Although not formally assessed in this study, avian predators are another potential source of mortality for juvenile Chinook Salmon and other ESA-listed salmonids in the Deadwater Slough. The Deadwater Slough is recognized as an important bird watching and nesting area due to the associated upstream braided channels and riparian and backwater habitats [(Deadwater Slough - Audubon Important Bird Areas)](https://www.audubon.org/important-bird-areas/deadwater-slough#). Several piscivorous bird species have been documented using Deadwater Slough including the Common *Mergus merganser* and Hooded *Lophodytes cucullatus* mergansers, the Great Blue Heron *Ardea herodias*, the Double-crested Cormorant *Phalacrocorax auritus*, and the Belted Kingfisher *Megaceryle alcyon* (eBird 2021). During the initial sampling effort in fall 2019, a two-person crew walked the entire reach including surrounding and upstream areas scanning for passive integrated transponder (PIT) tags that are implanted into thousands of natural- and hatchery-origin salmonids in the Upper Salmon River, annually. During that informal survey, 10 PIT tags were recovered near active bird nests and in an upstream anastomizing reach where herons and eagles are prevalent, suggesting that mortality may have been a result of avian predation. The PIT tag histories in [PTAGIS](https://www.ptagis.org/) indicate these tags were implanted into a combination of juvenile Chinook Salmon (3), Sockeye Salmon (4), and steelhead (3). Two of the Chinook Salmon and one steelhead were natural-origin, the remaining were of hatchery-origin. Avian predation contributes a major component of the total mortality for yearling Chinook Salmon in some locations in the lower Snake and Columbia rivers, particularly at hydroelectric dams and within reservoirs (Evans et al. 2012; 2016); however, we did not observe large colonies of piscivorous birds within the study area. Although we did observe Belted Kingfishers, mergansers, and Great Blue Herons at Deadwater Slough; Great Blue Herons were especially prevalent in the anastomizing reach immediately upriver of the slack water reach. Additionally, there is documentation of individual Double-crested Cormorants (eBird 2021) at the Deadwater Slough; however, the site is not within their breeding range, rather, it is part of a migration corridor. Given the current avian species known to occupy Deadwater Slough, it is unlikely that avian predation on juvenile salmonids is comparable to elsewhere in the Columbia River basin with large piscivorous bird colonies. Nevertheless, we hypothesize that the reservoir-like conditions and associated habitat features at the Deadwater Slough may increase the probability of avian predation on juvenile Chinook Salmon and other ESA-listed salmonids from the many piscivorous birds known to use the site. Future studies of predation would benefit from estimates from piscivorous avian predators.
