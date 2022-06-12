@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 Title <- "Northern Pikeminnow Abundance in Deadwater Slough, Salmon River, Idaho, and Potential Impacts to Local Chinook Salmon Populations"
 Authors <- "Ackerman, Michael W., Nicholas J. Porter, Kevin E. See, Tara E. Blackman, Michael S. Hall, and Richard A. Carmichael"
 yr <- 2022
-Journal <- "Transactions of the American Fisheries Society"
+Journal <- "PLOS ONE"
 
 ```
 

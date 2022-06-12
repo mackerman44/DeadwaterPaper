@@ -10,8 +10,8 @@ This repository contains the data and code for our paper:
 > Ackerman, Michael W., Nicholas J. Porter, Kevin E. See, Tara E.
 > Blackman, Michael S. Hall, and Richard A. Carmichael (2022). *Northern
 > Pikeminnow Abundance in Deadwater Slough, Salmon River, Idaho, and
-> Potential Impacts to Local Chinook Salmon Populations*. Transactions
-> of the American Fisheries Society <https://doi.org/xxx/xxx>
+> Potential Impacts to Local Chinook Salmon Populations*. PLOS ONE
+> <https://doi.org/xxx/xxx>
 
 ### How to cite
 
@@ -21,7 +21,7 @@ Please cite this compendium as:
 > Blackman, Michael S. Hall, and Richard A. Carmichael, (2022).
 > *Compendium of R code and data for Northern Pikeminnow Abundance in
 > Deadwater Slough, Salmon River, Idaho, and Potential Impacts to Local
-> Chinook Salmon Populations*. Accessed 07 Apr 2022. Online at
+> Chinook Salmon Populations*. Accessed 12 Jun 2022. Online at
 > <https://doi.org/xxx/xxx>
 
 ## Contents
